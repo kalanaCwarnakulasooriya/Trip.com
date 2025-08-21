@@ -18,8 +18,8 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-    private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
+    private final JwtUtil JWTUTIL;
+    private final UserDetailsService USERDETAILSSERVICE;
 
 
     @Override
@@ -30,19 +30,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwtToken;
         final String username;
 
-        if (authHeader ==null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer")) {
             filterChain.doFilter(request,response);
             return;
         }
         jwtToken=authHeader.substring(7);
-        username=jwtUtil.extractUsername(jwtToken);
-        if (username!= null &&
+        username = JWTUTIL.extractUsername(jwtToken);
+        if (username != null &&
                 SecurityContextHolder.getContext()
                         .getAuthentication() == null) {
-            UserDetails userDetails=userDetailsService
+            UserDetails userDetails = USERDETAILSSERVICE
                     .loadUserByUsername(username);
-            if (jwtUtil.validateToken(jwtToken)) {
-                UsernamePasswordAuthenticationToken authToken=
+            if (JWTUTIL.validateToken(jwtToken)) {
+                UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,
