@@ -1,5 +1,6 @@
 package lk.ijse.backend.exception.advice;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lk.ijse.backend.dto.APIResponse;
 import lk.ijse.backend.exception.JwtAuthenticationException;
 import lk.ijse.backend.exception.UserNotFoundException;
@@ -56,8 +57,17 @@ public class GlobalExceptionHandler {
     public APIResponse handleBadCredentialsException(BadCredentialsException e) {
         return new APIResponse(
                 401,
-                "Bad credentials exception",
-                e.getMessage());
+                "Unauthorized",
+                "Invalid username or password");
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public APIResponse handleExpiredJwtException(ExpiredJwtException e) {
+        return new APIResponse(
+                401,
+                "Unauthorized",
+                "Expired jwt Token");
     }
 
     @ExceptionHandler(RuntimeException.class)
