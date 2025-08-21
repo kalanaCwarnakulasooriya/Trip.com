@@ -1,7 +1,7 @@
 package lk.ijse.backend.entity;
 
 import jakarta.persistence.*;
-import lk.ijse.backend.enums.Role;
+import lk.ijse.backend.entity.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

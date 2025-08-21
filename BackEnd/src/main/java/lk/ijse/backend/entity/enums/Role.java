@@ -1,4 +1,4 @@
-package lk.ijse.backend.enums;
+package lk.ijse.backend.entity.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
