@@ -17,36 +17,36 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 
 public class AuthService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final UserRepository USERREPOSITORY;
+    private final PasswordEncoder PASSWORDENCODER;
+    private final JwtUtil JWTUTIL;
 
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
         User user=
-                userRepository.findByUsername(authDTO.getUsername())
+                USERREPOSITORY.findByUsername(authDTO.getUsername())
                         .orElseThrow(
                                 ()->new UsernameNotFoundException
                                         ("Username not found"));
-        if (!passwordEncoder.matches(
+        if (!PASSWORDENCODER.matches(
                 authDTO.getPassword(),
                 user.getPassword())) {
             throw new BadCredentialsException("Incorrect password");
         }
-        String token=jwtUtil.generateToken(authDTO.getUsername());
+        String token = JWTUTIL.generateToken(authDTO.getUsername());
         return  new AuthResponseDTO(token);
     }
     public String register(RegisterDTO registerDTO) {
-        if(userRepository.findByUsername(
+        if(USERREPOSITORY.findByUsername(
                 registerDTO.getUsername()).isPresent()){
             throw new RuntimeException("Username already exists");
         }
         User user=User.builder()
                 .username(registerDTO.getUsername())
-                .password(passwordEncoder.encode(
+                .password(PASSWORDENCODER.encode(
                         registerDTO.getPassword()))
                 .role(Role.valueOf(registerDTO.getRole()))
                 .build();
-        userRepository.save(user);
+        USERREPOSITORY.save(user);
         return  "User Registration Success";
     }
 }
