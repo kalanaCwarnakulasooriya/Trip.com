@@ -7,7 +7,6 @@ import lk.ijse.backend.dto.RegisterDTO;
 import lk.ijse.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +18,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<APIResponse> registerUser(
-            @Valid @RequestBody RegisterDTO registerDTO) {  // <-- @Valid add karala
+            @Valid @RequestBody RegisterDTO registerDTO) {
         return ResponseEntity.ok(new APIResponse(
                 200,
                 "OK",

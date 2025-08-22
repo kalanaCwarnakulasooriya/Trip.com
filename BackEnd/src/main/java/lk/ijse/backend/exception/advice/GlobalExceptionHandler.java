@@ -71,4 +71,20 @@ public class GlobalExceptionHandler {
                 "Internal server error",
                 e.getMessage());
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public APIResponse handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .toList();
+
+        return new APIResponse(
+                400,
+                "Validation exception",
+                errors
+        );
+    }
 }
