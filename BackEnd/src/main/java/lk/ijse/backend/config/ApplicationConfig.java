@@ -15,12 +15,12 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    private final UserRepository USERREPOSITORY;
+    private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return username ->
-                USERREPOSITORY.findByUsername(username)
+                userRepository.findByUsername(username)
                         .map(user ->
                                 new org.springframework.security
                                         .core.userdetails.User(

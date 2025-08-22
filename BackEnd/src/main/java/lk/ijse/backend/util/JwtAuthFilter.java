@@ -1,5 +1,6 @@
 package lk.ijse.backend.util;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,8 +19,8 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-    private final JwtUtil JWTUTIL;
-    private final UserDetailsService USERDETAILSSERVICE;
+    private final JwtUtil jwtUtil;
+    private final UserDetailsService userDetailsService;
 
 
     @Override
@@ -30,19 +31,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwtToken;
         final String username;
 
-        if (authHeader == null || !authHeader.startsWith("Bearer")) {
+        if (authHeader ==null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request,response);
             return;
         }
         jwtToken=authHeader.substring(7);
-        username = JWTUTIL.extractUsername(jwtToken);
-        if (username != null &&
+        username=jwtUtil.extractUsername(jwtToken);
+        if (username!= null &&
                 SecurityContextHolder.getContext()
                         .getAuthentication() == null) {
-            UserDetails userDetails = USERDETAILSSERVICE
+            UserDetails userDetails=userDetailsService
                     .loadUserByUsername(username);
-            if (JWTUTIL.validateToken(jwtToken)) {
-                UsernamePasswordAuthenticationToken authToken =
+            if (jwtUtil.validateToken(jwtToken)) {
+                UsernamePasswordAuthenticationToken authToken=
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,

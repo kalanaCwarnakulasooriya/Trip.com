@@ -15,38 +15,37 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-
 public class AuthService {
-    private final UserRepository USERREPOSITORY;
-    private final PasswordEncoder PASSWORDENCODER;
-    private final JwtUtil JWTUTIL;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
         User user=
-                USERREPOSITORY.findByUsername(authDTO.getUsername())
+                userRepository.findByUsername(authDTO.getUsername())
                         .orElseThrow(
                                 ()->new UsernameNotFoundException
                                         ("Username not found"));
-        if (!PASSWORDENCODER.matches(
+        if (!passwordEncoder.matches(
                 authDTO.getPassword(),
                 user.getPassword())) {
             throw new BadCredentialsException("Incorrect password");
         }
-        String token = JWTUTIL.generateToken(authDTO.getUsername());
+        String token=jwtUtil.generateToken(authDTO.getUsername());
         return  new AuthResponseDTO(token);
     }
     public String register(RegisterDTO registerDTO) {
-        if(USERREPOSITORY.findByUsername(
-                registerDTO.getUsername()).isPresent()){
+        if(userRepository.findByUsername(registerDTO.getUsername()).isPresent()){
             throw new RuntimeException("Username already exists");
         }
-        User user=User.builder()
+        User user = User.builder()
                 .username(registerDTO.getUsername())
-                .password(PASSWORDENCODER.encode(
-                        registerDTO.getPassword()))
+                .password(passwordEncoder.encode(registerDTO.getPassword()))
+                .email(registerDTO.getEmail())
+                .phone(registerDTO.getPhone())
                 .role(Role.valueOf(registerDTO.getRole()))
                 .build();
-        USERREPOSITORY.save(user);
-        return  "User Registration Success";
+        userRepository.save(user);
+        return "User Registration Success";
     }
 }

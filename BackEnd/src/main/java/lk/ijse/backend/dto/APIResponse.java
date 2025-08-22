@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class APIResponse {
     private int code;
-    private String message;
+    private String status;
     private Object data;
 }
