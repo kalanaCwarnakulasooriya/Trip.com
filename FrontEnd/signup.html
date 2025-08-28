@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login - Trip.com</title>
+    <title>Sign Up - Travel Agency</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Theme Variables */
+        /* ===== BASE & RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
             /* Light Mode Colors */
             --primary-blue: #0077b6;
@@ -142,22 +148,15 @@
             --gradient-mixed: linear-gradient(135deg, var(--primary-blue-dm), var(--accent-green-dm));
         }
 
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: "Poppins", sans-serif;
             font-size: 16px;
             line-height: 1.6;
             background-size: cover;
-            height: 100vh;
+            min-height: 100vh;
             color: var(--text-dark);
             background-color: var(--bg-light);
-            overflow: hidden;
+            overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
@@ -181,18 +180,42 @@
             font-size: 16px;
         }
 
-        /* Auth Container */
+        /* ===== LAYOUT COMPONENTS ===== */
         .auth-container {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
             position: relative;
             overflow: hidden;
         }
 
-        /* Background Shapes and Effects */
+        .auth-wrapper {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .auth-content {
+            display: flex;
+            min-height: auto;
+        }
+
+        .auth-card {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+
+        /* ===== BACKGROUND ELEMENTS ===== */
         .auth-background {
             position: absolute;
             top: 0;
@@ -210,148 +233,101 @@
             transition: background-color 0.3s ease;
         }
 
-        .login-select .shape-1 {
-            width: 400px;
-            height: 400px;
-            background-color: rgba(0, 119, 182, 0.3);
-            top: -100px;
-            left: -100px;
+        /* Shape variants for different pages */
+        .login-select .shape-1,
+        .user-login .shape-1,
+        .admin-login .shape-1,
+        .signup .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: -80px;
+            left: -80px;
             animation: float 8s ease-in-out infinite;
         }
 
-        .login-select .shape-2 {
-            width: 300px;
-            height: 300px;
-            background-color: rgba(0, 180, 216, 0.3);
-            bottom: -50px;
-            right: -50px;
+        .login-select .shape-2,
+        .user-login .shape-2,
+        .admin-login .shape-2,
+        .signup .shape-2 {
+            width: 250px;
+            height: 250px;
+            bottom: -40px;
+            right: -40px;
             animation: float 10s ease-in-out infinite reverse;
         }
 
-        .login-select .shape-3 {
-            width: 200px;
-            height: 200px;
-            background-color: rgba(6, 214, 160, 0.3);
+        .login-select .shape-3,
+        .user-login .shape-3,
+        .admin-login .shape-3,
+        .signup .shape-3 {
+            width: 150px;
+            height: 150px;
             top: 50%;
             right: 30%;
             animation: float 12s ease-in-out infinite;
         }
 
-        .login-select .shape-4 {
-            width: 150px;
-            height: 150px;
-            background-color: rgba(0, 180, 216, 0.3);
+        .login-select .shape-4,
+        .user-login .shape-4,
+        .admin-login .shape-4,
+        .signup .shape-4 {
+            width: 120px;
+            height: 120px;
             bottom: 20%;
             left: 20%;
             animation: float 9s ease-in-out infinite;
         }
 
+        .login-select .shape-1,
         .user-login .shape-1 {
-            width: 400px;
-            height: 400px;
             background-color: rgba(0, 119, 182, 0.3);
-            top: -100px;
-            left: -100px;
-            animation: float 8s ease-in-out infinite;
         }
 
+        .login-select .shape-2,
         .user-login .shape-2 {
-            width: 300px;
-            height: 300px;
             background-color: rgba(0, 180, 216, 0.3);
-            bottom: -50px;
-            right: -50px;
-            animation: float 10s ease-in-out infinite reverse;
         }
 
+        .login-select .shape-3,
         .user-login .shape-3 {
-            width: 200px;
-            height: 200px;
             background-color: rgba(0, 119, 182, 0.3);
-            top: 50%;
-            right: 30%;
-            animation: float 12s ease-in-out infinite;
         }
 
+        .login-select .shape-4,
         .user-login .shape-4 {
-            width: 150px;
-            height: 150px;
             background-color: rgba(6, 214, 160, 0.3);
-            bottom: 20%;
-            left: 20%;
-            animation: float 9s ease-in-out infinite;
         }
 
         .admin-login .shape-1 {
-            width: 400px;
-            height: 400px;
             background-color: rgba(0, 180, 216, 0.3);
-            top: -100px;
-            left: -100px;
-            animation: float 8s ease-in-out infinite;
         }
 
         .admin-login .shape-2 {
-            width: 300px;
-            height: 300px;
             background-color: rgba(0, 119, 182, 0.3);
-            bottom: -50px;
-            right: -50px;
-            animation: float 10s ease-in-out infinite reverse;
         }
 
         .admin-login .shape-3 {
-            width: 200px;
-            height: 200px;
             background-color: rgba(0, 180, 216, 0.3);
-            top: 50%;
-            right: 30%;
-            animation: float 12s ease-in-out infinite;
         }
 
         .admin-login .shape-4 {
-            width: 150px;
-            height: 150px;
             background-color: rgba(6, 214, 160, 0.3);
-            bottom: 20%;
-            left: 20%;
-            animation: float 9s ease-in-out infinite;
         }
 
         .signup .shape-1 {
-            width: 400px;
-            height: 400px;
             background-color: rgba(6, 214, 160, 0.3);
-            top: -100px;
-            left: -100px;
-            animation: float 8s ease-in-out infinite;
         }
 
         .signup .shape-2 {
-            width: 300px;
-            height: 300px;
             background-color: rgba(0, 180, 216, 0.3);
-            bottom: -50px;
-            right: -50px;
-            animation: float 10s ease-in-out infinite reverse;
         }
 
         .signup .shape-3 {
-            width: 200px;
-            height: 200px;
             background-color: rgba(6, 214, 160, 0.3);
-            top: 50%;
-            right: 30%;
-            animation: float 12s ease-in-out infinite;
         }
 
         .signup .shape-4 {
-            width: 150px;
-            height: 150px;
             background-color: rgba(0, 119, 182, 0.3);
-            bottom: 20%;
-            left: 20%;
-            animation: float 9s ease-in-out infinite;
         }
 
         /* Light Rays */
@@ -364,7 +340,7 @@
 
         .ray-1 {
             width: 200%;
-            height: 100px;
+            height: 80px;
             top: 20%;
             left: -50%;
             animation: ray-move 10s linear infinite;
@@ -372,7 +348,7 @@
 
         .ray-2 {
             width: 200%;
-            height: 80px;
+            height: 60px;
             top: 40%;
             left: -50%;
             animation: ray-move 15s linear infinite;
@@ -380,33 +356,24 @@
 
         .ray-3 {
             width: 200%;
-            height: 120px;
+            height: 100px;
             top: 70%;
             left: -50%;
             animation: ray-move 12s linear infinite reverse;
-        }
-
-        @keyframes ray-move {
-            0% {
-                transform: rotate(45deg) translateX(-100%);
-            }
-            100% {
-                transform: rotate(45deg) translateX(100%);
-            }
         }
 
         /* Light Glows */
         .light-glow {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
+            filter: blur(60px);
             opacity: 0.3;
             pointer-events: none;
         }
 
         .glow-1 {
-            width: 300px;
-            height: 300px;
+            width: 250px;
+            height: 250px;
             background: radial-gradient(circle, rgba(0, 180, 216, 0.4) 0%, transparent 70%);
             top: 30%;
             left: 20%;
@@ -414,83 +381,30 @@
         }
 
         .glow-2 {
-            width: 400px;
-            height: 400px;
+            width: 300px;
+            height: 300px;
             background: radial-gradient(circle, rgba(6, 214, 160, 0.4) 0%, transparent 70%);
             bottom: 10%;
             right: 10%;
             animation: pulse 10s ease-in-out infinite 2s;
         }
 
-        @keyframes pulse {
-            0% {
-                opacity: 0.2;
-                transform: scale(0.8);
-            }
-            50% {
-                opacity: 0.4;
-                transform: scale(1.1);
-            }
-            100% {
-                opacity: 0.2;
-                transform: scale(0.8);
-            }
-        }
-
-        @keyframes float {
-            0% {
-                transform: translate(0, 0);
-            }
-            50% {
-                transform: translate(15px, 15px);
-            }
-            100% {
-                transform: translate(0, 0);
-            }
-        }
-
-        /* Auth Wrapper */
-        .auth-wrapper {
-            width: 100%;
-            max-width: 450px;
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            position: relative;
-            z-index: 1;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        /* Auth Content */
-        .auth-content {
-            display: flex;
-            min-height: 600px;
-        }
-
-        .auth-card {
-            flex: 1;
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            transition: background-color 0.3s ease;
-        }
-
+        /* ===== FORM ELEMENTS ===== */
         .card-header {
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             text-align: center;
         }
 
         .auth-title {
-            font-size: 1.9rem;
+            font-size: 1.75rem;
             font-weight: 700;
-            /*margin-bottom: 0.5rem;*/
             background: var(--gradient-mixed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
             transition: background 0.3s ease;
+            margin-bottom: 0.5rem;
         }
 
         .login-select .auth-title {
@@ -526,29 +440,16 @@
         }
 
         .auth-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-medium);
             transition: color 0.3s ease;
         }
 
-        .login-option p {
-            font-size: 0.9rem;
-            color: var(--text-medium);
-            margin-bottom: 1rem;
-            transition: color 0.3s ease;
-        }
-
-        /* Auth Form */
         .auth-form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 1rem;
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .form-group {
@@ -558,23 +459,10 @@
         }
 
         .form-group label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.25rem;
             color: var(--text-medium);
-            transition: color 0.3s ease;
-        }
-
-        .label-wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.3rem;
-        }
-
-        .forgot-password {
-            font-size: 0.8rem;
-            color: var(--primary-color);
             transition: color 0.3s ease;
         }
 
@@ -584,21 +472,21 @@
 
         .input-wrapper svg {
             position: absolute;
-            left: 1rem;
+            left: 0.9rem;
             top: 50%;
             transform: translateY(-50%);
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             color: var(--text-light);
             transition: color 0.3s ease;
         }
 
         .input-wrapper input {
             width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            padding: 0.7rem 0.9rem 0.7rem 2.25rem;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             background-color: var(--card-bg);
             color: var(--text-dark);
             transition: all var(--transition-normal);
@@ -627,7 +515,7 @@
 
         .toggle-password {
             position: absolute;
-            right: 1rem;
+            right: 0.9rem;
             top: 50%;
             transform: translateY(-50%);
             background: transparent;
@@ -646,8 +534,8 @@
         .toggle-password svg {
             position: static;
             transform: none;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
         }
 
         .eye-off-icon {
@@ -655,24 +543,51 @@
         }
 
         .error-message {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--error-red);
-            margin-top: 0.5rem;
+            margin-top: 0.4rem;
             min-height: 1rem;
         }
 
+        /* Password Strength Meter */
+        .password-strength {
+            display: flex;
+            flex-direction: column;
+            margin-top: 0.4rem;
+        }
+
+        .strength-meter {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 0.2rem;
+        }
+
+        .strength-segment {
+            height: 3px;
+            flex: 1;
+            background-color: var(--border-color);
+            border-radius: 2px;
+            transition: background-color var(--transition-normal);
+        }
+
+        .strength-text {
+            font-size: 0.7rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
         /* Checkbox */
-        .remember-me {
-            margin-top: -0.5rem;
+        .terms-group {
+            margin-top: -0.4rem;
         }
 
         .checkbox-container {
             display: flex;
             align-items: center;
             position: relative;
-            padding-left: 30px;
+            padding-left: 28px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-medium);
             user-select: none;
             transition: color 0.3s ease;
@@ -690,8 +605,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            height: 20px;
-            width: 20px;
+            height: 18px;
+            width: 18px;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 4px;
@@ -733,30 +648,36 @@
         }
 
         .checkbox-container .checkmark:after {
-            left: 7px;
-            top: 3px;
-            width: 5px;
-            height: 10px;
+            left: 6px;
+            top: 2px;
+            width: 4px;
+            height: 8px;
             border: solid white;
             border-width: 0 2px 2px 0;
             transform: rotate(45deg);
         }
 
         .checkbox-label {
-            margin-left: 0.5rem;
+            margin-left: 0.4rem;
+        }
+
+        .terms-link {
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
         }
 
         .signup .terms-link {
             color: var(--accent-color);
         }
 
-        /* Submit Button */
+        /* ===== BUTTONS ===== */
         .btn-submit {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1rem;
+            gap: 0.4rem;
+            padding: 0.55rem 0.9rem;
             border-radius: 8px;
             font-weight: 600;
             color: white;
@@ -791,8 +712,8 @@
         }
 
         .btn-icon {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             position: relative;
             z-index: 2;
             transition: transform var(--transition-normal);
@@ -820,18 +741,12 @@
 
         .btn-loader:after {
             content: "";
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border: 2px solid white;
             border-radius: 50%;
             border-top-color: transparent;
             animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
         }
 
         .btn-submit.loading .btn-text,
@@ -844,67 +759,11 @@
             visibility: visible;
         }
 
-        /* Social Login */
-        .social-login {
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .social-text {
-            font-size: 0.9rem;
-            color: var(--text-medium);
-            margin-bottom: 1rem;
-            position: relative;
-            transition: color 0.3s ease;
-        }
-
-        .social-text:before,
-        .social-text:after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            width: 25%;
-            height: 1px;
-            background-color: var(--border-color);
-            transition: background-color 0.3s ease;
-        }
-
-        .social-text:before {
-            left: 0;
-        }
-
-        .social-text:after {
-            right: 0;
-        }
-
-        .social-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .social-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            transition: all var(--transition-normal);
-        }
-
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
-        }
-
-        /* Auth Footer */
+        /* ===== FOOTER & LINKS ===== */
         .auth-footer {
             margin-top: auto;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-medium);
             transition: color 0.3s ease;
         }
@@ -926,7 +785,13 @@
             color: var(--accent-color);
         }
 
-        /* Floating Elements */
+        .back-link svg {
+            width: 14px;
+            height: 14px;
+            margin-right: 0.4rem;
+        }
+
+        /* ===== FLOATING ELEMENTS ===== */
         .floating-elements {
             position: absolute;
             top: 0;
@@ -959,89 +824,78 @@
         .plane {
             top: 15%;
             right: 10%;
-            width: 40px;
-            height: 40px;
-            animation: floatPlane 15s linear infinite;
-        }
-
-        .plane2 {
-            bottom: 15%;
-            left: 10%;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             animation: floatPlane 15s linear infinite;
         }
 
         .compass {
             bottom: 30%;
             left: 15%;
-            width: 30px;
-            height: 30px;
+            width: 25px;
+            height: 25px;
             animation: rotate 20s linear infinite;
         }
 
         .map {
             top: 40%;
             left: 10%;
-            width: 35px;
-            height: 35px;
+            width: 28px;
+            height: 28px;
             animation: float 8s ease-in-out infinite;
         }
 
         .suitcase {
             bottom: 15%;
             right: 15%;
-            width: 35px;
-            height: 35px;
+            width: 28px;
+            height: 28px;
             animation: float 10s ease-in-out infinite reverse;
         }
 
         .palm-tree {
             top: 60%;
             right: 25%;
-            width: 35px;
-            height: 35px;
+            width: 28px;
+            height: 28px;
             animation: float 12s ease-in-out infinite;
         }
 
-        .beach {
-            bottom: 20%;
-            left: 30%;
-            width: 35px;
-            height: 35px;
-            animation: float 9s ease-in-out infinite;
+        /* ===== ANIMATIONS ===== */
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(10px, 10px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
         }
 
-        .camera {
-            top: 30%;
-            left: 25%;
-            width: 35px;
-            height: 35px;
-            animation: float 9s ease-in-out infinite;
+        @keyframes ray-move {
+            0% {
+                transform: rotate(45deg) translateX(-100%);
+            }
+            100% {
+                transform: rotate(45deg) translateX(100%);
+            }
         }
 
-        .sun {
-            top: 10%;
-            left: 10%;
-            width: 35px;
-            height: 35px;
-            animation: float 12s ease-in-out infinite;
-        }
-
-        .boat {
-            top: 30%;
-            right: 20%;
-            width: 35px;
-            height: 35px;
-            animation: float 12s ease-in-out infinite;
-        }
-
-        .location-pin {
-            bottom: 45%;
-            right: 10%;
-            width: 35px;
-            height: 35px;
-            animation: float 12s ease-in-out infinite;
+        @keyframes pulse {
+            0% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
         }
 
         @keyframes floatPlane {
@@ -1049,13 +903,13 @@
                 transform: translate(0, 0) rotate(0deg);
             }
             25% {
-                transform: translate(100px, -50px) rotate(5deg);
+                transform: translate(80px, -40px) rotate(5deg);
             }
             50% {
-                transform: translate(200px, 0) rotate(0deg);
+                transform: translate(160px, 0) rotate(0deg);
             }
             75% {
-                transform: translate(100px, 50px) rotate(-5deg);
+                transform: translate(80px, 40px) rotate(-5deg);
             }
             100% {
                 transform: translate(0, 0) rotate(0deg);
@@ -1078,40 +932,128 @@
             }
         }
 
-        @media (max-width: 767px) {
-            .auth-wrapper {
-                max-width: 500px;
-            }
-
-            .auth-card {
-                padding: 2rem 1.5rem;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
 
+        /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 480px) {
+            .auth-container {
+                padding: 0.5rem;
+            }
+
+            .auth-wrapper {
+                max-width: 100%;
+                border-radius: 12px;
+            }
+
+            .auth-card {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .auth-title {
+                font-size: 1.5rem;
+            }
+
+            .auth-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .auth-form {
+                gap: 1rem;
+            }
+
+            .form-group label {
+                font-size: 0.8rem;
+            }
+
+            .input-wrapper input {
+                padding: 0.6rem 0.8rem 0.6rem 2rem;
+                font-size: 0.9rem;
+            }
+
+            .input-wrapper svg {
+                left: 0.75rem;
+                width: 14px;
+                height: 14px;
+            }
+
+            .toggle-password {
+                right: 0.75rem;
+            }
+
+            .toggle-password svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .btn-submit {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .btn-icon {
+                width: 14px;
+                height: 14px;
+            }
+
+            .auth-footer {
+                font-size: 0.8rem;
+            }
+
+            /* Hide some background elements on very small screens */
+            .bg-shape {
+                opacity: 0.4;
+            }
+
+            .light-ray,
+            .light-glow {
+                display: none;
+            }
+
+            .float-element {
+                display: none;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 767px) {
             .auth-container {
                 padding: 1rem;
             }
 
+            .auth-wrapper {
+                max-width: 400px;
+            }
+
             .auth-card {
-                padding: 1.5rem 1rem;
+                padding: 1.75rem;
             }
 
             .auth-title {
-                font-size: 1.75rem;
+                font-size: 1.6rem;
             }
 
-            .social-buttons {
-                gap: 0.5rem;
+            .auth-subtitle {
+                font-size: 0.82rem;
             }
 
-            .social-btn {
-                width: 45px;
-                height: 45px;
+            /* Reduce background animation intensity */
+            .bg-shape {
+                opacity: 0.5;
+            }
+
+            .light-ray {
+                opacity: 0.5;
+            }
+
+            .light-glow {
+                opacity: 0.2;
             }
         }
 
-        /* Dark Mode Specific Adjustments */
+        /* ===== DARK MODE ENHANCEMENTS ===== */
         .dark-mode .auth-wrapper {
             border: 1px solid var(--border-color);
         }
@@ -1126,7 +1068,7 @@
     </style>
 </head>
 <body>
-<div class="auth-container user-login">
+<div class="auth-container signup">
     <div class="auth-background">
         <div class="bg-shape shape-1"></div>
         <div class="bg-shape shape-2"></div>
@@ -1140,16 +1082,17 @@
     </div>
 
     <div class="auth-wrapper">
+
         <div class="auth-content">
             <div class="auth-card">
                 <div class="card-header">
-                    <h1 class="auth-title">Welcome Back</h1>
-                    <p class="auth-subtitle">Sign in to continue your travel journey</p>
+                    <h1 class="auth-title">Create Account</h1>
+                    <p class="auth-subtitle">Join us to discover amazing travel experiences</p>
                 </div>
 
-                <form class="auth-form" id="userLoginForm">
+                <form class="auth-form" id="signupForm">
                     <div class="form-group">
-                        <label for="userName">User Name</label>
+                        <label for="username">Username</label>
                         <div class="input-wrapper">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2"
@@ -1157,22 +1100,31 @@
                                 <path d="M20 21a8 8 0 0 0-16 0"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            <input type="text" id="userName" placeholder="Kalana Warnakulasooriya" required>
+                            <input type="text" id="username" placeholder="Kalana Warnakulasooriya" required>
                         </div>
-                        <div class="error-message" id="userEmailError"></div>
+                        <div class="error-message" id="usernameError"></div> <!-- Correct ID -->
                     </div>
 
                     <div class="form-group">
-                        <div class="label-wrapper">
-                            <label for="userPassword">Password</label>
-                            <a href="#" class="forgot-password">Forgot Password?</a>
+                        <label for="signupEmail">Email Address</label>
+                        <div class="input-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <input type="email" id="signupEmail" placeholder="your.email@example.com" required>
                         </div>
+                        <div class="error-message" id="signupEmailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
                         <div class="input-wrapper">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                             </svg>
-                            <input type="password" id="userPassword" placeholder="••••••••" required>
+                            <input type="password" id="signupPassword" placeholder="••••••••" required>
                             <button type="button" class="toggle-password" aria-label="Toggle password visibility">
                                 <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -1184,19 +1136,41 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="error-message" id="userPasswordError"></div>
+                        <div class="password-strength">
+                            <div class="strength-meter">
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                                <div class="strength-segment"></div>
+                            </div>
+                            <div class="strength-text">Password strength</div>
+                        </div>
+                        <div class="error-message" id="signupPasswordError"></div>
                     </div>
 
-                    <div class="form-group remember-me">
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <div class="input-wrapper">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <input type="password" id="confirmPassword" placeholder="••••••••" required>
+                        </div>
+                        <div class="error-message" id="confirmPasswordError"></div>
+                    </div>
+
+                    <div class="form-group terms-group">
                         <label class="checkbox-container">
-                            <input type="checkbox" id="userRememberMe">
+                            <input type="checkbox" id="termsAgree" required>
                             <span class="checkmark"></span>
-                            <span class="checkbox-label">Remember me</span>
+                            <span class="checkbox-label">I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a></span>
                         </label>
+                        <div class="error-message" id="termsError"></div>
                     </div>
 
-                    <button type="submit" class="btn-submit">
-                        <span class="btn-text">Sign In</span>
+                    <button type="submit" id="btn-submit" class="btn-submit">
+                        <span class="btn-text">Create Account</span>
                         <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -1205,32 +1179,8 @@
                     </button>
                 </form>
 
-                <div class="social-login">
-                    <p class="social-text">Or sign in with</p>
-                    <div class="social-buttons">
-                        <button class="social-btn google">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path fill="#4285F4" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"></path>
-                                <path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2936293 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"></path>
-                                <path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903663 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"></path>
-                                <path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"></path>
-                            </svg>
-                        </button>
-                        <button class="social-btn facebook">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                            </svg>
-                        </button>
-                        <button class="social-btn twitter">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path fill="#1DA1F2" d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.054 10.054 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
                 <div class="auth-footer">
-                    <p>Don't have an account? <a href="user-signup.html" class="auth-link">Sign up</a></p>
+                    <p>Already have an account? <a href="login.html" class="auth-link">Log In</a></p>
                 </div>
             </div>
         </div>
@@ -1242,20 +1192,12 @@
                 <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
             </svg>
         </div>
-
-        <div class="float-element plane2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"></path>
-            </svg>
-        </div>
-
         <div class="float-element compass">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"></circle>
                 <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
             </svg>
         </div>
-
         <div class="float-element map">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
@@ -1263,7 +1205,6 @@
                 <line x1="16" y1="6" x2="16" y2="22"></line>
             </svg>
         </div>
-
         <div class="float-element suitcase">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="8" width="18" height="12" rx="2" ry="2"></rect>
@@ -1272,62 +1213,15 @@
                 <line x1="8" y1="16" x2="16" y2="16"></line>
             </svg>
         </div>
-
         <div class="float-element palm-tree">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 2v20M4.93 10H7.5c.55 0 1.5-.15 1.5-2s-.95-2-1.5-2H5.93a2 2 0 0 1-2-2c0-1.1.9-2 2-2h3.5M19.07 10H16.5c-.55 0-1.5-.15-1.5-2s.95-2 1.5-2h2.07a2 2 0 0 0 2-2c0-1.1-.9-2-2-2h-3.5"></path>
             </svg>
         </div>
-
-        <div class="float-element beach">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8.44 12h.04c.93-.46 1.77-.46 2.7 0h.04c.93-.46 1.77-.46 2.7 0h.04c.93-.46 1.77-.46 2.7 0h.04c.93-.46 1.77-.46 2.7 0H20M6.79 10h.12c.53-.27 1.01-.27 1.54 0h.12c.53-.27 1.01-.27 1.54 0h.12c.53-.27 1.01-.27 1.54 0h.12c.53-.27 1.01-.27 1.54 0h.12c.53-.27 1.01-.27 1.54 0h.12c.53-.27 1.01-.27 1.54 0h.12M3 8h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06c.27-.13.51-.13.78 0h.06M15 13v8M8 21l7-8"></path>
-            </svg>
-        </div>
-
-        <div class="float-element camera">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19V7a2 2 0 0 0-2-2h-3.17l-1.83-2H8L6.17 5H3a2 2 0 0 0-2 2v12
-                 a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2z"></path>
-                <circle cx="12" cy="13" r="4"></circle>
-            </svg>
-        </div>
-
-        <div class="float-element location-pin">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-        </div>
-
-        <div class="float-element sun">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-        </div>
-
-        <div class="float-element boat">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21c-2.21 0-4-1.79-4-4V3l-6 9H4c0 5 4 9 9 9h7z"></path>
-            </svg>
-        </div>
     </div>
 </div>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener('DOMContentLoaded', function() {
         // Theme Toggle
         const themeToggle = document.getElementById("theme-toggle");
         const htmlElement = document.documentElement;
@@ -1346,107 +1240,139 @@
             });
         }
 
-        // Password Toggle
-        document.querySelectorAll(".toggle-password").forEach(button => {
-            button.addEventListener("click", function () {
-                const input = this.previousElementSibling;
-                if (input) {
-                    input.type = input.type === "password" ? "text" : "password";
-                    this.classList.toggle("active");
-                }
-            });
-        });
-
-        // Form Validation and AJAX Login
-        const userLoginForm = document.getElementById("userLoginForm");
-        if (userLoginForm) {
-            userLoginForm.addEventListener("submit", async function (e) {
-                e.preventDefault();
-
-                const usernameInput = document.getElementById("userName");
-                const passwordInput = document.getElementById("userPassword");
-                const usernameError = document.getElementById("userEmailError");
-                const passwordError = document.getElementById("userPasswordError");
-
-                if (usernameError) usernameError.textContent = "";
-                if (passwordError) passwordError.textContent = "";
-
-                let isValid = true;
-                if (!usernameInput.value.trim()) {
-                    if (usernameError) usernameError.textContent = "Username is required";
-                    isValid = false;
-                }
-                if (!passwordInput.value.trim()) {
-                    if (passwordError) passwordError.textContent = "Password is required";
-                    isValid = false;
-                }
-
-                if (!isValid) return;
-
-                const btnSubmit = this.querySelector(".btn-submit");
-                btnSubmit.classList.add("loading");
-
-                try {
-                    const response = await fetch("http://localhost:8080/auth/login/verify", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            username: usernameInput.value.trim(),
-                            password: passwordInput.value.trim(),
-                            role: "USER"
-                        })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error("Invalid username or password");
-                    }
-
-                    const data = await response.json();
-                    if (data.token) {
-                        localStorage.setItem("jwtToken", data.token);
-                        window.location.href = "index.html";
-                    } else {
-                        if (usernameError) usernameError.textContent = data.message || "Login failed";
-                    }
-                } catch (error) {
-                    if (passwordError) passwordError.textContent = error.message;
-                } finally {
-                    btnSubmit.classList.remove("loading");
-                }
-            });
+        const signupForm = document.getElementById('signupForm');
+        if (!signupForm) {
+            console.error("Signup form not found in the DOM.");
+            return;
         }
 
-        // Ripple Effect on Buttons
-        document.querySelectorAll(".btn-submit, .social-btn").forEach(button => {
-            button.addEventListener("click", function (e) {
-                const ripple = document.createElement("span");
-                ripple.classList.add("ripple");
-                ripple.style.left = `${e.clientX - this.getBoundingClientRect().left}px`;
-                ripple.style.top = `${e.clientY - this.getBoundingClientRect().top}px`;
-                this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
+        signupForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-        // Input Focus Effects
-        document.querySelectorAll("input").forEach(input => {
-            input.addEventListener("focus", () => input.parentElement.classList.add("input-focused"));
-            input.addEventListener("blur", () => input.parentElement.classList.remove("input-focused"));
-        });
+            // Retrieve input elements (note: no role element needed)
+            const usernameInput = document.getElementById('username');
+            const emailInput = document.getElementById('signupEmail');
+            const passwordInput = document.getElementById('signupPassword');
+            const termsAgreeInput = document.getElementById('termsAgree');
 
-        // Light Effects
-        document.querySelectorAll(".light-ray").forEach((ray, index) => {
-            ray.style.animationDelay = `${index * 2}s`;
-        });
-        document.querySelectorAll(".light-glow").forEach((glow, index) => {
-            glow.style.animationDelay = `${index * 3}s`;
-        });
+            // Retrieve error display elements
+            const usernameError = document.getElementById('usernameError');
+            const emailError = document.getElementById('signupEmailError');
+            const passwordError = document.getElementById('signupPasswordError');
+            const termsError = document.getElementById('termsError');
 
-        // Floating Elements
-        document.querySelectorAll(".float-element").forEach(element => {
-            const randomX = Math.random() * 20 - 10;
-            const randomY = Math.random() * 20 - 10;
-            element.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            // Clear previous error messages
+            if (usernameError) usernameError.textContent = '';
+            if (emailError) emailError.textContent = '';
+            if (passwordError) passwordError.textContent = '';
+            if (termsError) termsError.textContent = '';
+
+            // Validation logic
+            let isValid = true;
+
+            if (!usernameInput || !usernameInput.value.trim()) {
+                if (usernameError) {
+                    usernameError.textContent = 'Username is required';
+                }
+                isValid = false;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailInput || !emailInput.value.trim()) {
+                if (emailError) {
+                    emailError.textContent = 'Email is required';
+                }
+                isValid = false;
+            } else if (!emailRegex.test(emailInput.value.trim())) {
+                if (emailError) {
+                    emailError.textContent = 'Invalid email format';
+                }
+                isValid = false;
+            }
+
+            if (!passwordInput || !passwordInput.value) {
+                if (passwordError) {
+                    passwordError.textContent = 'Password is required';
+                }
+                isValid = false;
+            } else if (passwordInput.value.length < 8) {
+                if (passwordError) {
+                    passwordError.textContent = 'Password must be at least 8 characters';
+                }
+                isValid = false;
+            }
+
+            if (!termsAgreeInput || !termsAgreeInput.checked) {
+                if (termsError) {
+                    termsError.textContent = 'You must agree to the terms';
+                }
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // Prepare payload with a fixed role value "user"
+            const payload = {
+                username: usernameInput ? usernameInput.value.trim() : "",
+                role: "user",
+                email: emailInput ? emailInput.value.trim() : "",
+                password: passwordInput ? passwordInput.value : ""
+            };
+
+            const submitBtn = this.querySelector('.btn-submit');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('loading');
+            }
+
+            try {
+                const response = await fetch('http://localhost:8080/api/user/addUser', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify(payload)
+                });
+
+                let data = {};
+                try {
+                    data = await response.json();
+                } catch (err) {
+                    console.error('Error parsing JSON:', err);
+                }
+
+                if (!response.ok) {
+                    if (data.errors) {
+                        Object.entries(data.errors).forEach(([field, message]) => {
+                            if (field === 'username' && usernameError) {
+                                usernameError.textContent = message;
+                            }
+                            if (field === 'email' && emailError) {
+                                emailError.textContent = message;
+                            }
+                            if (field === 'password' && passwordError) {
+                                passwordError.textContent = message;
+                            }
+                        });
+                        throw new Error('Please fix the form errors');
+                    }
+                    throw new Error(data.message || `HTTP Error ${response.status}`);
+                }
+
+                window.location.href = 'user-login.html';
+            } catch (error) {
+                console.error('Signup Failed:', error);
+                if (termsError && !termsError.textContent) {
+                    termsError.textContent = error.message;
+                }
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                }
+            }
         });
     });
 </script>
