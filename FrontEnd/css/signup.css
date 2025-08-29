@@ -1,0 +1,1106 @@
+/* ===== BASE & RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Light Mode Colors */
+    --primary-blue: #0077b6;
+    --primary-blue-light: rgba(0, 119, 182, 0.1);
+    --primary-blue-dark: #005f92;
+
+    --secondary-blue: #00b4d8;
+    --secondary-blue-light: rgba(0, 180, 216, 0.1);
+    --secondary-blue-dark: #0096b2;
+
+    --accent-green: #06d6a0;
+    --accent-green-light: rgba(6, 214, 160, 0.1);
+    --accent-green-dark: #05b384;
+
+    --success-green: #2dc653;
+    --warning-yellow: #ffcb47;
+    --error-red: #e63946;
+
+    /* Neutral Colors - Light Mode */
+    --text-dark-light: #333333;
+    --text-medium-light: #666666;
+    --text-light-light: #999999;
+    --border-color-light: #e0e0e0;
+    --bg-light-light: #f8f9fa;
+    --card-bg-light: #ffffff;
+    --white-light: #ffffff;
+
+    /* Dark Mode Colors */
+    --primary-blue-dm: #3a86ff;
+    --primary-blue-light-dm: rgba(58, 134, 255, 0.15);
+    --primary-blue-dark-dm: #2a75f0;
+
+    --secondary-blue-dm: #48cae4;
+    --secondary-blue-light-dm: rgba(72, 202, 228, 0.15);
+    --secondary-blue-dark-dm: #34b6d0;
+
+    --accent-green-dm: #2ec4b6;
+    --accent-green-light-dm: rgba(46, 196, 182, 0.15);
+    --accent-green-dark-dm: #25a99c;
+
+    /* Neutral Colors - Dark Mode */
+    --text-dark-dm: #e0e0e0;
+    --text-medium-dm: #b0b0b0;
+    --text-light-dm: #808080;
+    --border-color-dm: #444444;
+    --bg-light-dm: #1a1a1a;
+    --card-bg-dm: #2a2a2a;
+    --white-dm: #2a2a2a;
+
+    /* Gradients */
+    --gradient-blue: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    --gradient-green: linear-gradient(135deg, var(--accent-green), var(--secondary-blue));
+    --gradient-mixed: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+
+    /* Shadows */
+    --shadow-sm-light: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md-light: 0 5px 15px rgba(0, 0, 0, 0.07);
+    --shadow-lg-light: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-hover-light: 0 15px 35px rgba(0, 0, 0, 0.1);
+
+    --shadow-sm-dark: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-md-dark: 0 5px 15px rgba(0, 0, 0, 0.3);
+    --shadow-lg-dark: 0 10px 25px rgba(0, 0, 0, 0.4);
+    --shadow-hover-dark: 0 15px 35px rgba(0, 0, 0, 0.5);
+
+    /* Animation */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+
+    /* Specific Colors for Auth Pages */
+    --user-login-color: var(--primary-blue);
+    --admin-login-color: var(--secondary-blue);
+    --signup-color: var(--accent-green);
+
+    /* Default to light mode */
+    --primary-color: var(--primary-blue);
+    --primary-light: var(--primary-blue-light);
+    --primary-dark: var(--primary-blue-dark);
+
+    --secondary-color: var(--secondary-blue);
+    --secondary-light: var(--secondary-blue-light);
+    --secondary-dark: var(--secondary-blue-dark);
+
+    --accent-color: var(--accent-green);
+    --accent-light: var(--accent-green-light);
+    --accent-dark: var(--accent-green-dark);
+
+    --text-dark: var(--text-dark-light);
+    --text-medium: var(--text-medium-light);
+    --text-light: var(--text-light-light);
+    --border-color: var(--border-color-light);
+    --bg-light: var(--bg-light-light);
+    --card-bg: var(--card-bg-light);
+    --white: var(--white-light);
+
+    --shadow-sm: var(--shadow-sm-light);
+    --shadow-md: var(--shadow-md-light);
+    --shadow-lg: var(--shadow-lg-light);
+    --shadow-hover: var(--shadow-hover-light);
+}
+
+/* Dark Mode */
+.dark-mode {
+    --primary-color: var(--primary-blue-dm);
+    --primary-light: var(--primary-blue-light-dm);
+    --primary-dark: var(--primary-blue-dark-dm);
+
+    --secondary-color: var(--secondary-blue-dm);
+    --secondary-light: var(--secondary-blue-light-dm);
+    --secondary-dark: var(--secondary-blue-dark-dm);
+
+    --accent-color: var(--accent-green-dm);
+    --accent-light: var(--accent-green-light-dm);
+    --accent-dark: var(--accent-green-dark-dm);
+
+    --text-dark: var(--text-dark-dm);
+    --text-medium: var(--text-medium-dm);
+    --text-light: var(--text-light-dm);
+    --border-color: var(--border-color-dm);
+    --bg-light: var(--bg-light-dm);
+    --card-bg: var(--card-bg-dm);
+    --white: var(--white-dm);
+
+    --shadow-sm: var(--shadow-sm-dark);
+    --shadow-md: var(--shadow-md-dark);
+    --shadow-lg: var(--shadow-lg-dark);
+    --shadow-hover: var(--shadow-hover-dark);
+
+    --gradient-blue: linear-gradient(135deg, var(--primary-blue-dm), var(--secondary-blue-dm));
+    --gradient-green: linear-gradient(135deg, var(--accent-green-dm), var(--secondary-blue-dm));
+    --gradient-mixed: linear-gradient(135deg, var(--primary-blue-dm), var(--accent-green-dm));
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background-size: cover;
+    min-height: 100vh;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+button {
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+}
+
+input,
+button {
+    font-size: 16px;
+}
+
+/* ===== LAYOUT COMPONENTS ===== */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-wrapper {
+    width: 100%;
+    max-width: 450px;
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-content {
+    display: flex;
+    min-height: auto;
+}
+
+.auth-card {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+}
+
+/* ===== BACKGROUND ELEMENTS ===== */
+.auth-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.6;
+    transition: background-color 0.3s ease;
+}
+
+/* Shape variants for different pages */
+.login-select .shape-1,
+.user-login .shape-1,
+.admin-login .shape-1,
+.signup .shape-1 {
+    width: 300px;
+    height: 300px;
+    top: -80px;
+    left: -80px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.login-select .shape-2,
+.user-login .shape-2,
+.admin-login .shape-2,
+.signup .shape-2 {
+    width: 250px;
+    height: 250px;
+    bottom: -40px;
+    right: -40px;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+.login-select .shape-3,
+.user-login .shape-3,
+.admin-login .shape-3,
+.signup .shape-3 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    right: 30%;
+    animation: float 12s ease-in-out infinite;
+}
+
+.login-select .shape-4,
+.user-login .shape-4,
+.admin-login .shape-4,
+.signup .shape-4 {
+    width: 120px;
+    height: 120px;
+    bottom: 20%;
+    left: 20%;
+    animation: float 9s ease-in-out infinite;
+}
+
+.login-select .shape-1,
+.user-login .shape-1 {
+    background-color: rgba(0, 119, 182, 0.3);
+}
+
+.login-select .shape-2,
+.user-login .shape-2 {
+    background-color: rgba(0, 180, 216, 0.3);
+}
+
+.login-select .shape-3,
+.user-login .shape-3 {
+    background-color: rgba(0, 119, 182, 0.3);
+}
+
+.login-select .shape-4,
+.user-login .shape-4 {
+    background-color: rgba(6, 214, 160, 0.3);
+}
+
+.admin-login .shape-1 {
+    background-color: rgba(0, 180, 216, 0.3);
+}
+
+.admin-login .shape-2 {
+    background-color: rgba(0, 119, 182, 0.3);
+}
+
+.admin-login .shape-3 {
+    background-color: rgba(0, 180, 216, 0.3);
+}
+
+.admin-login .shape-4 {
+    background-color: rgba(6, 214, 160, 0.3);
+}
+
+.signup .shape-1 {
+    background-color: rgba(6, 214, 160, 0.3);
+}
+
+.signup .shape-2 {
+    background-color: rgba(0, 180, 216, 0.3);
+}
+
+.signup .shape-3 {
+    background-color: rgba(6, 214, 160, 0.3);
+}
+
+.signup .shape-4 {
+    background-color: rgba(0, 119, 182, 0.3);
+}
+
+/* Light Rays */
+.light-ray {
+    position: absolute;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    pointer-events: none;
+}
+
+.ray-1 {
+    width: 200%;
+    height: 80px;
+    top: 20%;
+    left: -50%;
+    animation: ray-move 10s linear infinite;
+}
+
+.ray-2 {
+    width: 200%;
+    height: 60px;
+    top: 40%;
+    left: -50%;
+    animation: ray-move 15s linear infinite;
+}
+
+.ray-3 {
+    width: 200%;
+    height: 100px;
+    top: 70%;
+    left: -50%;
+    animation: ray-move 12s linear infinite reverse;
+}
+
+/* Light Glows */
+.light-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.glow-1 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(0, 180, 216, 0.4) 0%, transparent 70%);
+    top: 30%;
+    left: 20%;
+    animation: pulse 8s ease-in-out infinite;
+}
+
+.glow-2 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(6, 214, 160, 0.4) 0%, transparent 70%);
+    bottom: 10%;
+    right: 10%;
+    animation: pulse 10s ease-in-out infinite 2s;
+}
+
+/* ===== FORM ELEMENTS ===== */
+.card-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.auth-title {
+    font-size: 1.9rem;
+    font-weight: 700;
+    background: var(--gradient-mixed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    transition: background 0.3s ease;
+    /*margin-bottom: 0.5rem;*/
+}
+
+.login-select .auth-title {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.user-login .auth-title {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.admin-login .auth-title {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.signup .auth-title {
+    background: var(--gradient-green);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+
+.auth-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-medium);
+    transition: color 0.3s ease;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--text-medium);
+    transition: color 0.3s ease;
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper svg {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: var(--text-light);
+    transition: color 0.3s ease;
+}
+
+.input-wrapper input {
+    width: 100%;
+    padding: 0.7rem 0.9rem 0.7rem 2.25rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background-color: var(--card-bg);
+    color: var(--text-dark);
+    transition: all var(--transition-normal);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.user-login .input-wrapper input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.admin-login .input-wrapper input:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px var(--secondary-light);
+}
+
+.signup .input-wrapper input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.toggle-password {
+    position: absolute;
+    right: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: var(--primary-color);
+}
+
+.toggle-password svg {
+    position: static;
+    transform: none;
+    width: 18px;
+    height: 18px;
+}
+
+.eye-off-icon {
+    display: none;
+}
+
+.error-message {
+    font-size: 0.75rem;
+    color: var(--error-red);
+    margin-top: 0.4rem;
+    min-height: 1rem;
+}
+
+/* Password Strength Meter */
+.password-strength {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.4rem;
+}
+
+.strength-meter {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 0.2rem;
+}
+
+.strength-segment {
+    height: 3px;
+    flex: 1;
+    background-color: var(--border-color);
+    border-radius: 2px;
+    transition: background-color var(--transition-normal);
+}
+
+.strength-text {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    transition: color 0.3s ease;
+}
+
+/* Checkbox */
+.terms-group {
+    margin-top: -0.4rem;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    user-select: none;
+    transition: color 0.3s ease;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: all var(--transition-normal);
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    border-color: var(--primary-color);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.user-login .checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.admin-login .checkbox-container input:checked ~ .checkmark {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.signup .checkbox-container input:checked ~ .checkmark {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-label {
+    margin-left: 0.4rem;
+}
+
+.terms-link {
+    color: var(--primary-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.signup .terms-link {
+    color: var(--accent-color);
+}
+
+/* ===== BUTTONS ===== */
+.btn-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    background: var(--gradient-blue);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.user-login .btn-submit {
+    background: var(--gradient-blue);
+}
+
+.admin-login .btn-submit {
+    background: var(--gradient-blue);
+}
+
+.signup .btn-submit {
+    background: var(--gradient-green);
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+    z-index: 2;
+    transition: transform var(--transition-normal);
+}
+
+.btn-submit:hover .btn-icon {
+    transform: translateX(3px);
+}
+
+.btn-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-normal);
+}
+
+.btn-loader:after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 2px solid white;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.8s linear infinite;
+}
+
+.btn-submit.loading .btn-text,
+.btn-submit.loading .btn-icon {
+    opacity: 0;
+}
+
+.btn-submit.loading .btn-loader {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ===== FOOTER & LINKS ===== */
+.auth-footer {
+    margin-top: auto;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-medium);
+    transition: color 0.3s ease;
+}
+
+.auth-link {
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.user-login .auth-link {
+    color: var(--primary-color);
+}
+
+.admin-login .auth-link {
+    color: var(--secondary-color);
+}
+
+.signup .auth-link {
+    color: var(--accent-color);
+}
+
+.back-link svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 0.4rem;
+}
+
+/* ===== FLOATING ELEMENTS ===== */
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.float-element {
+    position: absolute;
+    color: var(--primary-color);
+    opacity: 0.3;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.user-login .float-element {
+    color: var(--primary-color);
+}
+
+.admin-login .float-element {
+    color: var(--secondary-color);
+}
+
+.signup .float-element {
+    color: var(--accent-color);
+}
+
+.plane {
+    top: 15%;
+    right: 10%;
+    width: 30px;
+    height: 30px;
+    animation: floatPlane 15s linear infinite;
+}
+
+.plane2 {
+    bottom: 15%;
+    left: 10%;
+    width: 40px;
+    height: 40px;
+    animation: floatPlane 15s linear infinite;
+}
+
+.compass {
+    bottom: 30%;
+    left: 15%;
+    width: 25px;
+    height: 25px;
+    animation: rotate 20s linear infinite;
+}
+
+.map {
+    top: 40%;
+    left: 10%;
+    width: 28px;
+    height: 28px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.suitcase {
+    bottom: 15%;
+    right: 15%;
+    width: 28px;
+    height: 28px;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+.palm-tree {
+    top: 60%;
+    right: 25%;
+    width: 28px;
+    height: 28px;
+    animation: float 12s ease-in-out infinite;
+}
+
+.beach {
+    bottom: 20%;
+    left: 30%;
+    width: 35px;
+    height: 35px;
+    animation: float 9s ease-in-out infinite;
+}
+
+.camera {
+    top: 30%;
+    left: 25%;
+    width: 35px;
+    height: 35px;
+    animation: float 9s ease-in-out infinite;
+}
+
+.sun {
+    top: 10%;
+    left: 10%;
+    width: 35px;
+    height: 35px;
+    animation: float 12s ease-in-out infinite;
+}
+
+.boat {
+    top: 30%;
+    right: 20%;
+    width: 35px;
+    height: 35px;
+    animation: float 12s ease-in-out infinite;
+}
+
+.location-pin {
+    bottom: 45%;
+    right: 10%;
+    width: 35px;
+    height: 35px;
+    animation: float 12s ease-in-out infinite;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes float {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(10px, 10px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes ray-move {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0.2;
+        transform: scale(0.8);
+    }
+}
+
+@keyframes floatPlane {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(80px, -40px) rotate(5deg);
+    }
+    50% {
+        transform: translate(160px, 0) rotate(0deg);
+    }
+    75% {
+        transform: translate(80px, 40px) rotate(-5deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 0.5rem;
+    }
+
+    .auth-wrapper {
+        max-width: 100%;
+        border-radius: 12px;
+    }
+
+    .auth-card {
+        padding: 1.5rem 1.25rem;
+    }
+
+    .auth-title {
+        font-size: 1.5rem;
+    }
+
+    .auth-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .auth-form {
+        gap: 1rem;
+    }
+
+    .form-group label {
+        font-size: 0.8rem;
+    }
+
+    .input-wrapper input {
+        padding: 0.6rem 0.8rem 0.6rem 2rem;
+        font-size: 0.9rem;
+    }
+
+    .input-wrapper svg {
+        left: 0.75rem;
+        width: 14px;
+        height: 14px;
+    }
+
+    .toggle-password {
+        right: 0.75rem;
+    }
+
+    .toggle-password svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .btn-submit {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .auth-footer {
+        font-size: 0.8rem;
+    }
+
+    /* Hide some background elements on very small screens */
+    .bg-shape {
+        opacity: 0.4;
+    }
+
+    .light-ray,
+    .light-glow {
+        display: none;
+    }
+
+    .float-element {
+        display: none;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .auth-container {
+        padding: 1rem;
+    }
+
+    .auth-wrapper {
+        max-width: 400px;
+    }
+
+    .auth-card {
+        padding: 1.75rem;
+    }
+
+    .auth-title {
+        font-size: 1.6rem;
+    }
+
+    .auth-subtitle {
+        font-size: 0.82rem;
+    }
+
+    /* Reduce background animation intensity */
+    .bg-shape {
+        opacity: 0.5;
+    }
+
+    .light-ray {
+        opacity: 0.5;
+    }
+
+    .light-glow {
+        opacity: 0.2;
+    }
+}
+
+/* ===== DARK MODE ENHANCEMENTS ===== */
+.dark-mode .auth-wrapper {
+    border: 1px solid var(--border-color);
+}
+
+.dark-mode .float-element {
+    opacity: 0.5;
+}
+
+.dark-mode .bg-shape {
+    opacity: 0.7;
+}
