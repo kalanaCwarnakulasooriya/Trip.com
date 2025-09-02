@@ -15,8 +15,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class PackageController {
-    @Autowired
-    private PackageService packageService;
+
+    private final PackageService packageService;
 
     @GetMapping
     public ResponseEntity<APIResponse> getAllPackages() {

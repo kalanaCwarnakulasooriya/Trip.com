@@ -19,6 +19,7 @@ public class Packages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private Tag tag;
 
     private String title;
