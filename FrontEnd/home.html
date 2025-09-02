@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trip.com - Discover Your Next Adventure</title>
+    <title>Trip.com - Explore Without Limits</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/home.css">
     <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
     <div class="container">
         <div class="header-inner">
             <div class="logo">
-                <a href="index.html" class="logo-link">
+                <a href="home.html" class="logo-link">
                     <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
@@ -29,14 +29,16 @@
             <nav class="nav">
                 <ul class="nav-list">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#testimonials">Travelers</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="original-destinations.html">Destinations</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="universities.html">Universities</a></li>
+                    <li><a href="job-vacancies.html">Jobs</a></li>
+                    <li><a href="vehicle-rentals.html" class="active">Vehicle Rentals</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
-                <button class="btn btn-outline" onclick="window.location.href= '#contact'">Contact Info</button>
-                <button class="btn btn-outline" onclick="window.location.href= 'login.html'">Join Us</button>
+                <button class="btn btn-outline" onclick="window.location.href= 'login.html'">Book Now</button>
+                <button class="btn btn-outline" onclick="window.location.href= '#contact'">Logout</button>
                 <button class="menu-toggle">
                     <span></span>
                     <span></span>
@@ -83,12 +85,8 @@
         </div>
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title split-text">Discover the World's Most Amazing Places</h1>
-                <p class="hero-subtitle">Find and book your perfect trip with exclusive deals and personalized recommendations.</p>
-                <div class="newsletter-form">
-                    <input type="email" placeholder="Enter your email address">
-                    <button class="btn btn-primary" id="subscribe">Subscribe</button>
-                </div>
+                <h1 class="hero-title split-text">Explore Beyond Borders</h1>
+                <p class="hero-subtitle">Find dream destinations and travel smarter with personalized recommendations.</p>
             </div>
 
             <div class="scroll-down">
@@ -102,42 +100,279 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- Featured Destinations -->
+    <section id="destinations" class="destinations">
         <div class="container">
-            <div class="about-content">
-                <div class="about-image" data-aos="fade-right">
-                    <div class="image-stack">
-                        <div class="image-stack-item image-stack-item-top">
-                            <img src="images/cover3.jpg" alt="Travel Experience">
+            <div class="section-header">
+                <h2 class="section-title">Popular Destinations</h2>
+                <p class="section-subtitle">Explore our most sought-after vacation spots</p>
+            </div>
+            <div class="destinations-grid">
+                <div class="destination-card" data-aos="fade-up">
+                    <div class="destination-image">
+                        <img src="https://www.orienthotelsl.com/wp-content/uploads/2023/01/Nine-Arch-Bridge-Ella-1200x630-1.jpg" alt="Nine Arch">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Nine Arch Bridge</h3>
+                                <p class="destination-location">Ella</p>
+                            </div>
+                            <div class="destination-price">Rs.45,000</div>
                         </div>
-                        <div class="image-stack-item image-stack-item-bottom">
-                            <img src="images/mirissa.jpg" alt="Adventure">
+                    </div>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.9 (328 reviews)</span>
                         </div>
+                        <div class="destination-duration">7 days</div>
                     </div>
                 </div>
-                <div class="about-text" data-aos="fade-left">
-                    <div class="section-header text-left">
-                        <h2 class="section-title">About Trip.com</h2>
-                        <p class="section-subtitle">Creating unforgettable journeys since 2010</p>
-                    </div>
-                    <p>At Trip.com Travel, we believe that travel is more than just visiting new places—it's about creating meaningful connections and unforgettable experiences that last a lifetime.</p>
-                    <p>Our team of experienced travel experts is passionate about curating personalized itineraries that cater to your unique preferences and desires. Whether you're seeking adventure, relaxation, cultural immersion, or a blend of experiences, we're here to make your travel dreams a reality.</p>
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <div class="stat-number" data-count="15000">0</div>
-                            <div class="stat-label">Happy Travelers</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-count="120">0</div>
-                            <div class="stat-label">Destinations</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number" data-count="500">0</div>
-                            <div class="stat-label">Tours</div>
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="destination-image">
+                        <img src="https://pbs.twimg.com/media/F_jn1RObsAAzNAj.jpg" alt="Lotus Tower">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Lotus Tower</h3>
+                                <p class="destination-location">Colombo</p>
+                            </div>
+                            <div class="destination-price">Rs.50,000</div>
                         </div>
                     </div>
-                    <button class="btn btn-primary">Learn More</button>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.7 (421 reviews)</span>
+                        </div>
+                        <div class="destination-duration">10 days</div>
+                    </div>
+                </div>
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="destination-image">
+                        <img src="https://www.talesofceylon.com/wp-content/uploads/2019/10/Sigiriya_800x520.jpg" alt="Sigiriya">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Sigiriya</h3>
+                                <p class="destination-location">Dambulla</p>
+                            </div>
+                            <div class="destination-price">Rs.18,000</div>
+                        </div>
+                    </div>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.8 (275 reviews)</span>
+                        </div>
+                        <div class="destination-duration">8 days</div>
+                    </div>
+                </div>
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="destination-image">
+                        <img src="https://do6raq9h04ex.cloudfront.net/sites/8/2021/07/galle-fort-1050x700-1.jpg" alt="Galle Fort">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Galle Fort</h3>
+                                <p class="destination-location">Galle</p>
+                            </div>
+                            <div class="destination-price">Rs.17,000</div>
+                        </div>
+                    </div>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.6 (512 reviews)</span>
+                        </div>
+                        <div class="destination-duration">5 days</div>
+                    </div>
+                </div>
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="destination-image">
+                        <img src="https://www.attractionsinsrilanka.com/wp-content/uploads/2019/07/Sri-Dalada-Maligawa-Temple-of-the-Tooth-Relic.jpg" alt="Kandy">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Temple of Tooth</h3>
+                                <p class="destination-location">Kandy</p>
+                            </div>
+                            <div class="destination-price">Rs.20,000</div>
+                        </div>
+                    </div>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.7 (368 reviews)</span>
+                        </div>
+                        <div class="destination-duration">6 days</div>
+                    </div>
+                </div>
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="destination-image">
+                        <img src="https://www.theglobetrottergp.com/wp-content/uploads/2019/05/oDZ1LpuSxCdJQd5UhbjSA_thumb_60bb.jpg" alt="Mirissa">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Coconut Tree Hill</h3>
+                                <p class="destination-location">Mirissa</p>
+                            </div>
+                            <div class="destination-price">Rs.23,000</div>
+                        </div>
+                    </div>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.5 (487 reviews)</span>
+                        </div>
+                        <div class="destination-duration">4 days</div>
+                    </div>
+                </div>
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="destination-image">
+                        <img src="https://seedevirestaurant.com/wp-content/uploads/2023/09/Ruwanweli-Maha-Seya-1-1024x683.webp" alt="Anuradhapura">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Ruwanmali Maha Seya</h3>
+                                <p class="destination-location">Anuradhapura</p>
+                            </div>
+                            <div class="destination-price">Rs.85,000</div>
+                        </div>
+                    </div>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.8 (787 reviews)</span>
+                        </div>
+                        <div class="destination-duration">10 days</div>
+                    </div>
+                </div>
+                <div class="destination-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="destination-image">
+                        <img src="https://d104tpg70nvstz.cloudfront.net/2016/09/trincomalee-header-mob-3.jpg" alt="Trincomalee">
+                        <div class="destination-overlay">
+                            <div class="destination-content">
+                                <h3 class="destination-title">Trincomalee Beach</h3>
+                                <p class="destination-location">Trincomalee</p>
+                            </div>
+                            <div class="destination-price">Rs.41,000</div>
+                        </div>
+                    </div>
+                    <div class="destination-info">
+                        <div class="destination-rating">
+                            <div class="stars">
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star filled"></span>
+                                <span class="star half-filled"></span>
+                            </div>
+                            <span class="rating-text">4.5 (487 reviews)</span>
+                        </div>
+                        <div class="destination-duration">3 days</div>
+                    </div>
+                </div>
+            </div>
+            <div class="view-all">
+                <a href="destination.html" class="btn btn-outline">View All Destinations</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Travel Packages -->
+    <section id="packages" class="packages">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Exclusive Travel Packages</h2>
+                <p class="section-subtitle">All-inclusive packages designed to give you the best travel experience</p>
+            </div>
+            <div class="packages-grid">
+                <div class="package-card" data-aos="fade-up">
+                    <div class="package-tag">Most Popular</div>
+                    <h3 class="package-title">Romantic Getaway</h3>
+                    <p class="package-description">Perfect for couples looking for a romantic escape with luxury accommodations and intimate experiences.</p>
+                    <ul class="package-features">
+                        <li>5-star luxury accommodations</li>
+                        <li>Private candlelit dinners</li>
+                        <li>Couples spa treatments</li>
+                        <li>Sunset cruise experience</li>
+                        <li>Airport transfers included</li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="price">$30</span>
+                        <span class="unit">/ per person</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href= 'book-now.html'">Book This Package   </button>
+                </div>
+                <div class="package-card featured" data-aos="fade-up" data-aos-delay="100">
+                    <div class="package-tag">Best Value</div>
+                    <h3 class="package-title">Adventure Explorer</h3>
+                    <p class="package-description">For thrill-seekers looking to combine adventure activities with comfortable accommodations.</p>
+                    <ul class="package-features">
+                        <li>4-star adventure resorts</li>
+                        <li>Guided hiking expeditions</li>
+                        <li>Water sports activities</li>
+                        <li>Zip-lining and canyoning</li>
+                        <li>All equipment included</li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="price">$20</span>
+                        <span class="unit">/ per person</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href= 'book-now.html'">Book This Package</button>
+                </div>
+                <div class="package-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="package-tag">New</div>
+                    <h3 class="package-title">Cultural Immersion</h3>
+                    <p class="package-description">Immerse yourself in local cultures with authentic experiences and knowledgeable local guides.</p>
+                    <ul class="package-features">
+                        <li>Boutique heritage hotels</li>
+                        <li>Local cooking classes</li>
+                        <li>Private cultural tours</li>
+                        <li>Traditional craft workshops</li>
+                        <li>Local festival experiences</li>
+                    </ul>
+                    <div class="package-price">
+                        <span class="price">$25</span>
+                        <span class="unit">/ per person</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href= 'book-now.html'">Book This Package</button>
                 </div>
             </div>
         </div>
@@ -339,6 +574,21 @@
         </div>
     </section>
 
+    <!-- Parallax Section -->
+    <section class="parallax">
+        <div class="parallax-bg"></div>
+        <div class="container">
+            <div class="parallax-content">
+                <h2 class="parallax-title">Ready for Your Next Adventure?</h2>
+                <p class="parallax-text">Get 15% off your first booking when you sign up for our newsletter</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email address">
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact -->
     <section id="contact" class="contact">
         <div class="container">
@@ -469,7 +719,8 @@
                 <h3 class="footer-title">Quick Links</h3>
                 <ul class="footer-links">
                     <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#about">Destinations</a></li>
+                    <li><a href="#about">Packages</a></li>
                     <li><a href="#testimonials">Travelers</a></li>
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#contact">Contact</a></li>
@@ -496,7 +747,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p class="copyright">© <span id="currentYear"></span> Wanderlust Travel. All rights reserved.</p>
+            <p class="copyright">© <span id="currentYear"></span> Trip.com. All rights reserved.</p>
         </div>
     </div>
 </footer>

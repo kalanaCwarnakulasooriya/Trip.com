@@ -40,7 +40,7 @@
                                 <path d="M20 21a8 8 0 0 0-16 0"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            <input type="text" id="username" placeholder="Kalana Warnakulasooriya" required>
+                            <input type="text" id="username" placeholder="Enter Your Name" required>
                         </div>
                         <div class="error-message" id="usernameError"></div>
                     </div>
@@ -294,7 +294,7 @@
                     const result = await response.json();
                     setCookie("token", result.data.accessToken, 1);
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = 'home.html';
                     }, 1000);
 ;
                 } catch (error) {
