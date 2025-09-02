@@ -32,7 +32,7 @@
 
                 <form class="auth-form" id="userLoginForm">
                     <div class="form-group">
-                        <label for="userName">Username</label>
+                        <label for="username">Username</label>
                         <div class="input-wrapper">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2"
@@ -40,14 +40,14 @@
                                 <path d="M20 21a8 8 0 0 0-16 0"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            <input type="text" id="userName" placeholder="Kalana Warnakulasooriya" required>
+                            <input type="text" id="username" placeholder="Kalana Warnakulasooriya" required>
                         </div>
-                        <div class="error-message" id="userEmailError"></div>
+                        <div class="error-message" id="usernameError"></div>
                     </div>
 
                     <div class="form-group">
                         <div class="label-wrapper">
-                            <label for="userPassword">Password</label>
+                            <label for="password">Password</label>
                             <a href="#" class="forgot-password">Forgot Password?</a>
                         </div>
                         <div class="input-wrapper">
@@ -55,7 +55,7 @@
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                             </svg>
-                            <input type="password" id="userPassword" placeholder="••••••••" required>
+                            <input type="password" id="password" placeholder="••••••••" required>
                             <button type="button" class="toggle-password" aria-label="Toggle password visibility">
                                 <svg class="eye-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -67,7 +67,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <div class="error-message" id="userPasswordError"></div>
+                        <div class="error-message" id="passwordError"></div>
                     </div>
 
                     <div class="form-group remember-me">
@@ -78,7 +78,7 @@
                         </label>
                     </div>
 
-                    <button type="submit" class="btn-submit">
+                    <button type="submit" class="btn-submit" id="loginBtn">
                         <span class="btn-text">Sign In</span>
                         <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -230,12 +230,20 @@
         }
 
         // Password Toggle
-        document.querySelectorAll(".toggle-password").forEach(button => {
-            button.addEventListener("click", function () {
+        const toggleButtons = document.querySelectorAll('.toggle-password');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                this.classList.toggle('active');
                 const input = this.previousElementSibling;
-                if (input) {
-                    input.type = input.type === "password" ? "text" : "password";
-                    this.classList.toggle("active");
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.querySelector('.eye-icon').style.display = 'none';
+                    this.querySelector('.eye-off-icon').style.display = 'block';
+                } else {
+                    input.type = 'password';
+                    this.querySelector('.eye-icon').style.display = 'block';
+                    this.querySelector('.eye-off-icon').style.display = 'none';
                 }
             });
         });
@@ -246,10 +254,10 @@
             userLoginForm.addEventListener("submit", async function (e) {
                 e.preventDefault();
 
-                const usernameInput = document.getElementById("userName");
-                const passwordInput = document.getElementById("userPassword");
-                const usernameError = document.getElementById("userEmailError");
-                const passwordError = document.getElementById("userPasswordError");
+                const usernameInput = document.getElementById("username");
+                const passwordInput = document.getElementById("password");
+                const usernameError = document.getElementById("usernameError");
+                const passwordError = document.getElementById("passwordError");
 
                 if (usernameError) usernameError.textContent = "";
                 if (passwordError) passwordError.textContent = "";
@@ -270,13 +278,12 @@
                 btnSubmit.classList.add("loading");
 
                 try {
-                    const response = await fetch("http://localhost:8080/auth/login/verify", {
+                    const response = await fetch("http://localhost:8080/auth/login", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
                             username: usernameInput.value.trim(),
-                            password: passwordInput.value.trim(),
-                            role: "USER"
+                            password: passwordInput.value.trim()
                         })
                     });
 
@@ -284,13 +291,12 @@
                         throw new Error("Invalid username or password");
                     }
 
-                    const data = await response.json();
-                    if (data.token) {
-                        localStorage.setItem("jwtToken", data.token);
-                        window.location.href = "index.html";
-                    } else {
-                        if (usernameError) usernameError.textContent = data.message || "Login failed";
-                    }
+                    const result = await response.json();
+                    setCookie("token", result.data.accessToken, 1);
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+;
                 } catch (error) {
                     if (passwordError) passwordError.textContent = error.message;
                 } finally {
@@ -299,38 +305,13 @@
             });
         }
 
-        // Ripple Effect on Buttons
-        document.querySelectorAll(".btn-submit, .social-btn").forEach(button => {
-            button.addEventListener("click", function (e) {
-                const ripple = document.createElement("span");
-                ripple.classList.add("ripple");
-                ripple.style.left = `${e.clientX - this.getBoundingClientRect().left}px`;
-                ripple.style.top = `${e.clientY - this.getBoundingClientRect().top}px`;
-                this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-
-        // Input Focus Effects
-        document.querySelectorAll("input").forEach(input => {
-            input.addEventListener("focus", () => input.parentElement.classList.add("input-focused"));
-            input.addEventListener("blur", () => input.parentElement.classList.remove("input-focused"));
-        });
-
-        // Light Effects
-        document.querySelectorAll(".light-ray").forEach((ray, index) => {
-            ray.style.animationDelay = `${index * 2}s`;
-        });
-        document.querySelectorAll(".light-glow").forEach((glow, index) => {
-            glow.style.animationDelay = `${index * 3}s`;
-        });
-
-        // Floating Elements
-        document.querySelectorAll(".float-element").forEach(element => {
-            const randomX = Math.random() * 20 - 10;
-            const randomY = Math.random() * 20 - 10;
-            element.style.transform = `translate(${randomX}px, ${randomY}px)`;
-        });
+        // Set cookie function
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + d.toUTCString();
+            document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=Strict`;
+        }
     });
 </script>
 </body>
