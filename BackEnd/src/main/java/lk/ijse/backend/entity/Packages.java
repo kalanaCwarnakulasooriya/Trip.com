@@ -1,6 +1,7 @@
 package lk.ijse.backend.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.backend.entity.enums.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class Packages {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tag;
+    private Tag tag;
 
     private String title;
 
