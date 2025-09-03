@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip.com - Book Your Dream Vacation</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/packageBooking.css">
+    <script src="https://unpkg.com/scrollreveal"></script>
+</head>
+<body>
+<!-- Background Image with Overlay -->
+<div class="bg-image"></div>
+<div class="bg-overlay"></div>
+
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <div class="logo-text">Trip.com</div>
+        </div>
+        <nav class="nav-links">
+            <a href="home.html" class="nav-link">Home</a>
+            <a href="destination.html" class="nav-link">Destinations</a>
+            <a href="" class="nav-link">Guides</a>
+            <a href="" class="nav-link active">Universities</a>
+            <a href="" class="nav-link">Jobs</a>
+            <a href="" class="nav-link">Vehicle Rentals</a>
+        </nav>
+        <button class="btn-logout" onclick="window.location.href= '#contact'">Logout</button>
+    </header>
+
+    <!-- Page Title -->
+    <div class="page-title">
+        <h1>Book Your Dream Vacation</h1>
+        <p>Complete your booking in a few simple steps</p>
+    </div>
+
+    <!-- Booking Progress -->
+    <div class="booking-progress">
+        <div class="progress-step">
+            <div class="step-number active">1</div>
+            <div class="step-label active">Trip Details</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-number">2</div>
+            <div class="step-label">Traveler Information</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-number">3</div>
+            <div class="step-label">Payment</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-number">4</div>
+            <div class="step-label">Confirmation</div>
+        </div>
+    </div>
+
+    <!-- Booking Section -->
+    <div class="booking-section">
+        <!-- Booking Form -->
+        <div class="booking-form" id="booking-form-container">
+            <h2 class="form-title">Booking Details</h2>
+
+            <!-- Hidden fields for database schema -->
+
+
+            <form id="add-booking-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="chosenPackage">Chosen Package</label>
+                        <select class="form-select" id="chosenPackage" required>
+                            <option value="">Select a package</option>
+                            <option value="budget">Budget Explorer Package</option>
+                            <option value="classic">Classic Sri Lanka Package</option>
+                            <option value="luxury">Luxury Paradise Package</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="travel-date">Date</label>
+                        <input type="date" class="form-input" id="travel-date" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="guests">No. of Guests</label>
+                        <input type="number" class="form-input" id="guests" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="full-name">Full Name</label>
+                        <input type="text" class="form-input" id="full-name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="email_address">Email Address</label>
+                        <input type="email" class="form-input" id="email_address" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone_number">Phone Number</label>
+                        <input type="tel" class="form-input" id="phone_number" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" id="cancel-add">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Booking</button>
+                </div>
+            </form>
+
+        </div>
+
+
+        <!-- Booking Summary -->
+        <div class="booking-summary">
+            <div class="summary-header">
+                <h2 class="summary-title">Booking Summary</h2>
+            </div>
+            <div class="summary-content">
+                <div class="summary-item">
+                    <i class="fas fa-user"></i>
+                    <div class="summary-item-label">Full Name</div>
+                    <div class="summary-item-value" id="summary-name">--</div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="summary-item-label">Email</div>
+                    <div class="summary-item-value" id="summary-email">--</div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-phone"></i>
+                    <div class="summary-item-label">Phone</div>
+                    <div class="summary-item-value" id="summary-phone">--</div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-suitcase"></i>
+                    <div class="summary-item-label">Package</div>
+                    <div class="summary-item-value" id="summary-package-type">--</div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div class="summary-item-label">Travel Date</div>
+                    <div class="summary-item-value" id="summary-travel-date">--</div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-users"></i>
+                    <div class="summary-item-label">Guests</div>
+                    <div class="summary-item-value" id="summary-guests-count">--</div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="summary-item-label">Duration</div>
+                    <div class="summary-item-value" id="summary-duration">--</div>
+                </div>
+
+                <div class="summary-item">
+                    <i class="fas fa-tag"></i>
+                    <div class="summary-item-label">Status</div>
+                    <div class="summary-item-value" id="summary-status">
+                        <span class="status-badge status-CONFIRMED">CONFIRMED</span>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <div class="total-label">Total Price</div>
+                    <div class="total-value" id="summary-total-price">$0.00</div>
+                </div>
+
+                <div class="summary-actions">
+                    <button class="btn btn-primary" id="proceed-to-payment" onclick="window.location.href= 'payment.html'">
+                        <i class="fas fa-credit-card"></i> Proceed to Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Form (hidden initially) -->
+    <div class="payment-form" id="payment-form-container">
+        <div class="payment-title">
+            <h1>Complete Your Payment</h1>
+            <p>You're almost there! Please provide your payment details to secure your booking.</p>
+        </div>
+
+        <div class="payment-summary">
+            <h3 style="margin-bottom: 15px;">Booking Summary</h3>
+            <div class="summary-row">
+                <span>Full Name:</span>
+                <span id="payment-summary-name">John Doe</span>
+            </div>
+            <div class="summary-row">
+                <span>Package:</span>
+                <span id="payment-summary-package">Classic Sri Lanka Package</span>
+            </div>
+            <div class="summary-row">
+                <span>Travel Date:</span>
+                <span id="payment-summary-date">June 15, 2023</span>
+            </div>
+            <div class="summary-row">
+                <span>Guests:</span>
+                <span id="payment-summary-guests">2</span>
+            </div>
+            <div class="summary-row">
+                <span>Duration:</span>
+                <span id="payment-summary-duration">7 nights</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total Amount:</span>
+                <span id="payment-summary-total">$1,450</span>
+            </div>
+        </div>
+
+        <form id="payment-form">
+            <div class="form-group">
+                <label class="form-label">Card Information</label>
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <i class="fab fa-cc-visa card-icon"></i>
+                    <i class="fab fa-cc-mastercard card-icon"></i>
+                    <i class="fab fa-cc-amex card-icon"></i>
+                    <i class="fab fa-cc-discover card-icon"></i>
+                </div>
+                <input type="text" class="form-input" placeholder="Card Number" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Expiration Date</label>
+                    <input type="text" class="form-input" placeholder="MM/YY" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">CVV</label>
+                    <input type="text" class="form-input" placeholder="CVV" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Cardholder Name</label>
+                <input type="text" class="form-input" placeholder="Name on card" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Billing Address</label>
+                <input type="text" class="form-input" placeholder="Street Address" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="City" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Zip/Postal Code" required>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" id="back-to-booking">Back to Booking</button>
+                <button type="submit" class="btn btn-primary">Complete Payment</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // just to show spinner before content fully loaded
+        window.addEventListener("load", () => {
+            const preloader = document.querySelector(".preloader");
+            preloader.classList.add("hidden");
+        });
+    });
+</script>
+</body>
+</html>
