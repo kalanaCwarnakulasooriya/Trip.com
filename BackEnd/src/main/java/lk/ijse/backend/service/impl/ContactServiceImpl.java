@@ -43,22 +43,6 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactDTO updateContact(Long id, ContactDTO contactDTO) {
-        Optional<Contact> optionalContact = contactRepository.findById(id);
-        if (optionalContact.isPresent()) {
-            Contact contact = optionalContact.get();
-            contact.setName(contactDTO.getName());
-            contact.setEmail(contactDTO.getEmail());
-            contact.setSubject(contactDTO.getSubject());
-            contact.setMessage(contactDTO.getMessage());
-
-            Contact updated = contactRepository.save(contact);
-            return modelMapper.map(updated, ContactDTO.class);
-        }
-        return null;
-    }
-
-    @Override
     public boolean deleteContact(Long id) {
         if (contactRepository.existsById(id)) {
             contactRepository.deleteById(id);
