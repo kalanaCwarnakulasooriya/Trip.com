@@ -28,6 +28,7 @@ public class Destination {
     @Column(nullable = false)
     private Double price;
 
+    @Enumerated(EnumType.STRING)
     private String currency;
 
     private Double rating;
