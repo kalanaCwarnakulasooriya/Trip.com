@@ -855,7 +855,7 @@ section {
 }
 
 .package-card.featured {
-    border-top-color: var(--secondary-color);
+    border-top-color: var(--primary-color);
     transform: scale(1.05);
 }
 
@@ -876,7 +876,7 @@ section {
 }
 
 .package-card.featured .package-tag {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
 }
 
 .package-title {
