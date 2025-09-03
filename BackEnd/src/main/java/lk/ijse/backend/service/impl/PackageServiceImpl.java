@@ -4,6 +4,7 @@ import lk.ijse.backend.dto.PackagesDTO;
 import lk.ijse.backend.entity.Packages;
 import lk.ijse.backend.repository.PackageRepository;
 import lk.ijse.backend.service.PackageService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +14,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PackageServiceImpl implements PackageService {
-    @Autowired
-    private PackageRepository packageRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private final PackageRepository packageRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<PackagesDTO> getAllPackages() {
