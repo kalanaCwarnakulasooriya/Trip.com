@@ -1,0 +1,14 @@
+package lk.ijse.backend.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class GalleryDTO {
+    private String imageUrl;
+    private String altText;
+    private int delay;
+}
