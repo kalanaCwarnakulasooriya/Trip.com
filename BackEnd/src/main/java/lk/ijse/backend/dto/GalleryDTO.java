@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GalleryDTO {
     private String imageUrl;
-    private String altText;
-    private int delay;
 }

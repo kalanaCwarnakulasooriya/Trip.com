@@ -20,8 +20,4 @@ public class Gallery {
     private Long id;
 
     private String imageUrl;
-
-    private String altText;
-
-    private int delay;
 }
