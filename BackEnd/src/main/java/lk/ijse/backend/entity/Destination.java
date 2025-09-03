@@ -1,6 +1,7 @@
 package lk.ijse.backend.entity;
 
 import jakarta.persistence.*;
+import lk.ijse.backend.entity.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Destination {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +31,7 @@ public class Destination {
     private Double price;
 
     @Enumerated(EnumType.STRING)
-    private String currency;
+    private Currency currency;
 
     private Double rating;
 
@@ -39,5 +41,5 @@ public class Destination {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "package_id")
-    private Packages Packages;
+    private Packages travelPackage;
 }

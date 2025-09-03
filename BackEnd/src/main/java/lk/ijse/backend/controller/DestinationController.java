@@ -14,6 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class DestinationController {
+
     private final DestinationService destinationService;
 
     @GetMapping
@@ -54,23 +55,23 @@ public class DestinationController {
     }
 
     @PostMapping
-    public ResponseEntity<APIResponse> addDestination(@RequestBody DestinationDTO destinationDTO) {
-        DestinationDTO savedDestination = destinationService.addDestination(destinationDTO);
+    public ResponseEntity<APIResponse> addDestination(@RequestBody DestinationDTO dto) {
+        DestinationDTO saved = destinationService.addDestination(dto);
         return ResponseEntity.ok(new APIResponse(
                 200,
                 "Destination added successfully",
-                savedDestination
+                saved
         ));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<APIResponse> updateDestination(@PathVariable Long id, @RequestBody DestinationDTO destinationDTO) {
-        DestinationDTO updatedDestination = destinationService.updateDestination(id, destinationDTO);
-        if (updatedDestination != null) {
+    public ResponseEntity<APIResponse> updateDestination(@PathVariable Long id, @RequestBody DestinationDTO dto) {
+        DestinationDTO updated = destinationService.updateDestination(id, dto);
+        if (updated != null) {
             return ResponseEntity.ok(new APIResponse(
                     200,
                     "Destination updated successfully",
-                    updatedDestination
+                    updated
             ));
         }
         return ResponseEntity.status(404).body(new APIResponse(
