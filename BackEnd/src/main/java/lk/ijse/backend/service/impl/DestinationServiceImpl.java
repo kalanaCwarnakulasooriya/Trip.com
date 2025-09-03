@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DestinationServiceImpl implements DestinationService {
     private final DestinationRepository destinationRepository;
-    private final PackageRepository PackageRepository;
+    private final PackageRepository packageRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -48,7 +48,7 @@ public class DestinationServiceImpl implements DestinationService {
         Destination destination = modelMapper.map(destinationDTO, Destination.class);
 
         if (destinationDTO.getPackageId() != null) {
-            PackageRepository.findById(destinationDTO.getPackageId())
+            packageRepository.findById(destinationDTO.getPackageId())
                     .ifPresent(destination::setPackages);
         }
 
@@ -72,7 +72,7 @@ public class DestinationServiceImpl implements DestinationService {
             destination.setReviews(destinationDTO.getReviews());
 
             if (destinationDTO.getPackageId() != null) {
-                PackageRepository.findById(destinationDTO.getPackageId())
+                packageRepository.findById(destinationDTO.getPackageId())
                         .ifPresent(destination::setPackages);
             }
 
