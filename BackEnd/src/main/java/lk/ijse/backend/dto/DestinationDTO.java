@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DestinationDTO {
+    private Long id;
     private String title;
     private String location;
     private String imageUrl;
