@@ -103,26 +103,18 @@
       <div class="destinations-filters">
         <div class="filter-wrapper">
           <div class="filter-group">
-            <label for="continent-filter">Continent</label>
-            <select id="continent-filter" class="filter-select">
-              <option value="all">All Continents</option>
-              <option value="africa">Africa</option>
-              <option value="asia">Asia</option>
-              <option value="europe">Europe</option>
-              <option value="north-america">North America</option>
-              <option value="oceania">Oceania</option>
-              <option value="south-america">South America</option>
-            </select>
-          </div>
-          <div class="filter-group">
             <label for="category-filter">Category</label>
             <select id="category-filter" class="filter-select">
               <option value="all">All Categories</option>
               <option value="beach">Beach</option>
               <option value="city">City</option>
               <option value="mountain">Mountain</option>
-              <option value="countryside">Countryside</option>
+              <option value="hiking">Hiking</option>
               <option value="historical">Historical</option>
+              <option value="forest">Forest</option>
+              <option value="waterfall">Waterfall</option>
+              <option value="temple">Temple</option>
+              <option value="farm">Farm</option>
             </select>
           </div>
           <div class="filter-group">
@@ -149,7 +141,7 @@
       <!-- Destinations Grid -->
       <div class="destinations-grid">
         <!-- Destination Card 1 -->
-        <div class="destination-card" data-aos="fade-up">
+        <div class="destination-card" data-aos="fade-up" data-category="historical, mountain, Hiking" data-price="budget">
           <div class="destination-image">
             <img src="https://ychef.files.bbci.co.uk/624x351/p0b7n6dm.jpg" alt="Sigiriya">
             <div class="destination-overlay">
@@ -183,7 +175,7 @@
         </div>
 
         <!-- Destination Card 2 -->
-        <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="destination-card" data-aos="fade-up" data-aos-delay="100" data-category="beach, historical, city" data-price="luxury">
           <div class="destination-image">
             <img src="https://media.cntravellerme.com/photos/6679185364c11ffe86eb6eeb/16:9/w_2560%2Cc_limit/1150415140" alt="Galle Fort">
             <div class="destination-overlay">
@@ -204,7 +196,7 @@
             </div>
             <p class="destination-location">Galle, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>Rs.12,000</span></div>
+              <div class="destination-price">From <span>Rs.55,000</span></div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -217,7 +209,7 @@
         </div>
 
         <!-- Destination Card 3 -->
-        <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="destination-card" data-aos="fade-up" data-aos-delay="200" data-category="historical, mountain, Forest" data-price="Luxury">
           <div class="destination-image">
             <img src="https://adaderanaenglish.s3.amazonaws.com/1746347960-Bridge.jpg" alt="Nine Arch Bridge">
             <div class="destination-overlay">
@@ -238,7 +230,7 @@
             </div>
             <p class="destination-location">Ella, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>Rs.15,000</span></div>
+              <div class="destination-price">From <span>Rs.48,000</span></div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -251,7 +243,7 @@
         </div>
 
         <!-- Destination Card 4 -->
-        <div class="destination-card" data-aos="fade-up">
+        <div class="destination-card" data-aos="fade-up" data-category="city" data-price="mid-range">
           <div class="destination-image">
             <img src="https://maradha.lk/wp-content/uploads/2024/10/Lotus-Tower3-1630x1060-1-1024x666.webp" alt="Lotus Tower">
             <div class="destination-overlay">
@@ -272,7 +264,7 @@
             </div>
             <p class="destination-location">Colombo, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>Rs.10,000</span></div>
+              <div class="destination-price">From <span>Rs.30,000</span></div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -285,7 +277,7 @@
         </div>
 
         <!-- Destination Card 5 -->
-        <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="destination-card" data-aos="fade-up" data-aos-delay="100" data-category="historical, mountain, Temple, Hiking" data-price="mid-range">
           <div class="destination-image">
             <img src="https://www.lankatourexperts.com/wp-content/uploads/2023/08/Climb-Adams-Peak-Sri-Pada.webp" alt="Adam's Peak">
             <div class="destination-overlay">
@@ -306,7 +298,7 @@
             </div>
             <p class="destination-location">Rathnapura, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>Rs.15,000</span></div>
+              <div class="destination-price">From <span>Rs.35,000</span></div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -319,7 +311,7 @@
         </div>
 
         <!-- Destination Card 6 -->
-        <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="destination-card" data-aos="fade-up" data-aos-delay="200" data-category="beach" data-price="budget">
           <div class="destination-image">
             <img src="https://thirdeyetraveller.com/wp-content/uploads/COCONUTHILL-7-of-12-2-scaled-scaled.jpg" alt="Coconut Tree Hill Beach">
             <div class="destination-overlay">
@@ -340,7 +332,7 @@
             </div>
             <p class="destination-location">Mirissa, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>Rs.23,000</span></div>
+              <div class="destination-price">From <span>Rs.13,000</span></div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -353,7 +345,7 @@
         </div>
 
         <!-- Destination Card 7 -->
-        <div class="destination-card" data-aos="fade-up">
+        <div class="destination-card" data-aos="fade-up" data-category="historical, city, Temple" data-price="mid-range">
           <div class="destination-image">
             <img src="https://lakshmisharath.com/wp-content/uploads/2022/09/Kandy-toothrelictemple-dawn.jpg" alt="Temple of Tooth">
             <div class="destination-overlay">
@@ -374,7 +366,7 @@
             </div>
             <p class="destination-location">Kandy, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>Rs.20,000</span></div>
+              <div class="destination-price">From <span>Rs.24,000</span></div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -387,7 +379,7 @@
         </div>
 
         <!-- Destination Card 8 -->
-        <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="destination-card" data-aos="fade-up" data-aos-delay="100" data-category="Farm" data-price="budget">
           <div class="destination-image">
             <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/e0/98/43/wow.jpg?w=900&h=500&s=1" alt="Ambewela Farm">
             <div class="destination-overlay">
@@ -408,7 +400,7 @@
             </div>
             <p class="destination-location">Nuwara Eliya, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>$Rs.25,000</span></div>
+              <div class="destination-price">From <span>$Rs.15,000</span></div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -421,7 +413,7 @@
         </div>
 
         <!-- Destination Card 9 -->
-        <div class="destination-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="destination-card" data-aos="fade-up" data-aos-delay="200" data-category="Forest" data-price="mid-range">
           <div class="destination-image">
             <img src="https://deyotours.com/wp-content/uploads/2022/10/Yala-rock.jpg" alt="Yala Forest">
             <div class="destination-overlay">
@@ -551,5 +543,47 @@
 
 <!-- Scripts -->
 <script src="js/index.js"></script>
+<script>
+  // --- VARIABLES ---
+  const destinationsGrid = document.querySelector('.destinations-grid');
+  const destinationCards = Array.from(document.querySelectorAll('.destination-card'));
+  const categoryFilter = document.getElementById('category-filter');
+  const priceFilter = document.getElementById('price-filter');
+  const searchInput = document.getElementById('destination-search');
+
+  // --- FILTER & SEARCH FUNCTION ---
+  function filterAndSearch() {
+    const categoryValue = categoryFilter.value.toLowerCase();
+    const priceValue = priceFilter.value.toLowerCase();
+    const searchValue = searchInput.value.toLowerCase();
+
+    destinationCards.forEach(card => {
+      const title = card.querySelector('.destination-title').textContent.toLowerCase();
+      const location = card.querySelector('.destination-location').textContent.toLowerCase();
+
+      // Use data attributes for filtering
+      const category = card.dataset.category ? card.dataset.category.toLowerCase() : '';
+      const price = card.dataset.price ? card.dataset.price.toLowerCase() : '';
+
+      const matchesCategory = categoryValue === 'all' || category.includes(categoryValue);
+      const matchesPrice = priceValue === 'all' || price.includes(priceValue);
+      const matchesSearch = title.includes(searchValue) || location.includes(searchValue);
+
+      if (matchesCategory && matchesPrice && matchesSearch) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // --- EVENT LISTENERS ---
+  categoryFilter.addEventListener('change', filterAndSearch);
+  priceFilter.addEventListener('change', filterAndSearch);
+  searchInput.addEventListener('input', filterAndSearch);
+
+  // --- INITIAL RENDER ---
+  filterAndSearch();
+</script>
 </body>
 </html>

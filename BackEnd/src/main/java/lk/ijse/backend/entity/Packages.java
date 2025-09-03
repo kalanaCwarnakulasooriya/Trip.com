@@ -29,7 +29,10 @@ public class Packages {
     private String description;
 
     @ElementCollection
-    @CollectionTable(name = "package_features", joinColumns = @JoinColumn(name = "package_id"))
+    @CollectionTable(
+            name = "package_features",
+            joinColumns = @JoinColumn(name = "package_id")
+    )
     @Column(name = "feature")
     private List<String> features;
 

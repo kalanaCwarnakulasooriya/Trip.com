@@ -3,6 +3,7 @@ package lk.ijse.backend.service.impl;
 import lk.ijse.backend.dto.AllDestinationsDTO;
 import lk.ijse.backend.entity.AllDestinations;
 import lk.ijse.backend.entity.enums.Currency;
+import lk.ijse.backend.entity.enums.PriceRange;
 import lk.ijse.backend.repository.AllDestinationsRepository;
 import lk.ijse.backend.service.AllDestinationsService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,12 @@ public class AllDestinationsServiceImpl implements AllDestinationsService {
     @Override
     public AllDestinationsDTO addDestination(AllDestinationsDTO dto) {
         AllDestinations entity = modelMapper.map(dto, AllDestinations.class);
+        if (dto.getCurrency() != null && !dto.getCurrency().isEmpty()) {
+            entity.setCurrency(Currency.valueOf(dto.getCurrency().toUpperCase()));
+        }
+        if (dto.getPriceRange() != null && !dto.getPriceRange().isEmpty()) {
+            entity.setPriceRange(PriceRange.valueOf(dto.getPriceRange().toUpperCase()));
+        }
         AllDestinations saved = allDestinationsRepository.save(entity);
         return modelMapper.map(saved, AllDestinationsDTO.class);
     }
@@ -51,8 +58,12 @@ public class AllDestinationsServiceImpl implements AllDestinationsService {
             entity.setLocation(dto.getLocation());
             entity.setImageUrl(dto.getImageUrl());
             entity.setRating(dto.getRating());
-            if (dto.getCurrency() != null) {
-                entity.setCurrency(Currency.valueOf(dto.getCurrency()));
+            entity.setCategory(dto.getCategory());
+            if (dto.getCurrency() != null && !dto.getCurrency().isEmpty()) {
+                entity.setCurrency(Currency.valueOf(dto.getCurrency().toUpperCase()));
+            }
+            if (dto.getPriceRange() != null && !dto.getPriceRange().isEmpty()) {
+                entity.setPriceRange(PriceRange.valueOf(dto.getPriceRange().toUpperCase()));
             }
             entity.setPrice(dto.getPrice());
 

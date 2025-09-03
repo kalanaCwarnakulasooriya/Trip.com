@@ -49,7 +49,7 @@ public class AllDestinationsController {
     public ResponseEntity<APIResponse> addDestination(@RequestBody AllDestinationsDTO dto) {
         AllDestinationsDTO saved = allDestinationsService.addDestination(dto);
         return ResponseEntity.ok(new APIResponse(
-                201,
+                200,
                 "Destination Added",
                 saved
         ));
