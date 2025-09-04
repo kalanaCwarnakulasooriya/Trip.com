@@ -1,9 +1,9 @@
 package lk.ijse.backend.repository;
 
-import lk.ijse.backend.entity.Gallery;
+import lk.ijse.backend.entity.FeedBack;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GalleryRepository extends JpaRepository<Gallery, Long> {
+public interface FeedBackRepository extends JpaRepository<FeedBack, Long> {
 }
