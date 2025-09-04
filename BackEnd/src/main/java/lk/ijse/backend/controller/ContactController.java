@@ -17,7 +17,7 @@ public class ContactController {
 
     private final ContactService contactService;
 
-    // ===== Users add a contact =====
+    //Users add a contact
     @PostMapping
     public ResponseEntity<APIResponse> addContact(@RequestBody ContactDTO contactDTO) {
         ContactDTO savedContact = contactService.addContact(contactDTO);
@@ -28,7 +28,7 @@ public class ContactController {
         ));
     }
 
-    // ===== Admin view all contacts =====
+    //Admin view all contacts
     @GetMapping
     public ResponseEntity<APIResponse> getAllContacts() {
         List<ContactDTO> contacts = contactService.getAllContacts();

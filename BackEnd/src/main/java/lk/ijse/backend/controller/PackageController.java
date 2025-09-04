@@ -4,7 +4,6 @@ import lk.ijse.backend.dto.APIResponse;
 import lk.ijse.backend.dto.PackagesDTO;
 import lk.ijse.backend.service.PackageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

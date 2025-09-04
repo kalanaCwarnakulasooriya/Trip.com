@@ -108,7 +108,7 @@
                 <p class="section-subtitle">Explore our most sought-after vacation spots</p>
             </div>
             <div class="destinations-grid">
-                <div class="destination-card" data-aos="fade-up">
+                <!--<div class="destination-card" data-aos="fade-up">
                     <div class="destination-image">
                         <img src="https://www.orienthotelsl.com/wp-content/uploads/2023/01/Nine-Arch-Bridge-Ella-1200x630-1.jpg" alt="Nine Arch">
                         <div class="destination-overlay">
@@ -132,8 +132,8 @@
                         </div>
                         <div class="destination-duration">7 days</div>
                     </div>
-                </div>
-                <div class="destination-card" data-aos="fade-up" data-aos-delay="100">
+                </div>-->
+                <!--<div class="destination-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="destination-image">
                         <img src="https://pbs.twimg.com/media/F_jn1RObsAAzNAj.jpg" alt="Lotus Tower">
                         <div class="destination-overlay">
@@ -307,7 +307,7 @@
                         </div>
                         <div class="destination-duration">3 days</div>
                     </div>
-                </div>
+                </div>-->
             </div>
             <div class="view-all">
                 <a href="destination.html" class="btn btn-outline">View All Destinations</a>
@@ -322,8 +322,8 @@
                 <h2 class="section-title">Exclusive Travel Packages</h2>
                 <p class="section-subtitle">All-inclusive packages designed to give you the best travel experience</p>
             </div>
-            <div class="packages-grid">
-                <div class="package-card featured" data-aos="fade-up">
+            <div class="packages-grid" id="packagesContainer">
+                <!--<div class="package-card featured" data-aos="fade-up">
                     <div class="package-tag">Most Popular</div>
                     <h3 class="package-title">Romantic Getaway</h3>
                     <p class="package-description">Perfect for couples looking for a romantic escape with luxury accommodations and intimate experiences.</p>
@@ -373,7 +373,7 @@
                         <span class="unit">/ per person</span>
                     </div>
                     <button class="btn btn-primary" onclick="window.location.href= 'packageBooking.html'">Book This Package</button>
-                </div>
+                </div>-->
             </div>
         </div>
     </section>
@@ -761,5 +761,100 @@
 
 <!-- Scripts -->
 <script src="js/index.js"></script>
+<script>
+    const API_URL = "http://localhost:8080/api/destinations";
+    const grid = document.querySelector(".destinations-grid");
+
+    // 🔹 Load all destinations on page load
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+
+            if (response.ok && data.data) {
+                data.data.forEach(dest => addDestinationCard(dest));
+            } else {
+                console.warn("No destinations found");
+            }
+        } catch (error) {
+            console.error("Error loading destinations:", error);
+        }
+    });
+
+    // 🔹 Add new destination (form submit)
+    document.getElementById("destinationForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const destination = {
+            title: document.getElementById("title").value,
+            location: document.getElementById("location").value,
+            price: parseFloat(document.getElementById("price").value),
+            imageUrl: document.getElementById("imageUrl").value,
+            duration: document.getElementById("duration").value + " days",
+            rating: parseFloat(document.getElementById("rating").value),
+            reviews: parseInt(document.getElementById("reviews").value),
+            currency: "LKR",   // hardcoded for now (you can make dropdown later)
+            packageId: 1       // test with an existing package ID
+        };
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(destination)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("✅ Destination added: " + data.message);
+                addDestinationCard(data.data);
+                e.target.reset();
+            } else {
+                alert("❌ Error: " + data.message);
+            }
+        } catch (error) {
+            console.error("Error adding destination:", error);
+            alert("⚠️ Failed to connect to server");
+        }
+    });
+
+    // 🔹 Create a destination card (same structure as your HTML)
+    function addDestinationCard(dest) {
+        const card = document.createElement("div");
+        card.classList.add("destination-card");
+        card.setAttribute("data-aos", "fade-up");
+
+        // ⭐ Rating stars
+        let fullStars = Math.floor(dest.rating || 0);
+        let halfStar = (dest.rating || 0) % 1 >= 0.5 ? 1 : 0;
+        let starsHtml = "";
+        for (let i = 0; i < fullStars; i++) starsHtml += `<span class="star filled"></span>`;
+        if (halfStar) starsHtml += `<span class="star half-filled"></span>`;
+
+        // 💳 Build card HTML
+        card.innerHTML = `
+      <div class="destination-image">
+        <img src="${dest.imageUrl}" alt="${dest.title}">
+        <div class="destination-overlay">
+          <div class="destination-content">
+            <h3 class="destination-title">${dest.title}</h3>
+            <p class="destination-location">${dest.location}</p>
+          </div>
+          <div class="destination-price">${dest.currency || "Rs."} ${dest.price?.toLocaleString()}</div>
+        </div>
+      </div>
+      <div class="destination-info">
+        <div class="destination-rating">
+          <div class="stars">${starsHtml}</div>
+          <span class="rating-text">${dest.rating || "0.0"} (${dest.reviews || 0} reviews)</span>
+        </div>
+        <div class="destination-duration">${dest.duration || "-"}</div>
+      </div>
+    `;
+
+        grid.appendChild(card);
+    }
+</script>
 </body>
 </html>
