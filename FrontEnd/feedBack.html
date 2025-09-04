@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeedBack - Trip.com</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="css/feedBack.css">
+</head>
+<body>
+<!-- Preloader
+<div class="preloader">
+    <div class="preloader-spinner"></div>
+</div>-->
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo">
+                <a href="home.html" class="logo-link">
+                    <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Trip.com</span>
+                </a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="destination.html">Destinations</a></li>
+                    <li><a href="guides.html">Guides</a></li>
+                    <li><a href="universities.html">Universities</a></li>
+                    <li><a href="vehicle-rentals.html" class="active">Vehicle Rentals</a></li>
+                    <li><a href="feedBack.html">FeedBack</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <!--        <button class="btn btn-outline" onclick="window.location.href= 'login.html'">Book Now</button>-->
+                <button class="btn-logout" onclick="window.location.href= '#contact'">Logout</button>
+                <button class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main>
+    <!-- Page Header -->
+    <section class="page-header" id="destinations">
+        <div class="page-header-bg">
+            <div class="page-header-overlay"></div>
+        </div>
+        <div class="container">
+            <div class="page-header-content">
+                <h1 class="page-title split-text">FeedBack</h1>
+                <div class="breadcrumbs">
+                    <a href="home.html" class="breadcrumb-item">Home</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-item active">FeedBack</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fullscreen Feedback Form Section -->
+    <section id="feedback" class="feedback-section-fullscreen">
+        <div class="feedback-container">
+            <form class="feedback-form" action="#" method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trip">Trip Name</label>
+                        <input type="text" id="trip" name="trip" placeholder="Which trip did you take?" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Feedback</label>
+                    <textarea id="message" name="message" rows="3" placeholder="Share your experience..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<!-- Scripts -->
+<script src="js/index.js"></script>
+</body>
+</html>
