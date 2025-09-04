@@ -49,11 +49,6 @@ public class DestinationServiceImpl implements DestinationService {
     public DestinationDTO addDestination(DestinationDTO dto) {
         Destination destination = convertToEntity(dto);
 
-        if (dto.getPackageId() != null) {
-            packageRepository.findById(dto.getPackageId())
-                    .ifPresent(destination::setTravelPackage);
-        }
-
         Destination saved = destinationRepository.save(destination);
         return convertToDTO(saved);
     }
@@ -76,11 +71,6 @@ public class DestinationServiceImpl implements DestinationService {
             destination.setReviews(dto.getReviews());
             destination.setDuration(dto.getDuration());
 
-            if (dto.getPackageId() != null) {
-                packageRepository.findById(dto.getPackageId())
-                        .ifPresent(destination::setTravelPackage);
-            }
-
             Destination updated = destinationRepository.save(destination);
             return convertToDTO(updated);
         }
@@ -100,7 +90,6 @@ public class DestinationServiceImpl implements DestinationService {
     private DestinationDTO convertToDTO(Destination dest) {
         DestinationDTO dto = modelMapper.map(dest, DestinationDTO.class);
         dto.setCurrency(dest.getCurrency() != null ? dest.getCurrency().name() : null);
-        dto.setPackageId(dest.getTravelPackage() != null ? dest.getTravelPackage().getId() : null);
         return dto;
     }
 

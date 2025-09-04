@@ -17,5 +17,4 @@ public class DestinationDTO {
     private Double rating;
     private Integer reviews;
     private String duration;
-    private Long packageId;
 }

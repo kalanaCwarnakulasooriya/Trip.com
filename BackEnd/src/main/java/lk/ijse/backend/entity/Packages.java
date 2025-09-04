@@ -39,7 +39,4 @@ public class Packages {
     private double price;
 
     private String unit;
-
-    @OneToMany(mappedBy = "travelPackage", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Destination> destinations = new ArrayList<>();
 }
