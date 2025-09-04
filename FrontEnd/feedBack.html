@@ -91,7 +91,45 @@
     </section>
 </main>
 
-<!-- Scripts -->
-<script src="js/index.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const feedbackForm = document.querySelector(".feedback-form");
+
+        if (feedbackForm) {
+            feedbackForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                // Collect input values
+                const feedback = {
+                    name: document.getElementById("name").value,
+                    trip: document.getElementById("trip").value,
+                    message: document.getElementById("message").value
+                };
+
+                try {
+                    const response = await fetch("http://localhost:8080/api/feedback", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(feedback)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        // alert("✅ " + result.message);
+                        feedbackForm.reset();
+                    } else {
+                        alert("❌ Error: " + result.message);
+                    }
+                } catch (error) {
+                    console.error("Error submitting feedback:", error);
+                    alert("⚠️ Failed to connect to server");
+                }
+            });
+        }
+    });
+</script>
 </body>
 </html>

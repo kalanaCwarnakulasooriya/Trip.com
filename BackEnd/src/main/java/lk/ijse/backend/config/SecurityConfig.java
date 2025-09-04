@@ -31,7 +31,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/api/packages/**",
-                                "/api/destinations/**").permitAll()
+                                "/api/destinations/**",
+                                "/api/feedback/**",
+                                "/api/contacts/**",
+                                "/api/allDestinations/**",
+                                "/api/galleries/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session-> session
