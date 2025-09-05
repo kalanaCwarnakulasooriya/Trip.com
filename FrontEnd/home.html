@@ -38,7 +38,7 @@
             </nav>
             <div class="header-actions">
 <!--                <button class="btn btn-outline" onclick="window.location.href= 'login.html'">Book Now</button>-->
-                <button class="btn-logout" onclick="window.location.href= '#contact'">Logout</button>
+                <button class="btn-logout" id="btn-logout" onclick="logout()">Logout</button>
                 <button class="menu-toggle">
                     <span></span>
                     <span></span>
@@ -357,7 +357,6 @@
 <script src="js/index.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-
         // ===== DESTINATIONS =====
         const DEST_API_URL = "http://localhost:8080/api/destinations";
         const destGrid = document.querySelector(".destinations-grid");
@@ -391,69 +390,32 @@
             if (halfStar) starsHtml += `<span class="star half-filled"></span>`;
 
             card.innerHTML = `
-            <div class="destination-image">
-                <img src="${dest.imageUrl}" alt="${dest.title}">
-                <div class="destination-overlay">
-                    <div class="destination-content">
-                        <h3 class="destination-title">${dest.title}</h3>
-                        <p class="destination-location">${dest.location}</p>
+                <div class="destination-image">
+                    <img src="${dest.imageUrl}" alt="${dest.title}">
+                    <div class="destination-overlay">
+                        <div class="destination-content">
+                            <h3 class="destination-title">${dest.title}</h3>
+                            <p class="destination-location">${dest.location}</p>
+                        </div>
+                        <div class="destination-price">${dest.currency || "Rs."} ${dest.price?.toLocaleString()}</div>
                     </div>
-                    <div class="destination-price">${dest.currency || "Rs."} ${dest.price?.toLocaleString()}</div>
                 </div>
-            </div>
-            <div class="destination-info">
-                <div class="destination-rating">
-                    <div class="stars">${starsHtml}</div>
-                    <span class="rating-text">${dest.rating || "0.0"} (${dest.reviews || 0} reviews)</span>
+                <div class="destination-info">
+                    <div class="destination-rating">
+                        <div class="stars">${starsHtml}</div>
+                        <span class="rating-text">${dest.rating || "0.0"} (${dest.reviews || 0} reviews)</span>
+                    </div>
+                    <div class="destination-duration">${dest.duration || "-"}</div>
                 </div>
-                <div class="destination-duration">${dest.duration || "-"}</div>
-            </div>
-        `;
+            `;
             destGrid.appendChild(card);
-        }
-
-        // Destination form submission
-        const destForm = document.getElementById("destinationForm");
-        if(destForm){
-            destForm.addEventListener("submit", async e => {
-                e.preventDefault();
-                const destination = {
-                    title: document.getElementById("title")?.value || "",
-                    location: document.getElementById("location")?.value || "",
-                    price: parseFloat(document.getElementById("price")?.value || 0),
-                    imageUrl: document.getElementById("imageUrl")?.value || "",
-                    duration: (document.getElementById("duration")?.value || "") + " days",
-                    rating: parseFloat(document.getElementById("rating")?.value || 0),
-                    reviews: parseInt(document.getElementById("reviews")?.value || 0),
-                    currency: "LKR"
-                };
-
-                try {
-                    const response = await fetch(DEST_API_URL, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(destination)
-                    });
-                    const data = await response.json();
-                    if (response.ok) {
-                        alert("✅ Destination added: " + data.message);
-                        addDestinationCard(data.data);
-                        destForm.reset();
-                    } else {
-                        alert("❌ Error: " + data.message);
-                    }
-                } catch (error) {
-                    console.error("Error adding destination:", error);
-                    alert("⚠️ Failed to connect to server");
-                }
-            });
         }
 
         // ===== PACKAGES =====
         const PACKAGES_API_URL = "http://localhost:8080/api/packages";
         const packagesContainer = document.getElementById("packagesContainer");
 
-        async function loadPackages(){
+        async function loadPackages() {
             if (!packagesContainer) return;
             try {
                 const response = await fetch(PACKAGES_API_URL);
@@ -468,7 +430,7 @@
             }
         }
 
-        function addPackageCard(pkg){
+        function addPackageCard(pkg) {
             if (!packagesContainer) return;
             const card = document.createElement("div");
             card.classList.add("package-card", "featured");
@@ -480,55 +442,24 @@
             }
 
             card.innerHTML = `
-            <div class="package-tag">${pkg.tag || "New"}</div>
-            <h3 class="package-title">${pkg.title}</h3>
-            <p class="package-description">${pkg.description}</p>
-            <ul class="package-features">${featuresHtml}</ul>
-            <div class="package-price">
-                <span class="price">$${pkg.price?.toLocaleString() || "0"}</span>
-                <span class="unit">/ ${pkg.unit || "per person"}</span>
-            </div>
-            <button class="btn btn-primary" onclick="window.location.href='packageBooking.html'">Book This Package</button>
-        `;
+                <div class="package-tag">${pkg.tag || "New"}</div>
+                <h3 class="package-title">${pkg.title}</h3>
+                <p class="package-description">${pkg.description}</p>
+                <ul class="package-features">${featuresHtml}</ul>
+                <div class="package-price">
+                    <span class="price">$${pkg.price?.toLocaleString() || "0"}</span>
+                    <span class="unit">/ ${pkg.unit || "per person"}</span>
+                </div>
+                <button class="btn btn-primary" onclick="window.location.href='packageBooking.html'">
+                    Book This Package
+                </button>
+            `;
             packagesContainer.appendChild(card);
-        }
-
-        const packageForm = document.getElementById("packageForm");
-        if(packageForm){
-            packageForm.addEventListener("submit", async e => {
-                e.preventDefault();
-                const newPackage = {
-                    tag: document.getElementById("packageTag")?.value || "",
-                    title: document.getElementById("packageTitle")?.value || "",
-                    description: document.getElementById("packageDescription")?.value || "",
-                    features: (document.getElementById("packageFeatures")?.value || "").split(","),
-                    price: parseFloat(document.getElementById("packagePrice")?.value || 0),
-                    unit: document.getElementById("packageUnit")?.value || ""
-                };
-                try {
-                    const response = await fetch(PACKAGES_API_URL, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(newPackage)
-                    });
-                    const data = await response.json();
-                    if (response.ok) {
-                        alert("✅ Package added: " + data.message);
-                        addPackageCard(data.data);
-                        packageForm.reset();
-                    } else {
-                        alert("❌ Error: " + data.message);
-                    }
-                } catch (error) {
-                    console.error("Error adding package:", error);
-                    alert("⚠️ Failed to connect to server");
-                }
-            });
         }
 
         // ===== CONTACT FORM =====
         const contactForm = document.getElementById("contactForm");
-        if(contactForm){
+        if (contactForm) {
             contactForm.addEventListener("submit", async e => {
                 e.preventDefault();
                 const name = document.getElementById("name")?.value.trim() || "";
@@ -576,8 +507,8 @@
                 const result = await response.json();
 
                 if (response.ok && result.data) {
-                    slider.innerHTML = ""; // clear old slides
-                    dotsContainer.innerHTML = ""; // clear old dots
+                    slider.innerHTML = "";
+                    dotsContainer.innerHTML = "";
 
                     result.data.forEach((fb, index) => {
                         const slide = document.createElement("div");
@@ -585,22 +516,21 @@
                         if (index === 0) slide.classList.add("active");
 
                         slide.innerHTML = `
-                <div class="testimonial-card">
-                    <div class="testimonial-rating">
-                        ${renderStars(fb.rating || 5)}
-                    </div>
-                    <p class="testimonial-text">"${fb.message}"</p>
-                    <div class="testimonial-author">
-                        <div class="author-info">
-                            <h4 class="author-name">${fb.name}</h4>
-                            <p class="author-trip">${fb.trip || ""}</p>
-                        </div>
-                    </div>
-                </div>
-                `;
+                            <div class="testimonial-card">
+                                <div class="testimonial-rating">
+                                    ${renderStars(fb.rating || 5)}
+                                </div>
+                                <p class="testimonial-text">"${fb.message}"</p>
+                                <div class="testimonial-author">
+                                    <div class="author-info">
+                                        <h4 class="author-name">${fb.name}</h4>
+                                        <p class="author-trip">${fb.trip || ""}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
                         slider.appendChild(slide);
 
-                        // create dot
                         const dot = document.createElement("span");
                         dot.classList.add("dot");
                         if (index === 0) dot.classList.add("active");
@@ -620,7 +550,7 @@
             let html = "";
             for (let i = 0; i < fullStars; i++) html += `<span class="star filled"></span>`;
             if (halfStar) html += `<span class="star half-filled"></span>`;
-            while (html.length / 23 < 5) html += `<span class="star"></span>`; // fill to 5 stars
+            while (html.split("star").length - 1 < 5) html += `<span class="star"></span>`;
             return html;
         }
 
@@ -638,21 +568,14 @@
                 currentIndex = index;
             }
 
-            const prevBtn = document.querySelector(".testimonial-prev");
-            const nextBtn = document.querySelector(".testimonial-next");
-
-            prevBtn?.addEventListener("click", () => {
-                let newIndex = (currentIndex - 1 + slides.length) % slides.length;
-                showSlide(newIndex);
+            document.querySelector(".testimonial-prev")?.addEventListener("click", () => {
+                showSlide((currentIndex - 1 + slides.length) % slides.length);
             });
-            nextBtn?.addEventListener("click", () => {
-                let newIndex = (currentIndex + 1) % slides.length;
-                showSlide(newIndex);
+            document.querySelector(".testimonial-next")?.addEventListener("click", () => {
+                showSlide((currentIndex + 1) % slides.length);
             });
 
-            dots.forEach((dot, i) => {
-                dot.addEventListener("click", () => showSlide(i));
-            });
+            dots.forEach((dot, i) => dot.addEventListener("click", () => showSlide(i)));
 
             showSlide(0);
         }
@@ -661,7 +584,6 @@
         async function loadGallery() {
             const GALLERY_API_URL = "http://localhost:8080/api/galleries";
             const galleryGrid = document.querySelector(".gallery-grid");
-
             if (!galleryGrid) return;
 
             try {
@@ -669,7 +591,7 @@
                 const result = await res.json();
 
                 if (res.ok && result.data?.length) {
-                    galleryGrid.innerHTML = ""; // clear old static content
+                    galleryGrid.innerHTML = "";
 
                     result.data.forEach((gallery, i) => {
                         const item = document.createElement("div");
@@ -678,36 +600,30 @@
                         item.setAttribute("data-aos-delay", i * 100);
 
                         item.innerHTML = `
-                    <img src="${gallery.imageUrl}" alt="Gallery Image ${i+1}">
-                    <div class="gallery-overlay">
-                        <div class="gallery-icon" data-img="${gallery.imageUrl}">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                                 viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="12" y1="8" x2="12" y2="16"></line>
-                                <line x1="8" y1="12" x2="16" y2="12"></line>
-                            </svg>
-                        </div>
-                    </div>
-                `;
+                            <img src="${gallery.imageUrl}" alt="Gallery Image ${i + 1}">
+                            <div class="gallery-overlay">
+                                <div class="gallery-icon" data-img="${gallery.imageUrl}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2"
+                                         stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="8" x2="12" y2="16"></line>
+                                        <line x1="8" y1="12" x2="16" y2="12"></line>
+                                    </svg>
+                                </div>
+                            </div>
+                        `;
                         galleryGrid.appendChild(item);
                     });
 
-                    // Re-initialize AOS animation after adding new items
-                    if (window.AOS) {
-                        AOS.refresh();
-                    }
+                    if (window.AOS) AOS.refresh();
 
-                    // Add click event for zoom
                     document.querySelectorAll(".gallery-icon").forEach(icon => {
                         icon.addEventListener("click", (e) => {
                             const imgUrl = e.currentTarget.getAttribute("data-img");
                             openLightbox(imgUrl);
                         });
                     });
-
                 } else {
                     galleryGrid.innerHTML = "<p>No gallery images found.</p>";
                 }
@@ -717,55 +633,69 @@
             }
         }
 
-        // ===== LIGHTBOX MODAL =====
         function openLightbox(imgUrl) {
-            // If modal already exists, remove it
             const existingModal = document.getElementById("lightboxModal");
             if (existingModal) existingModal.remove();
 
-            // Create modal container
             const modal = document.createElement("div");
             modal.id = "lightboxModal";
-            modal.style.position = "fixed";
-            modal.style.top = "0";
-            modal.style.left = "0";
-            modal.style.width = "100%";
-            modal.style.height = "100%";
-            modal.style.background = "rgba(0,0,0,0.8)";
-            modal.style.display = "flex";
-            modal.style.justifyContent = "center";
-            modal.style.alignItems = "center";
-            modal.style.zIndex = "1000";
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.8); display: flex; justify-content: center;
+                align-items: center; z-index: 1000;
+            `;
 
-            // Inner content
             modal.innerHTML = `
-        <div style="position:relative; max-width:38%; max-height:90%;">
-            <img src="${imgUrl}" style="width:100%; height:auto; border-radius:10px;">
-            <span id="closeModal"
-                  style="position:absolute; top:-10px; right:-10px;
-                         background:#fff; border-radius:50%;
-                         width:35px; height:35px; line-height:35px;
-                         text-align:center; cursor:pointer; font-weight:bold;">
-                ✕
-            </span>
-        </div>
-    `;
+                <div style="position:relative; max-width:38%; max-height:90%;">
+                    <img src="${imgUrl}" style="width:100%; height:auto; border-radius:10px;">
+                    <span id="closeModal"
+                          style="position:absolute; top:-10px; right:-10px; background:#fff;
+                                 border-radius:50%; width:35px; height:35px; line-height:35px;
+                                 text-align:center; cursor:pointer; font-weight:bold;">✕</span>
+                </div>
+            `;
 
             document.body.appendChild(modal);
-
-            // Close when click on close button or outside
             modal.querySelector("#closeModal").addEventListener("click", () => modal.remove());
-            modal.addEventListener("click", (e) => {
-                if (e.target === modal) modal.remove();
-            });
+            modal.addEventListener("click", (e) => { if (e.target === modal) modal.remove(); });
         }
 
-        // Load all data
+        // ===== Load everything =====
         loadDestinations();
         loadPackages();
         loadTestimonials();
         loadGallery();
+
+        // ===== Auth check (inside DOMContentLoaded) =====
+        const token = getCookie("token");
+        if (!token) {
+            // toastr.warning("You must be logged in.", "Access Denied");
+            setTimeout(() => window.location.href = "login.html", 1500);
+        }
     });
+
+    // ===== Cookie Helpers (GLOBAL scope) =====
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax;";
+    }
+
+    // ===== Logout (GLOBAL so button onclick works) =====
+    function logout() {
+        deleteCookie("token");
+        deleteCookie("username");
+        // toastr.info("Logged out successfully.", "Logout");
+        setTimeout(() => window.location.href = "index.html", 1500);
+    }
 </script>
 </body>
 </html>
