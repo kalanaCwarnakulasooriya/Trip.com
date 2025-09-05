@@ -501,6 +501,7 @@ button, input, select, textarea {
 }
 
 .form-group input,
+.form-group textarea,
 .form-group select {
     padding: 0.75rem;
     border: 1px solid var(--border-color);
@@ -508,7 +509,10 @@ button, input, select, textarea {
     transition: var(--transition);
 }
 
+.form-group input:hover,
 .form-group input:focus,
+.form-group textarea:hover,
+.form-group textarea:focus,
 .form-group select:focus {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(42, 157, 244, 0.2);
@@ -611,7 +615,8 @@ section {
 
 .section-title {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    /*margin-bottom: 1rem;*/
+    padding-left: 1rem;
     position: relative;
     display: inline-block;
 }
@@ -619,12 +624,14 @@ section {
 .section-title::after {
     content: '';
     position: absolute;
-    bottom: -10px;
-    left: 50%;
+    /*bottom: -10px;*/
+    left: 1%;
     transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background-color: var(--primary-color);
+    /*width: 50px;*/
+    /*height: 3px;*/
+    border: 3px solid var(--primary-color);
+    height: 50px;
+    /*background-color: var(--primary-color);*/
 }
 
 .section-subtitle {
@@ -1342,8 +1349,14 @@ section {
     flex: 1;
     padding: 0.75rem;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
+}
+
+.footer-newsletter input:focus,
+.footer-newsletter input:hover {
+    border: 1px solid var(--primary-color);
 }
 
 .footer-newsletter .btn {
