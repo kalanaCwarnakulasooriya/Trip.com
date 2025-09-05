@@ -90,8 +90,8 @@ body {
 }
 
 .logo-icon {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     color: var(--primary-color);
     display: flex;
     align-items: center;
@@ -100,8 +100,15 @@ body {
 }
 
 .logo-text {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 700;
+    font-family: "Droid Sans", sans-serif;
+    color: var(--primary-color);
+}
+
+.logo-sub {
+    font-size: 25px;
+    font-family: Sylfaen;
     color: var(--primary-color);
 }
 

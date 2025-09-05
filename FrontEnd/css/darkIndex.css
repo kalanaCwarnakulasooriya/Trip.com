@@ -56,6 +56,16 @@ a:hover {
     color: var(--primary-dark);
 }
 
+.logo-text {
+    font-size: 32px;
+    font-family: "Droid Sans", sans-serif;
+}
+
+.logo-sub {
+    font-size: 25px;
+    font-family: Sylfaen;
+}
+
 ul {
     list-style: none;
 }
@@ -246,8 +256,8 @@ body:hover .cursor-follower {
 }
 
 .logo-icon {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     margin-right: 0.5rem;
 }
 
