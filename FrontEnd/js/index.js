@@ -22,48 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     });
 
-    // Custom cursor
-    const cursor = document.querySelector('.cursor');
-    const cursorFollower = document.querySelector('.cursor-follower');
-
-    document.addEventListener('mousemove', function(e) {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-
-        setTimeout(function() {
-            cursorFollower.style.left = e.clientX + 'px';
-            cursorFollower.style.top = e.clientY + 'px';
-        }, 100);
-    });
-
-    document.addEventListener('mousedown', function() {
-        cursor.style.transform = 'translate(-50%, -50%) scale(0.7)';
-        cursorFollower.style.transform = 'translate(-50%, -50%) scale(0.7)';
-    });
-
-    document.addEventListener('mouseup', function() {
-        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-        cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
-    });
-
-    // Add hover effect to all links and buttons
-    const links = document.querySelectorAll('a, button, .search-tab, .dot');
-    links.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-            cursor.style.backgroundColor = 'transparent';
-            cursor.style.border = '1px solid var(--primary-color)';
-            cursorFollower.style.opacity = 0;
-        });
-
-        link.addEventListener('mouseleave', function() {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursor.style.backgroundColor = 'var(--primary-color)';
-            cursor.style.border = 'none';
-            cursorFollower.style.opacity = 1;
-        });
-    });
-
     // Header scroll effect
     const header = document.querySelector('.header');
     window.addEventListener('scroll', function() {

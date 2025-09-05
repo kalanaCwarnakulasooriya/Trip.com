@@ -693,6 +693,50 @@
 
         packagesContainer.appendChild(card);
     }
+
+    // ===== CONTACT FORM =====
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !subject || !message) {
+                alert("Please fill all fields before submitting.");
+                return;
+            }
+
+            const contactData = {
+                name: name,
+                email: email,
+                subject: subject,
+                message: message
+            };
+
+            try {
+                const response = await fetch("http://localhost:8080/api/contacts", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(contactData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert(result.message || "Message sent successfully!");
+                    contactForm.reset();
+                } else {
+                    alert("Failed to send message. Try again.");
+                }
+            } catch (error) {
+                console.error("Error submitting contact:", error);
+                alert("Something went wrong. Please try again later.");
+            }
+        });
+    }
 </script>
 </body>
 </html>
