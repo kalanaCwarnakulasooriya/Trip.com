@@ -1325,8 +1325,14 @@ section {
     flex: 1;
     padding: 0.75rem;
     border-radius: var(--border-radius) 0 0 var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
+}
+
+.footer-newsletter input:focus,
+.footer-newsletter input:hover {
+    border: 1px solid var(--primary-color);
 }
 
 .footer-newsletter .btn {
