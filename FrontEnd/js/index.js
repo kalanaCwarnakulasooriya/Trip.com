@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Testimonial slider
+    /*// Testimonial slider
     const testimonialSlides = document.querySelectorAll('.testimonial-slide');
     const testimonialDots = document.querySelectorAll('.dot');
     const testimonialPrev = document.querySelector('.testimonial-prev');
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentSlide = (currentSlide + 1) % testimonialSlides.length;
             showSlide(currentSlide);
         }, 5000);
-    });
+    });*/
 
     // Back to top button
     const backToTop = document.querySelector('.back-to-top');

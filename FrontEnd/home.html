@@ -136,70 +136,8 @@
                 <h2 class="section-title">What Our Travelers Say</h2>
                 <p class="section-subtitle">Hear from our satisfied customers about their unforgettable experiences</p>
             </div>
-            <div class="testimonials-slider">
-                <div class="testimonial-slide active">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                        </div>
-                        <p class="testimonial-text">"Our trip to Santorini was absolutely magical! The accommodations were perfect, and the itinerary allowed us to experience everything the island has to offer. Will definitely book with Trip.com again!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-image">
-                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson">
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Sarah Johnson</h4>
-                                <p class="author-trip">Santorini Getaway</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-slide">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                        </div>
-                        <p class="testimonial-text">"The attention to detail was impressive. Our guide was knowledgeable and friendly, making our Tokyo experience unforgettable. The cultural immersion activities were the highlight of our trip."</p>
-                        <div class="testimonial-author">
-                            <div class="author-image">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Michael Chen</h4>
-                                <p class="author-trip">Tokyo Adventure</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-slide">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star"></span>
-                        </div>
-                        <p class="testimonial-text">"Bali was everything we hoped for and more. The package was well-balanced with adventure and relaxation. The only reason for 4 stars is that one hotel wasn't as nice as expected, but overall amazing!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-image">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Rodriguez">
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Emma Rodriguez</h4>
-                                <p class="author-trip">Bali Retreat</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <!-- Feedback will be appended here dynamically -->
             </div>
             <div class="testimonial-controls">
                 <button class="testimonial-prev">
@@ -513,230 +451,313 @@
 <!-- Scripts -->
 <script src="js/index.js"></script>
 <script>
-    // ===== DESTINATIONS =====
-    const DEST_API_URL = "http://localhost:8080/api/destinations";
-    const destGrid = document.querySelector(".destinations-grid");
+    document.addEventListener("DOMContentLoaded", () => {
 
-    document.addEventListener("DOMContentLoaded", async () => {
-        // Load Destinations
-        try {
-            const response = await fetch(DEST_API_URL);
-            const data = await response.json();
+        // ===== DESTINATIONS =====
+        const DEST_API_URL = "http://localhost:8080/api/destinations";
+        const destGrid = document.querySelector(".destinations-grid");
 
-            if (response.ok && data.data) {
-                data.data.forEach(dest => addDestinationCard(dest));
-            } else {
-                console.warn("No destinations found");
-            }
-        } catch (error) {
-            console.error("Error loading destinations:", error);
-        }
-
-        // Load Packages
-        loadPackages();
-    });
-
-    // Add new destination
-    const destForm = document.getElementById("destinationForm");
-    if(destForm){
-        destForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const destination = {
-                title: document.getElementById("title").value,
-                location: document.getElementById("location").value,
-                price: parseFloat(document.getElementById("price").value),
-                imageUrl: document.getElementById("imageUrl").value,
-                duration: document.getElementById("duration").value + " days",
-                rating: parseFloat(document.getElementById("rating").value),
-                reviews: parseInt(document.getElementById("reviews").value),
-                currency: "LKR"
-            };
-
+        async function loadDestinations() {
+            if (!destGrid) return;
             try {
-                const response = await fetch(DEST_API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(destination)
-                });
+                const response = await fetch(DEST_API_URL);
                 const data = await response.json();
-
-                if (response.ok) {
-                    alert("✅ Destination added: " + data.message);
-                    addDestinationCard(data.data);
-                    e.target.reset();
+                if (response.ok && data.data) {
+                    data.data.forEach(dest => addDestinationCard(dest));
                 } else {
-                    alert("❌ Error: " + data.message);
+                    console.warn("No destinations found");
                 }
             } catch (error) {
-                console.error("Error adding destination:", error);
-                alert("⚠️ Failed to connect to server");
+                console.error("Error loading destinations:", error);
             }
-        });
-    }
+        }
 
-    // Create destination card
-    function addDestinationCard(dest) {
-        const card = document.createElement("div");
-        card.classList.add("destination-card");
-        card.setAttribute("data-aos", "fade-up");
+        function addDestinationCard(dest) {
+            if (!destGrid) return;
 
-        let fullStars = Math.floor(dest.rating || 0);
-        let halfStar = (dest.rating || 0) % 1 >= 0.5 ? 1 : 0;
-        let starsHtml = "";
-        for (let i = 0; i < fullStars; i++) starsHtml += `<span class="star filled"></span>`;
-        if (halfStar) starsHtml += `<span class="star half-filled"></span>`;
+            const card = document.createElement("div");
+            card.classList.add("destination-card");
+            card.setAttribute("data-aos", "fade-up");
 
-        card.innerHTML = `
-          <div class="destination-image">
-            <img src="${dest.imageUrl}" alt="${dest.title}">
-            <div class="destination-overlay">
-              <div class="destination-content">
-                <h3 class="destination-title">${dest.title}</h3>
-                <p class="destination-location">${dest.location}</p>
-              </div>
-              <div class="destination-price">${dest.currency || "Rs."} ${dest.price?.toLocaleString()}</div>
+            let fullStars = Math.floor(dest.rating || 0);
+            let halfStar = (dest.rating || 0) % 1 >= 0.5 ? 1 : 0;
+            let starsHtml = "";
+            for (let i = 0; i < fullStars; i++) starsHtml += `<span class="star filled"></span>`;
+            if (halfStar) starsHtml += `<span class="star half-filled"></span>`;
+
+            card.innerHTML = `
+            <div class="destination-image">
+                <img src="${dest.imageUrl}" alt="${dest.title}">
+                <div class="destination-overlay">
+                    <div class="destination-content">
+                        <h3 class="destination-title">${dest.title}</h3>
+                        <p class="destination-location">${dest.location}</p>
+                    </div>
+                    <div class="destination-price">${dest.currency || "Rs."} ${dest.price?.toLocaleString()}</div>
+                </div>
             </div>
-          </div>
-          <div class="destination-info">
-            <div class="destination-rating">
-              <div class="stars">${starsHtml}</div>
-              <span class="rating-text">${dest.rating || "0.0"} (${dest.reviews || 0} reviews)</span>
+            <div class="destination-info">
+                <div class="destination-rating">
+                    <div class="stars">${starsHtml}</div>
+                    <span class="rating-text">${dest.rating || "0.0"} (${dest.reviews || 0} reviews)</span>
+                </div>
+                <div class="destination-duration">${dest.duration || "-"}</div>
             </div>
-            <div class="destination-duration">${dest.duration || "-"}</div>
-          </div>
         `;
-        destGrid.appendChild(card);
-    }
-
-    // ===== PACKAGES =====
-    const PACKAGES_API_URL = "http://localhost:8080/api/packages";
-    const packagesContainer = document.getElementById("packagesContainer");
-
-    async function loadPackages(){
-        try {
-            const response = await fetch(PACKAGES_API_URL);
-            const data = await response.json();
-
-            if (response.ok && data.data) {
-                data.data.forEach(pkg => addPackageCard(pkg));
-            } else {
-                console.warn("No packages found");
-            }
-        } catch (error) {
-            console.error("Error loading packages:", error);
+            destGrid.appendChild(card);
         }
-    }
 
-    // Add new package
-    const packageForm = document.getElementById("packageForm");
-    if(packageForm){
-        packageForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
+        // Destination form submission
+        const destForm = document.getElementById("destinationForm");
+        if(destForm){
+            destForm.addEventListener("submit", async e => {
+                e.preventDefault();
+                const destination = {
+                    title: document.getElementById("title")?.value || "",
+                    location: document.getElementById("location")?.value || "",
+                    price: parseFloat(document.getElementById("price")?.value || 0),
+                    imageUrl: document.getElementById("imageUrl")?.value || "",
+                    duration: (document.getElementById("duration")?.value || "") + " days",
+                    rating: parseFloat(document.getElementById("rating")?.value || 0),
+                    reviews: parseInt(document.getElementById("reviews")?.value || 0),
+                    currency: "LKR"
+                };
 
-            const newPackage = {
-                tag: document.getElementById("packageTag").value,
-                title: document.getElementById("packageTitle").value,
-                description: document.getElementById("packageDescription").value,
-                features: document.getElementById("packageFeatures").value.split(","),
-                price: parseFloat(document.getElementById("packagePrice").value),
-                unit: document.getElementById("packageUnit").value
-            };
+                try {
+                    const response = await fetch(DEST_API_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(destination)
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        alert("✅ Destination added: " + data.message);
+                        addDestinationCard(data.data);
+                        destForm.reset();
+                    } else {
+                        alert("❌ Error: " + data.message);
+                    }
+                } catch (error) {
+                    console.error("Error adding destination:", error);
+                    alert("⚠️ Failed to connect to server");
+                }
+            });
+        }
 
+        // ===== PACKAGES =====
+        const PACKAGES_API_URL = "http://localhost:8080/api/packages";
+        const packagesContainer = document.getElementById("packagesContainer");
+
+        async function loadPackages(){
+            if (!packagesContainer) return;
             try {
-                const response = await fetch(PACKAGES_API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(newPackage)
-                });
-
+                const response = await fetch(PACKAGES_API_URL);
                 const data = await response.json();
-
-                if (response.ok) {
-                    alert("✅ Package added: " + data.message);
-                    addPackageCard(data.data);
-                    e.target.reset();
+                if (response.ok && data.data) {
+                    data.data.forEach(pkg => addPackageCard(pkg));
                 } else {
-                    alert("❌ Error: " + data.message);
+                    console.warn("No packages found");
                 }
             } catch (error) {
-                console.error("Error adding package:", error);
-                alert("⚠️ Failed to connect to server");
+                console.error("Error loading packages:", error);
             }
-        });
-    }
-
-    // Create package card
-    function addPackageCard(pkg) {
-        const card = document.createElement("div");
-        card.classList.add("package-card", "featured");
-        card.setAttribute("data-aos", "fade-up");
-
-        let featuresHtml = "";
-        if (pkg.features && pkg.features.length) {
-            featuresHtml = pkg.features.map(f => `<li>${f}</li>`).join("");
         }
 
-        card.innerHTML = `
+        function addPackageCard(pkg){
+            if (!packagesContainer) return;
+            const card = document.createElement("div");
+            card.classList.add("package-card", "featured");
+            card.setAttribute("data-aos", "fade-up");
+
+            let featuresHtml = "";
+            if (pkg.features && pkg.features.length) {
+                featuresHtml = pkg.features.map(f => `<li>${f}</li>`).join("");
+            }
+
+            card.innerHTML = `
             <div class="package-tag">${pkg.tag || "New"}</div>
             <h3 class="package-title">${pkg.title}</h3>
             <p class="package-description">${pkg.description}</p>
-            <ul class="package-features">
-                ${featuresHtml}
-            </ul>
+            <ul class="package-features">${featuresHtml}</ul>
             <div class="package-price">
                 <span class="price">$${pkg.price?.toLocaleString() || "0"}</span>
                 <span class="unit">/ ${pkg.unit || "per person"}</span>
             </div>
             <button class="btn btn-primary" onclick="window.location.href='packageBooking.html'">Book This Package</button>
         `;
+            packagesContainer.appendChild(card);
+        }
 
-        packagesContainer.appendChild(card);
-    }
+        const packageForm = document.getElementById("packageForm");
+        if(packageForm){
+            packageForm.addEventListener("submit", async e => {
+                e.preventDefault();
+                const newPackage = {
+                    tag: document.getElementById("packageTag")?.value || "",
+                    title: document.getElementById("packageTitle")?.value || "",
+                    description: document.getElementById("packageDescription")?.value || "",
+                    features: (document.getElementById("packageFeatures")?.value || "").split(","),
+                    price: parseFloat(document.getElementById("packagePrice")?.value || 0),
+                    unit: document.getElementById("packageUnit")?.value || ""
+                };
+                try {
+                    const response = await fetch(PACKAGES_API_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(newPackage)
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        alert("✅ Package added: " + data.message);
+                        addPackageCard(data.data);
+                        packageForm.reset();
+                    } else {
+                        alert("❌ Error: " + data.message);
+                    }
+                } catch (error) {
+                    console.error("Error adding package:", error);
+                    alert("⚠️ Failed to connect to server");
+                }
+            });
+        }
 
-    // ===== CONTACT FORM =====
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // ===== CONTACT FORM =====
+        const contactForm = document.getElementById("contactForm");
+        if(contactForm){
+            contactForm.addEventListener("submit", async e => {
+                e.preventDefault();
+                const name = document.getElementById("name")?.value.trim() || "";
+                const email = document.getElementById("email")?.value.trim() || "";
+                const subject = document.getElementById("subject")?.value.trim() || "";
+                const message = document.getElementById("message")?.value.trim() || "";
 
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
+                if (!name || !email || !subject || !message) {
+                    alert("Please fill all fields before submitting.");
+                    return;
+                }
 
-            if (!name || !email || !subject || !message) {
-                alert("Please fill all fields before submitting.");
-                return;
-            }
+                const contactData = { name, email, subject, message };
 
-            const contactData = {
-                name: name,
-                email: email,
-                subject: subject,
-                message: message
-            };
+                try {
+                    const response = await fetch("http://localhost:8080/api/contacts", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(contactData)
+                    });
+                    if (response.ok) {
+                        const result = await response.json();
+                        alert(result.message || "Message sent successfully!");
+                        contactForm.reset();
+                    } else {
+                        alert("Failed to send message. Try again.");
+                    }
+                } catch (error) {
+                    console.error("Error submitting contact:", error);
+                    alert("Something went wrong. Please try again later.");
+                }
+            });
+        }
+
+        // ===== TESTIMONIALS =====
+        async function loadTestimonials() {
+            const FEEDBACK_API_URL = "http://localhost:8080/api/feedback";
+            const slider = document.getElementById("testimonialsSlider");
+            const dotsContainer = document.querySelector(".testimonial-dots");
+
+            if (!slider || !dotsContainer) return;
 
             try {
-                const response = await fetch("http://localhost:8080/api/contacts", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(contactData)
-                });
+                const response = await fetch(FEEDBACK_API_URL);
+                const result = await response.json();
 
-                if (response.ok) {
-                    const result = await response.json();
-                    alert(result.message || "Message sent successfully!");
-                    contactForm.reset();
-                } else {
-                    alert("Failed to send message. Try again.");
+                if (response.ok && result.data) {
+                    slider.innerHTML = ""; // clear old slides
+                    dotsContainer.innerHTML = ""; // clear old dots
+
+                    result.data.forEach((fb, index) => {
+                        const slide = document.createElement("div");
+                        slide.classList.add("testimonial-slide");
+                        if (index === 0) slide.classList.add("active");
+
+                        slide.innerHTML = `
+                <div class="testimonial-card">
+                    <div class="testimonial-rating">
+                        ${renderStars(fb.rating || 5)}
+                    </div>
+                    <p class="testimonial-text">"${fb.message}"</p>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4 class="author-name">${fb.name}</h4>
+                            <p class="author-trip">${fb.trip || ""}</p>
+                        </div>
+                    </div>
+                </div>
+                `;
+                        slider.appendChild(slide);
+
+                        // create dot
+                        const dot = document.createElement("span");
+                        dot.classList.add("dot");
+                        if (index === 0) dot.classList.add("active");
+                        dotsContainer.appendChild(dot);
+                    });
+
+                    initTestimonialSlider();
                 }
-            } catch (error) {
-                console.error("Error submitting contact:", error);
-                alert("Something went wrong. Please try again later.");
+            } catch (err) {
+                console.error("Error loading testimonials:", err);
             }
-        });
-    }
+        }
+
+        function renderStars(rating) {
+            let fullStars = Math.floor(rating);
+            let halfStar = rating % 1 >= 0.5 ? 1 : 0;
+            let html = "";
+            for (let i = 0; i < fullStars; i++) html += `<span class="star filled"></span>`;
+            if (halfStar) html += `<span class="star half-filled"></span>`;
+            while (html.length / 23 < 5) html += `<span class="star"></span>`; // fill to 5 stars
+            return html;
+        }
+
+        function initTestimonialSlider() {
+            const slides = document.querySelectorAll(".testimonial-slide");
+            const dots = document.querySelectorAll(".testimonial-dots .dot");
+            if (!slides.length || !dots.length) return;
+
+            let currentIndex = 0;
+
+            function showSlide(index) {
+                if (!slides[index] || !dots[index]) return;
+                slides.forEach((s, i) => s.classList.toggle("active", i === index));
+                dots.forEach((d, i) => d.classList.toggle("active", i === index));
+                currentIndex = index;
+            }
+
+            const prevBtn = document.querySelector(".testimonial-prev");
+            const nextBtn = document.querySelector(".testimonial-next");
+
+            prevBtn?.addEventListener("click", () => {
+                let newIndex = (currentIndex - 1 + slides.length) % slides.length;
+                showSlide(newIndex);
+            });
+            nextBtn?.addEventListener("click", () => {
+                let newIndex = (currentIndex + 1) % slides.length;
+                showSlide(newIndex);
+            });
+
+            dots.forEach((dot, i) => {
+                dot.addEventListener("click", () => showSlide(i));
+            });
+
+            showSlide(0);
+        }
+
+        // Load all data
+        loadDestinations();
+        loadPackages();
+        loadTestimonials();
+
+    });
 </script>
 </body>
 </html>

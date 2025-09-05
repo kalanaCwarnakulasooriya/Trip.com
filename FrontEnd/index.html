@@ -150,70 +150,8 @@
                 <h2 class="section-title">What Our Travelers Say</h2>
                 <p class="section-subtitle">Hear from our satisfied customers about their unforgettable experiences</p>
             </div>
-            <div class="testimonials-slider">
-                <div class="testimonial-slide active">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                        </div>
-                        <p class="testimonial-text">"Our trip to Santorini was absolutely magical! The accommodations were perfect, and the itinerary allowed us to experience everything the island has to offer. Will definitely book with Trip.com again!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-image">
-                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson">
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Sarah Johnson</h4>
-                                <p class="author-trip">Santorini Getaway</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-slide">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                        </div>
-                        <p class="testimonial-text">"The attention to detail was impressive. Our guide was knowledgeable and friendly, making our Tokyo experience unforgettable. The cultural immersion activities were the highlight of our trip."</p>
-                        <div class="testimonial-author">
-                            <div class="author-image">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Michael Chen</h4>
-                                <p class="author-trip">Tokyo Adventure</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-slide">
-                    <div class="testimonial-card">
-                        <div class="testimonial-rating">
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star filled"></span>
-                            <span class="star"></span>
-                        </div>
-                        <p class="testimonial-text">"Bali was everything we hoped for and more. The package was well-balanced with adventure and relaxation. The only reason for 4 stars is that one hotel wasn't as nice as expected, but overall amazing!"</p>
-                        <div class="testimonial-author">
-                            <div class="author-image">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Rodriguez">
-                            </div>
-                            <div class="author-info">
-                                <h4 class="author-name">Emma Rodriguez</h4>
-                                <p class="author-trip">Bali Retreat</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <!-- Feedback will be appended here dynamically -->
             </div>
             <div class="testimonial-controls">
                 <button class="testimonial-prev">
@@ -514,13 +452,12 @@
 
 <!-- Scripts -->
 <script>
-    // Contact Form Submission with API
+    // ===== CONTACT FORM =====
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Get values from form
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const subject = document.getElementById('subject').value.trim();
@@ -531,36 +468,112 @@
                 return;
             }
 
-            // Build request payload
-            const contactData = {
-                name: name,
-                email: email,
-                subject: subject,
-                message: message
-            };
+            const contactData = { name, email, subject, message };
 
             try {
-                const response = await fetch("http://localhost:8080/api/contacts", {
+                const res = await fetch("http://localhost:8080/api/contacts", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(contactData)
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
+                if (res.ok) {
+                    const result = await res.json();
                     alert(result.message || "Message sent successfully!");
                     contactForm.reset();
                 } else {
                     alert("Failed to send message. Try again.");
                 }
-            } catch (error) {
-                console.error("Error submitting contact:", error);
+            } catch (err) {
+                console.error("Error submitting contact:", err);
                 alert("Something went wrong. Please try again later.");
             }
         });
     }
+
+    // ===== TESTIMONIALS =====
+    async function loadTestimonials() {
+        const FEEDBACK_API_URL = "http://localhost:8080/api/feedback";
+        const slider = document.getElementById("testimonialsSlider");
+        const dotsContainer = document.querySelector(".testimonial-dots");
+
+        if (!slider || !dotsContainer) return;
+
+        try {
+            const res = await fetch(FEEDBACK_API_URL);
+            const data = await res.json();
+
+            if (res.ok && data.data?.length) {
+                slider.innerHTML = "";
+                dotsContainer.innerHTML = "";
+
+                data.data.forEach((fb, i) => {
+                    const slide = document.createElement("div");
+                    slide.classList.add("testimonial-slide");
+                    if (i === 0) slide.classList.add("active");
+
+                    slide.innerHTML = `
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            ${renderStars(fb.rating || 5)}
+                        </div>
+                        <p class="testimonial-text">"${fb.message}"</p>
+                        <div class="testimonial-author">
+                            <div class="author-info">
+                                <h4 class="author-name">${fb.name}</h4>
+                                <p class="author-trip">${fb.trip || ""}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                    slider.appendChild(slide);
+
+                    const dot = document.createElement("span");
+                    dot.classList.add("dot");
+                    if (i === 0) dot.classList.add("active");
+                    dotsContainer.appendChild(dot);
+                });
+
+                initTestimonialSlider();
+            }
+        } catch (err) {
+            console.error("Error loading testimonials:", err);
+        }
+    }
+
+    function renderStars(rating) {
+        let html = "";
+        for (let i = 0; i < 5; i++) {
+            html += i < rating ? `<span class="star filled"></span>` : `<span class="star"></span>`;
+        }
+        return html;
+    }
+
+    function initTestimonialSlider() {
+        const slides = document.querySelectorAll(".testimonial-slide");
+        const dots = document.querySelectorAll(".testimonial-dots .dot");
+        if (!slides.length || !dots.length) return;
+
+        let currentIndex = 0;
+
+        const prevBtn = document.querySelector(".testimonial-prev");
+        const nextBtn = document.querySelector(".testimonial-next");
+
+        function showSlide(idx) {
+            if (!slides[idx] || !dots[idx]) return;
+            slides.forEach((s, i) => s.classList.toggle("active", i === idx));
+            dots.forEach((d, i) => d.classList.toggle("active", i === idx));
+            currentIndex = idx;
+        }
+
+        prevBtn?.addEventListener("click", () => showSlide((currentIndex - 1 + slides.length) % slides.length));
+        nextBtn?.addEventListener("click", () => showSlide((currentIndex + 1) % slides.length));
+        dots.forEach((dot, i) => dot.addEventListener("click", () => showSlide(i)));
+
+        showSlide(0);
+    }
+
+    document.addEventListener("DOMContentLoaded", loadTestimonials);
 </script>
 <script src="js/index.js"></script>
 </body>
