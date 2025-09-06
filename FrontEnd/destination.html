@@ -167,11 +167,11 @@
     <div class="footer-content">
       <div class="footer-column">
         <div class="footer-logo">
-          <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
+          <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 11 22 2 13 21 11 13 3 11"/>
           </svg>
-          <span>Trip.com</span>
+          <span class="logo-text">Trip</span> <span class="logo-sub">.com</span>
         </div>
         <p class="footer-description">Creating unforgettable travel experiences since 2010. Your journey begins with us.</p>
         <div class="footer-social">
@@ -241,25 +241,48 @@
 <script src="js/index.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    async function loadDestinations() {
-      const DEST_API_URL = "http://localhost:8080/api/allDestinations";
-      const container = document.querySelector(".destinations-grid");
-      if (!container) return;
+    const DEST_API_URL = "http://localhost:8080/api/allDestinations";
 
+    const container = document.getElementById("destinations-grid");
+    const categoryFilter = document.getElementById("category-filter");
+    const priceFilter = document.getElementById("price-filter");
+    const searchInput = document.getElementById("destination-search");
+    const paginationContainer = document.querySelector(".pagination");
+
+    let allDestinations = [];   // full dataset from API
+    let filteredDestinations = []; // after filter/search
+    let currentPage = 1;
+    const itemsPerPage = 6; // 👈 එක page එකකට cards ගණන
+
+    // ==================== LOAD DATA ====================
+    async function loadDestinations() {
       try {
         const res = await fetch(DEST_API_URL);
         const result = await res.json();
 
         if (res.ok && result.data?.length) {
-          container.innerHTML = "";
-          result.data.forEach((dest, i) => {
-            const card = document.createElement("div");
-            card.classList.add("destination-card");
-            card.dataset.category = dest.category.join(',').toLowerCase();
-            card.dataset.priceRange = dest.priceRange.toLowerCase();
-            card.dataset.price = dest.price;
+          allDestinations = result.data;
+          applyFiltersAndRender();
+        } else {
+          container.innerHTML = "<p>No destinations found.</p>";
+        }
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = "<p>Failed to load destinations.</p>";
+      }
+    }
 
-            card.innerHTML = `
+    // ==================== RENDER DESTINATIONS ====================
+    function renderDestinations(data) {
+      container.innerHTML = "";
+      data.forEach(dest => {
+        const card = document.createElement("div");
+        card.classList.add("destination-card");
+        card.dataset.category = dest.category.join(',').toLowerCase();
+        card.dataset.priceRange = dest.priceRange.toLowerCase();
+        card.dataset.price = dest.price;
+
+        card.innerHTML = `
           <div class="destination-image">
             <img src="${dest.imageUrl}" alt="${dest.title}">
             <div class="destination-overlay">
@@ -272,18 +295,26 @@
             <div class="destination-meta">
               <h3 class="destination-title">${dest.title}</h3>
               <span class="destination-rating">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27
+                                   17 14.14 18.18 21.02 12 17.77
+                                   5.82 21.02 7 14.14 2 9.27
+                                   8.91 8.26 12 2"></polygon>
+                </svg>
                 ${dest.rating ?? "N/A"}
-                </span>
+              </span>
             </div>
-            <p class="destination-location">${dest.location} , Sri Lanka</p>
+            <p class="destination-location">${dest.location}, Sri Lanka</p>
             <div class="destination-footer">
-              <div class="destination-price">From <span>${dest.currency} ${dest.price.toLocaleString()}</span></div>
+              <div class="destination-price">
+                From <span>${dest.currency} ${dest.price.toLocaleString()}</span>
+              </div>
               <a href="#" class="destination-link">
                 <span>Explore</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
@@ -291,43 +322,74 @@
             </div>
           </div>
         `;
-            container.appendChild(card);
-          });
+        container.appendChild(card);
+      });
+    }
 
-          // After rendering, define cards
-          const destinationCards = Array.from(container.querySelectorAll('.destination-card'));
+    // ==================== RENDER PAGINATION ====================
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      paginationContainer.innerHTML = "";
 
-          function filterAndSearch() {
-            const categoryValue = categoryFilter.value.toLowerCase();
-            const priceValue = priceFilter.value.toLowerCase();
-            const searchValue = searchInput.value.toLowerCase();
+      if (totalPages <= 1) return;
 
-            destinationCards.forEach(card => {
-              const title = card.querySelector('.destination-title').textContent.toLowerCase();
-              const location = card.querySelector('.destination-location').textContent.toLowerCase();
-              const category = card.dataset.category || '';
-              const priceRange = card.dataset.priceRange || '';
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement("a");
+        btn.href = "#";
+        btn.classList.add("pagination-item");
+        if (i === currentPage) btn.classList.add("active");
+        btn.textContent = i;
 
-              const matchesCategory = categoryValue === 'all' || category.includes(categoryValue);
-              const matchesPrice = priceValue === 'all' || priceRange.includes(priceValue);
-              const matchesSearch = title.includes(searchValue) || location.includes(searchValue);
+        btn.addEventListener("click", e => {
+          e.preventDefault();
+          currentPage = i;
+          applyFiltersAndRender();
+        });
 
-              card.style.display = (matchesCategory && matchesPrice && matchesSearch) ? 'block' : 'none';
-            });
-          }
-
-          categoryFilter.addEventListener('change', filterAndSearch);
-          priceFilter.addEventListener('change', filterAndSearch);
-          searchInput.addEventListener('input', filterAndSearch);
-
-          filterAndSearch();
-          if (window.AOS) AOS.refresh();
-        }
-      } catch (err) {
-        console.error(err);
-        container.innerHTML = "<p>Failed to load destinations.</p>";
+        paginationContainer.appendChild(btn);
       }
     }
+
+    // ==================== FILTER & SEARCH ====================
+    function applyFiltersAndRender() {
+      const categoryValue = categoryFilter.value.toLowerCase();
+      const priceValue = priceFilter.value.toLowerCase();
+      const searchValue = searchInput.value.toLowerCase();
+
+      filteredDestinations = allDestinations.filter(dest => {
+        const title = dest.title.toLowerCase();
+        const location = dest.location.toLowerCase();
+        const category = dest.category.join(',').toLowerCase();
+        const priceRange = dest.priceRange.toLowerCase();
+
+        const matchesCategory = categoryValue === "all" || category.includes(categoryValue);
+        const matchesPrice = priceValue === "all" || priceRange.includes(priceValue);
+        const matchesSearch = title.includes(searchValue) || location.includes(searchValue);
+
+        return matchesCategory && matchesPrice && matchesSearch;
+      });
+
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const paginatedData = filteredDestinations.slice(start, end);
+
+      renderDestinations(paginatedData);
+      renderPagination(filteredDestinations.length);
+    }
+
+    // ==================== EVENT LISTENERS ====================
+    categoryFilter.addEventListener("change", () => {
+      currentPage = 1;
+      applyFiltersAndRender();
+    });
+    priceFilter.addEventListener("change", () => {
+      currentPage = 1;
+      applyFiltersAndRender();
+    });
+    searchInput.addEventListener("input", () => {
+      currentPage = 1;
+      applyFiltersAndRender();
+    });
 
     // --- INITIAL RENDER ---
     loadDestinations();
@@ -402,8 +464,6 @@
   categoryFilter.addEventListener('change', filterAndSearch);
   priceFilter.addEventListener('change', filterAndSearch);
   searchInput.addEventListener('input', filterAndSearch);
-
-
 </script>
 </body>
 </html>
