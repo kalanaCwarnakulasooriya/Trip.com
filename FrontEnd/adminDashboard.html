@@ -571,6 +571,37 @@
         }
     }
 
+    // ================== LOAD CONTACT ==================
+    async function loadContact() {
+        try {
+            const res = await fetch("http://localhost:8080/api/contacts");
+            const json = await res.json();
+
+            const contacts = json.data;
+            if (!Array.isArray(contacts)) {
+                console.error("Expected an array but got:", contacts);
+                return;
+            }
+
+            const tableBody = document.querySelector("#contact-table tbody");
+            tableBody.innerHTML = "";
+
+            contacts.forEach(contact => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                <td>${contact.id || ''}</td>
+                <td>${contact.name || ''}</td>
+                <td>${contact.email || ''}</td>
+                <td>${contact.subject || ''}</td>
+                <td>${contact.message || ''}</td>
+            `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error loading contacts:", err);
+        }
+    }
+
 
     // ----------------------Data Saving----------------------
     // ================== POPULAR DESTINATIONS ==================
@@ -707,6 +738,7 @@
         loadPackages();
         loadAllDestinations();
         loadGallery();
+        loadContact();
     });
 </script>
 </body>
