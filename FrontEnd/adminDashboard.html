@@ -316,7 +316,7 @@
                     <input id="pkg-price" placeholder="Price">
                     <input id="pkg-description" placeholder="Description">
                 </div>
-                <button class="btn" id="add-package">Add Destination</button>
+                <button class="btn" id="add-package">Add Package</button>
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
@@ -387,7 +387,7 @@
                 <div class="form-row">
                     <input id="gallery-image" placeholder="Image URL">
                 </div>
-                <button class="btn" id="add-gallery">Add Destination</button>
+                <button class="btn" id="add-gallery">Add Image</button>
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
@@ -542,6 +542,35 @@
         }
     }
 
+    // ================== LOAD GALLERY ==================
+    async function loadGallery() {
+        try {
+            const res = await fetch("http://localhost:8080/api/galleries");
+            const json = await res.json();
+
+            // Ensure json.data is an array
+            const galleries = json.data;
+            if (!Array.isArray(galleries)) {
+                console.error("Expected an array but got:", galleries);
+                return;
+            }
+
+            const tableBody = document.querySelector("#gallery-table tbody");
+            tableBody.innerHTML = "";
+
+            galleries.forEach(gallery => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${gallery.id || ''}</td>
+                    <td><img src="${gallery.imageUrl || ''}" width="80"></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error loading gallery:", err);
+        }
+    }
+
 
     // ----------------------Data Saving----------------------
     // ================== POPULAR DESTINATIONS ==================
@@ -650,6 +679,7 @@
         loadDestinations();
         loadPackages();
         loadAllDestinations();
+        loadGallery();
     });
 </script>
 </body>
