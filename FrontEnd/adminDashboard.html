@@ -476,6 +476,38 @@
         }
     }
 
+    // ================== LOAD PACKAGES ==================
+    async function loadPackages() {
+        try {
+            const res = await fetch("http://localhost:8080/api/packages");
+            const json = await res.json();
+
+            const packages = json.data;
+            if (!Array.isArray(packages)) {
+                console.error("Expected an array but got:", packages);
+                return;
+            }
+
+            const tableBody = document.querySelector("#package-table tbody");
+            tableBody.innerHTML = "";
+            packages.forEach(pkg => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${pkg.id}</td>
+                    <td>${pkg.title}</td>
+                    <td>${pkg.tag}</td>
+                    <td>${pkg.unit}</td>
+                    <td>${pkg.description}</td>
+                    <td>${Array.isArray(pkg.features) ? pkg.features.join(", ") : pkg.features}</td>
+                    <td>${pkg.price}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error loading packages:", err);
+        }
+    }
+
     // ================== LOAD ALL DESTINATIONS ==================
     async function loadAllDestinations() {
         try {
@@ -583,6 +615,7 @@
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
         loadDestinations();
+        loadPackages();
         loadAllDestinations();
     });
 </script>

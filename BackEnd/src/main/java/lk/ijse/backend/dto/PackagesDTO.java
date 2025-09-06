@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PackagesDTO {
+    private Long id;
     private String tag; // Most Popular,Best Value,New
     private String title;
     private String description;
