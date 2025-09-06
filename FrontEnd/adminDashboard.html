@@ -674,6 +674,33 @@
         document.querySelectorAll("#destinations input").forEach(i => i.value = "");
     });
 
+    // ================== ADD GALLERY IMAGE ==================
+    document.getElementById("add-gallery").addEventListener("click", async () => {
+        const dto = {
+            imageUrl: document.getElementById("gallery-image").value
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/galleries", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Gallery image added successfully!");
+                loadGallery();
+            } else {
+                alert("Failed to add gallery image!");
+            }
+        } catch (err) {
+            console.error("Error saving gallery image:", err);
+        }
+
+        // Clear input
+        document.getElementById("gallery-image").value = "";
+    });
+
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
         loadDestinations();
