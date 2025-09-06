@@ -427,6 +427,96 @@
     </section>
 </div>
 
+<script>
+    // Sidebar navigation
+    const navItems = document.querySelectorAll("nav li");
+    const sections = document.querySelectorAll(".view-section");
+    navItems.forEach(item=>{
+        item.addEventListener("click",()=>{
+            navItems.forEach(i=>i.classList.remove("active"));
+            item.classList.add("active");
+            const view=item.getAttribute("data-view");
+            sections.forEach(sec=>{
+                sec.style.display=(sec.id===view)?"block":"none";
+            });
+        });
+    });
 
+    // ================== LOAD POPULAR DESTINATIONS ==================
+    async function loadDestinations() {
+        try {
+            const res = await fetch("http://localhost:8080/api/destinations");
+            const json = await res.json();
+
+            const destinations = json.data; // <-- මෙන්න array එක
+            if (!Array.isArray(destinations)) {
+                console.error("Expected an array but got:", destinations);
+                return;
+            }
+
+            const tableBody = document.querySelector("#popular-destination-table tbody");
+            tableBody.innerHTML = "";
+            destinations.forEach(dest => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                <td>${dest.id}</td>
+                <td>${dest.title}</td>
+                <td>${dest.location}</td>
+                <td><img src="${dest.imageUrl}" width="80"></td>
+                <td>${dest.duration}</td>
+                <td>${dest.currency}</td>
+                <td>${dest.price}</td>
+                <td>${dest.rating}</td>
+                <td>${dest.reviews}</td>
+            `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+
+    // Data Saving
+    // ================== POPULAR DESTINATIONS ==================
+    document.getElementById("add-pd").addEventListener("click", async () => {
+        const dto = {
+            title: document.getElementById("pd-title").value,
+            location: document.getElementById("pd-location").value,
+            imageUrl: document.getElementById("pd-image").value,
+            duration: document.getElementById("pd-duration").value,
+            currency: document.getElementById("pd-currency").value,
+            price: parseFloat(document.getElementById("pd-price").value),
+            rating: parseFloat(document.getElementById("pd-rating").value),
+            reviews: parseInt(document.getElementById("pd-reviews").value)
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/destinations", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Destination එක save උනා!");
+                loadDestinations();
+            } else {
+                alert("Destination save වෙලා නෑ!");
+            }
+        } catch (err) {
+            console.error(err);
+        }
+
+        // input clear කරන්න
+        document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
+    });
+
+    // ================== INITIAL LOAD ==================
+    window.addEventListener("DOMContentLoaded", () => {
+        loadDestinations();      // Popular Destinations table
+        // loadAllDestinations();   // All Destinations table
+    });
+</script>
 </body>
 </html>
