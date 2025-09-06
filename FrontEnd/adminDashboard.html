@@ -578,6 +578,39 @@
         document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
     });
 
+    document.getElementById("add-package").addEventListener("click", async () => {
+        const dto = {
+            title: document.getElementById("pkg-title").value,
+            tag: document.getElementById("pkg-tag").value,
+            features: document.getElementById("pkg-features").value
+                .split(",")
+                .map(f => f.trim()),  // comma separated features
+            unit: document.getElementById("pkg-unit").value,
+            price: parseFloat(document.getElementById("pkg-price").value) || 0,
+            description: document.getElementById("pkg-description").value
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/packages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Package save is successful!");
+                loadPackages();
+            } else {
+                alert("Package save is failed!");
+            }
+        } catch (err) {
+            console.error("Error saving package:", err);
+        }
+
+        // input clear
+        document.querySelectorAll("#packages input").forEach(i => i.value = "");
+    });
+
     // ================== ADD ALL DESTINATIONS ==================
     document.getElementById("add-destinations").addEventListener("click", async () => {
         const dto = {
