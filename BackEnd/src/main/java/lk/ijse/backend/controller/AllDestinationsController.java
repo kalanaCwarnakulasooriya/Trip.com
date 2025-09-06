@@ -44,7 +44,7 @@ public class AllDestinationsController {
         ));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<APIResponse> addDestination(@RequestBody AllDestinationsDTO dto) {
         AllDestinationsDTO saved = allDestinationsService.addDestination(dto);
@@ -55,7 +55,7 @@ public class AllDestinationsController {
         ));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<APIResponse> updateDestination(@PathVariable Long id, @RequestBody AllDestinationsDTO dto) {
         AllDestinationsDTO updated = allDestinationsService.updateDestination(id, dto);
