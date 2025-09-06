@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Admin Dashboard - Trip.com</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg:#0f1724;
+            --card:#0b1220;
+            --accent:#22c1c3;
+            --muted:#94a3b8;
+            --glass: rgba(255,255,255,0.03);
+            --primary-color: #2a9df4;
+            --primary-dark: #1a7ac5;
+            --primary-light: #7fc1f9;
+            --secondary-color: #ff6b6b;
+            --text-color: #333333;
+            --text-light: #666666;
+            --text-lighter: #999999;
+            --bg-color: #ffffff;
+            --bg-light: #f8f9fa;
+            --bg-dark: #212529;
+            --border-color: #e9ecef;
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        *{
+            box-sizing:border-box;
+            font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial
+        }
+        body{
+            margin:0;
+            background:linear-gradient(180deg,#071029 0%, #071a2a 100%);
+            color:#e6eef6;
+            min-height:100vh
+        }
+        .app{
+            display:grid;
+            grid-template-columns:260px 1fr;
+            gap:20px;
+            padding:22px
+        }
+        /* SIDEBAR */
+        .sidebar{
+            background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+            border-radius:14px;
+            padding:18px;
+            height:calc(100vh - 44px);
+            position:sticky;
+            top:22px;
+            overflow:auto
+        }
+        .brand{
+            display:flex;
+            gap:12px;
+            align-items:center;
+            margin-bottom:18px
+        }
+        .logo-icon {
+            width: 35px;
+            height: 35px;
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+        }
+        .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            font-family: "Droid Sans", sans-serif;
+            color: var(--primary-color);
+        }
+        .logo-sub {
+            font-size: 25px;
+            font-family: Sylfaen;
+            color: var(--primary-color);
+        }
+        nav ul{
+            list-style:none;
+            padding:0;
+            margin:8px 0
+        }
+        nav li{
+            padding:10px;
+            border-radius:8px;
+            margin:6px 0;
+            cursor:pointer;
+            color:var(--muted)
+        }
+        nav li.active, nav li:hover{
+            background:var(--glass);color:#fff
+        }
+        /* HEADER */
+        header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:14px 22px;
+            border-radius:14px;
+            background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+        }
+
+        .search{
+            display:flex;
+            gap:10px;
+            align-items:center
+        }
+
+        .search input{
+            background:transparent;
+            border:1px solid rgba(255,255,255,0.04);
+            padding:10px 12px;
+            border-radius:10px;
+            color:inherit;
+            min-width:300px
+        }
+
+        .search input:focus,
+        .search input:hover{
+            border: 1px solid var(--primary-color);
+        }
+
+        .actions{
+            display:flex;
+            gap:12px;
+            align-items:center
+        }
+
+        .btn{
+            padding:11px 20px;
+            border-radius:10px;
+            background:linear-gradient(90deg,var(--accent),#2a9df4);
+            border:none;
+            color:#042031;
+            font-weight:600;
+            cursor:pointer
+        }
+
+        .btn:hover{
+            background:var(--primary-color);
+            /*color: #fff;*/
+        }
+        /* CONTENT */
+        main{padding:12px 0}
+        .grid{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:14px;
+            margin-bottom:18px
+        }
+        .card{
+            background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+            padding:16px;
+            border-radius:12px
+        }
+        .card h3{margin:0 0 8px 0;font-size:14px;color:var(--muted)}
+        .stat{font-size:22px;font-weight:700}
+        /* TABLE */
+        .table-wrap{
+            background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+            padding:14px;
+            border-radius:12px
+        }
+        table{width:100%;border-collapse:collapse}
+        th,td{
+            padding:10px;
+            text-align:left;
+            border-bottom:1px solid rgba(255,255,255,0.03);
+            font-size:14px
+        }
+        th{
+            color:var(--muted);
+            font-weight:600
+        }
+
+        tr:hover td{
+            background:rgba(255,255,255,0.01)
+        }
+
+        /* FORM */
+        .form-row{
+            display:flex;
+            gap:10px;
+            margin-bottom:10px
+        }
+
+        .form-row input{
+            flex:1;
+            padding:8px;
+            border-radius:8px;
+            border:1px solid rgba(255,255,255,0.04);
+            background:transparent;
+            color:inherit
+        }
+
+        .form-row input:focus,
+        .form-row input:hover{
+            border: 1px solid var(--primary-color);
+        }
+        /* Responsive */
+        @media(max-width:900px){
+            .app{grid-template-columns:1fr}
+            .sidebar{height:auto;position:relative}
+            .grid{grid-template-columns:repeat(2,1fr)}
+            .search input{min-width:160px}
+        }
+        @media(max-width:560px){.grid{grid-template-columns:1fr}}
+        .row{display:flex;gap:12px;align-items:center}
+        .pill{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600}
+        .muted{color:var(--muted)}
+    </style>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <svg class="logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+            </svg>
+            <div>
+                <span class="logo-text">Trip</span> <span class="logo-sub">.com</span>
+                <div class="muted" style="font-size:12px">Admin Dashboard</div>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li class="active" data-view="overview">Overview</li>
+                <li data-view="popular-destination">Popular Destinations</li>
+                <li data-view="packages">Packages</li>
+                <li data-view="destinations">All Destinations</li>
+                <li data-view="gallery">Gallery</li>
+                <li data-view="contact">Contact Us</li>
+                <li data-view="settings">Settings</li>
+            </ul>
+        </nav>
+    </aside>
+
+    <section style="padding:0 8px;">
+        <header>
+            <div class="search">
+                <input id="global-search" placeholder="Search"/>
+                <div class="muted">Quick search</div>
+            </div>
+            <div class="actions">
+<!--                <div class="pill">Notifications</div>-->
+                <button class="btn" id="logout">Logout</button>
+            </div>
+        </header>
+
+        <main>
+            <!-- STATS -->
+            <div class="grid view-section" id="overview">
+                <div class="card"><h3>Total Revenue</h3><div class="stat">$12,420</div><div class="muted">Last 30 days</div></div>
+                <div class="card"><h3>Orders</h3><div class="stat">1,294</div><div class="muted">Pending: 18</div></div>
+                <div class="card"><h3>Active Customers</h3><div class="stat">3,220</div><div class="muted">New: 124</div></div>
+            </div>
+
+            <!-- POPULAR DESTINATION -->
+            <div class="table-wrap view-section" id="popular-destination" style="display:none">
+                <h3 style="margin:0 0 10px">Popular Destination</h3>
+                <div class="form-row">
+                    <input id="pd-title" placeholder="Title">
+                    <input id="pd-location" placeholder="Location">
+                </div>
+                <div class="form-row">
+                    <input id="pd-image" placeholder="Image URL">
+                    <input id="pd-duration" placeholder="Duration">
+                </div>
+                <div class="form-row">
+                    <input id="pd-currency" placeholder="Currency">
+                    <input id="pd-price" placeholder="Price">
+                </div>
+                <div class="form-row">
+                    <input id="pd-rating" placeholder="Rating">
+                    <input id="pd-reviews" placeholder="Reviews">
+                </div>
+                <button class="btn" id="add-pd">Add Destination</button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Popular Destination List</h3>
+                <table id="popular-destination-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Image_URL</th>
+                            <th>Duration</th>
+                            <th>Currency</th>
+                            <th>Price</th>
+                            <th>Rating</th>
+                            <th>Reviews</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- PACKAGES -->
+            <div class="table-wrap view-section" id="packages" style="display:none">
+                <h3 style="margin:0 0 10px">Packages</h3>
+                <div class="form-row">
+                    <input id="pkg-title" placeholder="Title">
+                    <input id="pkg-tag" placeholder="Tag">
+                </div>
+                <div class="form-row">
+                    <input id="pkg-features" placeholder="Features">
+                    <input id="pkg-unit" placeholder="Unit">
+                </div>
+                <div class="form-row">
+                    <input id="pkg-price" placeholder="Price">
+                    <input id="pkg-description" placeholder="Description">
+                </div>
+                <button class="btn" id="add-package">Add Destination</button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Packages List</h3>
+                <table id="package-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Tag</th>
+                            <th>Unit</th>
+                            <th>Description</th>
+                            <th>Features</th>
+                            <th>Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- ALL DESTINATIONS -->
+            <div class="table-wrap view-section" id="destinations" style="display:none">
+                <h3 style="margin:0 0 10px">All Destinations</h3>
+                <div class="form-row">
+                    <input id="dest-title" placeholder="Title">
+                    <input id="dest-location" placeholder="Location">
+                </div>
+                <div class="form-row">
+                    <input id="dest-image" placeholder="Image URL">
+                    <input id="dest-currency" placeholder="Currency">
+                </div>
+                <div class="form-row">
+                    <input id="dest-price" placeholder="Price">
+                    <input id="dest-range" placeholder="Price Range">
+                </div>
+                <div class="form-row">
+                    <input id="dest-category" placeholder="Category">
+                    <input id="dest-rating" placeholder="Rating">
+                </div>
+                <button class="btn" id="add-destinations">Add Destination</button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>All Destinations List</h3>
+                <table id="destinations-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Image_URL</th>
+                            <th>Currency</th>
+                            <th>Price</th>
+                            <th>Price_Range</th>
+                            <th>Category</th>
+                            <th>Rating</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- GALLERY -->
+            <div class="table-wrap view-section" id="gallery" style="display:none">
+                <h3 style="margin:0 0 10px">Gallery</h3>
+                <div class="form-row">
+                    <input id="gallery-image" placeholder="Image URL">
+                </div>
+                <button class="btn" id="add-gallery">Add Destination</button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Gallery List</h3>
+                <table id="gallery-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Image_URL</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- CONTACT US -->
+            <div class="table-wrap view-section" id="contact" style="display:none">
+
+                <h3>All Destinations List</h3>
+                <table id="contact-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </main>
+    </section>
+</div>
+
+
+</body>
+</html>
