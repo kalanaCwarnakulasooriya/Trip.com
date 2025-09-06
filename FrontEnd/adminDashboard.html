@@ -442,6 +442,29 @@
         });
     });
 
+    // ================== GLOBAL SEARCH ==================
+    const searchInput = document.getElementById("global-search");
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase();
+
+        // function to filter a table by search query
+        const filterTable = (tableId) => {
+            const table = document.getElementById(tableId);
+            const rows = table.querySelectorAll("tbody tr");
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? "" : "none";
+            });
+        };
+
+        // Apply search to all tables
+        filterTable("popular-destination-table");
+        filterTable("package-table");
+        filterTable("destinations-table");
+        filterTable("gallery-table");
+        filterTable("contact-table");
+    });
+
     // ================== LOAD POPULAR DESTINATIONS ==================
     async function loadDestinations() {
         try {
