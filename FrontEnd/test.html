@@ -199,6 +199,39 @@
         .form-row input:hover{
             border: 1px solid var(--primary-color);
         }
+
+        /* Pagination container */
+        #pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 5px;
+        }
+
+        /* Pagination buttons */
+        #pagination button {
+            padding: 6px 12px;
+            border: 1px solid #2a9df4;
+            background: linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+            color: #2a9df4;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        /* Hover effect */
+        #pagination button:hover {
+            background-color: #2a9df4;
+            color: #fff;
+        }
+
+        /* Active page button */
+        #pagination button.active-page {
+            background-color: #2a9df4;
+            color: #fff;
+            font-weight: bold;
+        }
+
         /* Responsive */
         @media(max-width:900px){
             .app{grid-template-columns:1fr}
@@ -245,7 +278,7 @@
                 <div class="muted">Quick search</div>
             </div>
             <div class="actions">
-<!--                <div class="pill">Notifications</div>-->
+                <!--                <div class="pill">Notifications</div>-->
                 <button class="btn" id="logout">Logout</button>
             </div>
         </header>
@@ -284,21 +317,23 @@
                 <h3>Popular Destination List</h3>
                 <table id="popular-destination-table">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Location</th>
-                            <th>Image_URL</th>
-                            <th>Duration</th>
-                            <th>Currency</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Reviews</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Image_URL</th>
+                        <th>Duration</th>
+                        <th>Currency</th>
+                        <th>Price</th>
+                        <th>Rating</th>
+                        <th>Reviews</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
+
+                <div id="pagination" style="margin-top:10px;"></div>
             </div>
 
             <!-- PACKAGES -->
@@ -323,16 +358,16 @@
                 <h3>Packages List</h3>
                 <table id="package-table">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Tag</th>
-                            <th>Unit</th>
-                            <th>Description</th>
-                            <th>Features</th>
-                            <th>Price</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Tag</th>
+                        <th>Unit</th>
+                        <th>Description</th>
+                        <th>Features</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -351,7 +386,7 @@
                 </div>
                 <div class="form-row">
                     <input id="dest-price" placeholder="Price">
-                    <input id="dest-priceRange" placeholder="Price Range">
+                    <input id="dest-range" placeholder="Price Range">
                 </div>
                 <div class="form-row">
                     <input id="dest-category" placeholder="Category">
@@ -364,18 +399,18 @@
                 <h3>All Destinations List</h3>
                 <table id="destinations-table">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Location</th>
-                            <th>Image</th>
-                            <th>Currency</th>
-                            <th>Price</th>
-                            <th>Price Range</th>
-                            <th>Category</th>
-                            <th>Rating</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th>Image_URL</th>
+                        <th>Currency</th>
+                        <th>Price</th>
+                        <th>Price_Range</th>
+                        <th>Category</th>
+                        <th>Rating</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -394,11 +429,11 @@
                 <h3>Gallery List</h3>
                 <table id="gallery-table">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Image_URL</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image_URL</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -410,14 +445,14 @@
                 <h3>All Destinations List</h3>
                 <table id="contact-table">
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Subject</th>
-                            <th>Message</th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -442,77 +477,79 @@
         });
     });
 
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    let destinationsData = [];
+
     // ================== LOAD POPULAR DESTINATIONS ==================
     async function loadDestinations() {
         try {
             const res = await fetch("http://localhost:8080/api/destinations");
             const json = await res.json();
 
-            const destinations = json.data; // <-- මෙන්න array එක
-            if (!Array.isArray(destinations)) {
-                console.error("Expected an array but got:", destinations);
+            destinationsData = json.data; // save the array globally
+            if (!Array.isArray(destinationsData)) {
+                console.error("Expected an array but got:", destinationsData);
                 return;
             }
 
-            const tableBody = document.querySelector("#popular-destination-table tbody");
-            tableBody.innerHTML = "";
-            destinations.forEach(dest => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                <td>${dest.id}</td>
-                <td>${dest.title}</td>
-                <td>${dest.location}</td>
-                <td><img src="${dest.imageUrl}" width="80"></td>
-                <td>${dest.duration}</td>
-                <td>${dest.currency}</td>
-                <td>${dest.price}</td>
-                <td>${dest.rating}</td>
-                <td>${dest.reviews}</td>
-            `;
-                tableBody.appendChild(tr);
-            });
+            currentPage = 1; // page reset
+            displayPage();
         } catch (err) {
             console.error(err);
         }
     }
 
-    // ================== LOAD ALL DESTINATIONS ==================
-    async function loadAllDestinations() {
-        try {
-            const res = await fetch("http://localhost:8080/api/allDestinations");
-            const json = await res.json();
+    // ================== DISPLAY TABLE PAGE ==================
+    function displayPage() {
+        const tableBody = document.querySelector("#popular-destination-table tbody");
+        tableBody.innerHTML = "";
 
-            const destinations = json.data; // <-- මෙන්න array එක
-            if (!Array.isArray(destinations)) {
-                console.error("Expected an array but got:", destinations);
-                return;
-            }
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const pageData = destinationsData.slice(start, end);
 
-            const tableBody = document.querySelector("#destinations-table tbody");
-            tableBody.innerHTML = "";
-            destinations.forEach(dest => {
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                <td>${dest.id}</td>
-                <td>${dest.title}</td>
-                <td>${dest.location}</td>
-                <td><img src="${dest.imageUrl}" width="80"></td>
-                <td>${dest.currency || ''}</td>
-                <td>${dest.price || ''}</td>
-                <td>${dest.priceRange || ''}</td>
-                <td>${(dest.category || []).join(", ")}</td>
-                <td>${dest.rating || ''}</td>
-            `;
-                tableBody.appendChild(tr);
+        pageData.forEach(dest => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+            <td>${dest.id}</td>
+            <td>${dest.title}</td>
+            <td>${dest.location}</td>
+            <td><img src="${dest.imageUrl}" width="80"></td>
+            <td>${dest.duration}</td>
+            <td>${dest.currency}</td>
+            <td>${dest.price}</td>
+            <td>${dest.rating}</td>
+            <td>${dest.reviews}</td>
+        `;
+            tableBody.appendChild(tr);
+        });
+
+        renderPagination();
+    }
+
+    // ================== PAGINATION BUTTONS ==================
+    function renderPagination() {
+        const paginationDiv = document.getElementById("pagination");
+        paginationDiv.innerHTML = "";
+
+        const totalPages = Math.ceil(destinationsData.length / rowsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const btn = document.createElement("button");
+            btn.textContent = i;
+            if (i === currentPage) btn.classList.add("active-page");
+
+            btn.addEventListener("click", () => {
+                currentPage = i;
+                displayPage();
             });
-        } catch (err) {
-            console.error(err);
+
+            paginationDiv.appendChild(btn);
         }
     }
 
-
-    // ----------------------Data Saving----------------------
-    // ================== POPULAR DESTINATIONS ==================
+    // ================== ADD POPULAR DESTINATION ==================
     document.getElementById("add-pd").addEventListener("click", async () => {
         const dto = {
             title: document.getElementById("pd-title").value,
@@ -534,7 +571,7 @@
 
             if (res.ok) {
                 alert("Destination එක save උනා!");
-                loadDestinations();
+                loadDestinations(); // table refresh
             } else {
                 alert("Destination save වෙලා නෑ!");
             }
@@ -542,14 +579,12 @@
             console.error(err);
         }
 
-        // input clear කරන්න
         document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
     });
 
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
-        loadDestinations();      // Popular Destinations table
-        loadAllDestinations();   // All Destinations table
+        loadDestinations();
     });
 </script>
 </body>
