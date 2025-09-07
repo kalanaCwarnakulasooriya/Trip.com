@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trip.com - Book Your Dream Vacation</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="css/packageBooking.css">
+    <link rel="stylesheet" href="css/pkgBooking.css">
     <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 <body>
@@ -48,7 +48,7 @@
         </div>
         <div class="progress-step">
             <div class="step-number">2</div>
-            <div class="step-label">Traveler Information</div>
+            <div class="step-label">Booking Information</div>
         </div>
         <div class="progress-step">
             <div class="step-number">3</div>
@@ -65,10 +65,6 @@
         <!-- Booking Form -->
         <div class="booking-form" id="booking-form-container">
             <h2 class="form-title">Booking Details</h2>
-
-            <!-- Hidden fields for database schema -->
-
-
             <form id="add-booking-form">
                 <div class="form-row">
                     <div class="form-group">
@@ -110,12 +106,11 @@
                     <button type="submit" class="btn btn-primary">Save Booking</button>
                 </div>
             </form>
-
         </div>
 
 
         <!-- Booking Summary -->
-        <div class="booking-summary">
+        <!--<div class="booking-summary">
             <div class="summary-header">
                 <h2 class="summary-title">Booking Summary</h2>
             </div>
@@ -123,43 +118,43 @@
                 <div class="summary-item">
                     <i class="fas fa-user"></i>
                     <div class="summary-item-label">Full Name</div>
-                    <div class="summary-item-value" id="summary-name">--</div>
+                    <div class="summary-item-value" id="summary-name">&#45;&#45;</div>
                 </div>
 
                 <div class="summary-item">
                     <i class="fas fa-envelope"></i>
                     <div class="summary-item-label">Email</div>
-                    <div class="summary-item-value" id="summary-email">--</div>
+                    <div class="summary-item-value" id="summary-email">&#45;&#45;</div>
                 </div>
 
                 <div class="summary-item">
                     <i class="fas fa-phone"></i>
                     <div class="summary-item-label">Phone</div>
-                    <div class="summary-item-value" id="summary-phone">--</div>
+                    <div class="summary-item-value" id="summary-phone">&#45;&#45;</div>
                 </div>
 
                 <div class="summary-item">
                     <i class="fas fa-suitcase"></i>
                     <div class="summary-item-label">Package</div>
-                    <div class="summary-item-value" id="summary-package-type">--</div>
+                    <div class="summary-item-value" id="summary-package-type">&#45;&#45;</div>
                 </div>
 
                 <div class="summary-item">
                     <i class="fas fa-calendar-alt"></i>
                     <div class="summary-item-label">Travel Date</div>
-                    <div class="summary-item-value" id="summary-travel-date">--</div>
+                    <div class="summary-item-value" id="summary-travel-date">&#45;&#45;</div>
                 </div>
 
                 <div class="summary-item">
                     <i class="fas fa-users"></i>
                     <div class="summary-item-label">Guests</div>
-                    <div class="summary-item-value" id="summary-guests-count">--</div>
+                    <div class="summary-item-value" id="summary-guests-count">&#45;&#45;</div>
                 </div>
 
                 <div class="summary-item">
                     <i class="fas fa-clock"></i>
                     <div class="summary-item-label">Duration</div>
-                    <div class="summary-item-value" id="summary-duration">--</div>
+                    <div class="summary-item-value" id="summary-duration">&#45;&#45;</div>
                 </div>
 
                 <div class="summary-item">
@@ -181,11 +176,11 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
 
     <!-- Payment Form (hidden initially) -->
-    <div class="payment-form" id="payment-form-container">
+    <!--<div class="payment-form" id="payment-form-container">
         <div class="payment-title">
             <h1>Complete Your Payment</h1>
             <p>You're almost there! Please provide your payment details to secure your booking.</p>
@@ -266,7 +261,7 @@
                 <button type="submit" class="btn btn-primary">Complete Payment</button>
             </div>
         </form>
-    </div>
+    </div>-->
 </div>
 
 <script>
