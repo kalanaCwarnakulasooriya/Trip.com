@@ -39,4 +39,21 @@ public class ContactController {
         ));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse> deleteContact(@PathVariable Long id) {
+        boolean deleted = contactService.deleteContact(id);
+        if (deleted) {
+            return ResponseEntity.ok(new APIResponse(
+                    200,
+                    "Contact deleted successfully",
+                    null
+            ));
+        }
+        return ResponseEntity.status(404).body(new APIResponse(
+                404,
+                "Contact not found",
+                null
+        ));
+    }
+
 }

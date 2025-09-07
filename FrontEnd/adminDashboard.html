@@ -239,8 +239,8 @@
         }
 
         /* ===== Table Action Buttons ===== */
-        .btn-update,
-        .btn-delete {
+        .btn-primary,
+        .btn-danger {
             padding: 6px 12px;
             margin: 2px;
             border: none;
@@ -252,21 +252,21 @@
         }
 
         /* Update button */
-        .btn-update {
+        .btn-primary {
             background-color: #2a9df4;
             color: #fff;
         }
-        .btn-update:hover {
+        .btn-primary:hover {
             background-color: #1a7ac5;
             transform: scale(1.05);
         }
 
         /* Delete button */
-        .btn-delete {
+        .btn-danger {
             background-color: #ff4d4d;
             color: #fff;
         }
-        .btn-delete:hover {
+        .btn-danger:hover {
             background-color: #cc0000;
             transform: scale(1.05);
         }
@@ -601,10 +601,10 @@
                 <td>${dest.rating}</td>
                 <td>${dest.reviews}</td>
                 <td>
-                    <button class="btn-update" data-id="${dest.id}">
+                    <button class="update-popDest btn-primary" data-id="${dest.id}">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
-                    <button class="btn-delete" data-id="${dest.id}">
+                    <button class="delete-popDest btn-danger" data-id="${dest.id}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
@@ -613,7 +613,7 @@
             });
 
             // Delete Popular Destination
-            document.querySelectorAll(".btn-delete").forEach(btn => {
+            document.querySelectorAll(".delete-popDest").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.getAttribute("data-id");
                     if (!confirm("Are you sure you want to delete this?")) return;
@@ -638,7 +638,7 @@
 
             // When user clicks table "Update" button
             document.addEventListener("click", (e) => {
-                if (e.target.classList.contains("btn-update")) {
+                if (e.target.classList.contains("update-popDest")) {
                     const row = e.target.closest("tr");
                     selectedPdId = e.target.getAttribute("data-id"); // save the id
 
@@ -725,10 +725,10 @@
                 <td>${Array.isArray(pkg.features) ? pkg.features.join(", ") : pkg.features}</td>
                 <td>${pkg.price}</td>
                 <td>
-                    <button class="btn-update" data-id="${pkg.id}">
+                    <button class="update-pkg btn-primary" data-id="${pkg.id}">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
-                    <button class="btn-delete" data-id="${pkg.id}">
+                    <button class="delete-pkg btn-danger" data-id="${pkg.id}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
@@ -737,7 +737,7 @@
             });
 
             // Delete Packages
-            document.querySelectorAll(".btn-delete").forEach(btn => {
+            document.querySelectorAll(".delete-pkg").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.getAttribute("data-id");
                     if (!confirm("Are you sure you want to delete this?")) return;
@@ -762,7 +762,7 @@
 
             // Handle Update click
             document.addEventListener("click", (e) => {
-                const btn = e.target.closest(".btn-update");
+                const btn = e.target.closest(".update-pkg");
                 if (btn) {
                     const row = btn.closest("tr");
                     selectedPkgId = btn.getAttribute("data-id");
@@ -851,10 +851,10 @@
                 <td>${(dest.category || []).join(", ")}</td>
                 <td>${dest.rating || ''}</td>
                 <td>
-                    <button class="btn-update" data-id="${dest.id}">
+                    <button class="update-allDest btn-primary" data-id="${dest.id}">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
-                    <button class="btn-delete" data-id="${dest.id}">
+                    <button class="delete-allDest btn-danger" data-id="${dest.id}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
@@ -863,7 +863,7 @@
             });
 
             // Delete All Destinations
-            document.querySelectorAll(".btn-delete").forEach(btn => {
+            document.querySelectorAll(".delete-allDest").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.getAttribute("data-id");
                     if (!confirm("Are you sure you want to delete this?")) return;
@@ -888,7 +888,7 @@
 
             // When user clicks table "Update" button
             document.addEventListener("click", (e) => {
-                if (e.target.classList.contains("btn-update")) {
+                if (e.target.classList.contains("update-allDest")) {
                     const row = e.target.closest("tr");
                     selectedADId = e.target.getAttribute("data-id");
 
@@ -972,10 +972,10 @@
                     <td>${gallery.id || ''}</td>
                     <td><img src="${gallery.imageUrl || ''}" width="80"></td>
                     <td>
-                    <button class="btn-update" data-id="${gallery.id}">
+                    <button class="update-gallery btn-primary" data-id="${gallery.id}">
                         <i class="fa fa-pencil-alt"></i>
                     </button>
-                    <button class="btn-delete" data-id="${gallery.id}">
+                    <button class="delete-gallery btn-danger" data-id="${gallery.id}">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
@@ -984,7 +984,7 @@
             });
 
             // Delete Gallery
-            document.querySelectorAll(".btn-delete").forEach(btn => {
+            document.querySelectorAll(".delete-gallery").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.getAttribute("data-id");
                     if (!confirm("Are you sure you want to delete this?")) return;
@@ -995,7 +995,7 @@
                         });
                         if (res.ok) {
                             loadGallery();
-                            // alert("Deleted successfully!");
+                            alert("Deleted successfully!");
                         } else {
                             alert("Failed to delete!");
                         }
@@ -1009,7 +1009,7 @@
 
             // When user clicks table "Update" button
             document.addEventListener("click", (e) => {
-                if (e.target.classList.contains("btn-update")) {
+                if (e.target.classList.contains("update-gallery")) {
                     const row = e.target.closest("tr");
                     selectedGalleryId = e.target.getAttribute("data-id");
 
@@ -1080,8 +1080,35 @@
                 <td>${contact.email || ''}</td>
                 <td>${contact.subject || ''}</td>
                 <td>${contact.message || ''}</td>
+                <td>
+                    <button class="delete-contact btn-danger" data-id="${contact.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
             `;
                 tableBody.appendChild(tr);
+            });
+
+            // Delete Contact
+            document.querySelectorAll(".delete-contact").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.getAttribute("data-id");
+                    if (!confirm("Are you sure you want to delete this?")) return;
+
+                    try {
+                        const res = await fetch(`http://localhost:8080/api/contacts/${id}`, {
+                            method: "DELETE"
+                        });
+                        if (res.ok) {
+                            loadContact();
+                            alert("Deleted successfully!");
+                        } else {
+                            alert("Failed to delete!");
+                        }
+                    } catch (err) {
+                        console.error("Delete error:", err);
+                    }
+                });
             });
         } catch (err) {
             console.error("Error loading contacts:", err);
