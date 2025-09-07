@@ -204,8 +204,15 @@
 
                     const result = await response.json();
                     setCookie("token", result.data.accessToken, 1);
+                    const role = result.data.role;
                     setTimeout(() => {
-                        window.location.href = 'home.html';
+                        if (role === "ADMIN") {
+                            window.location.href = 'adminDashboard.html';
+                        } else if (role === "USER") {
+                            window.location.href = 'home.html';
+                        } else {
+                            alert("Unknown role! Cannot redirect.");
+                        }
                     }, 1000);
 ;
                 } catch (error) {
