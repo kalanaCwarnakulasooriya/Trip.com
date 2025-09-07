@@ -73,7 +73,7 @@ public class AllDestinationsController {
         ));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<APIResponse> deleteDestination(@PathVariable Long id) {
         boolean deleted = allDestinationsService.deleteDestination(id);
