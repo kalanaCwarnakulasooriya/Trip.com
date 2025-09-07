@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Admin Dashboard - Trip.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <style>
         :root{
             --bg:#0f1724;
@@ -157,26 +158,117 @@
         }
         .card h3{margin:0 0 8px 0;font-size:14px;color:var(--muted)}
         .stat{font-size:22px;font-weight:700}
-        /* TABLE */
-        .table-wrap{
-            background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
-            padding:14px;
-            border-radius:12px
-        }
-        table{width:100%;border-collapse:collapse}
-        th,td{
-            padding:10px;
-            text-align:left;
-            border-bottom:1px solid rgba(255,255,255,0.03);
-            font-size:14px
-        }
-        th{
-            color:var(--muted);
-            font-weight:600
+        /* ================== TABLE STYLING ================== */
+        .table-wrap {
+            background: var(--card);
+            padding: 18px;
+            border-radius: 14px;
+            box-shadow: var(--box-shadow);
+            overflow-x: auto;
         }
 
-        tr:hover td{
-            background:rgba(255,255,255,0.01)
+        /* Base table */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 14px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Table head */
+        thead {
+            background: rgba(42, 157, 244, 0.08);
+        }
+
+        th {
+            color: #e6eef6;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            background: linear-gradient(180deg,#071029 0%, #071a2a 100%);
+            z-index: 2;
+        }
+
+        /* Table rows */
+        tbody tr {
+            transition: var(--transition);
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        tbody tr:hover {
+            background: rgba(42, 157, 244, 0.08);
+            transform: scale(1.01);
+        }
+
+        /* Table cells */
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: middle;
+            color: #e6eef6;
+        }
+
+        /* Table images */
+        td img {
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease-in-out;
+        }
+        td img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px;
+            }
+        }
+
+        /* ===== Table Action Buttons ===== */
+        .btn-update,
+        .btn-delete {
+            padding: 6px 12px;
+            margin: 2px;
+            border: none;
+            border-radius: 5px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Update button */
+        .btn-update {
+            background-color: #2a9df4;
+            color: #fff;
+        }
+        .btn-update:hover {
+            background-color: #1a7ac5;
+            transform: scale(1.05);
+        }
+
+        /* Delete button */
+        .btn-delete {
+            background-color: #ff4d4d;
+            color: #fff;
+        }
+        .btn-delete:hover {
+            background-color: #cc0000;
+            transform: scale(1.05);
         }
 
         /* FORM */
@@ -278,6 +370,7 @@
                     <input id="pd-reviews" placeholder="Reviews">
                 </div>
                 <button class="btn" id="add-pd">Add Destination</button>
+                <button class="btn" id="update-pd">Update Destination</button>
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
@@ -491,12 +584,100 @@
                 <td>${dest.price}</td>
                 <td>${dest.rating}</td>
                 <td>${dest.reviews}</td>
+                <td>
+                    <button class="btn-update" data-id="${dest.id}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn-delete" data-id="${dest.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
             `;
                 tableBody.appendChild(tr);
+            });
+
+            // Delete Popular Destination
+            document.querySelectorAll(".btn-delete").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.getAttribute("data-id");
+                    if (!confirm("Are you sure you want to delete this?")) return;
+
+                    try {
+                        const res = await fetch(`http://localhost:8080/api/destinations/${id}`, {
+                            method: "DELETE"
+                        });
+                        if (res.ok) {
+                            alert("Deleted successfully!");
+                            loadDestinations(); // refresh table
+                        } else {
+                            alert("Failed to delete!");
+                        }
+                    } catch (err) {
+                        console.error("Delete error:", err);
+                    }
+                });
+            });
+
+            let selectedPdId = null; // global variable
+
+            // When user clicks table "Update" button
+            document.addEventListener("click", (e) => {
+                if (e.target.classList.contains("btn-update")) {
+                    const row = e.target.closest("tr");
+                    selectedPdId = e.target.getAttribute("data-id"); // save the id
+
+                    document.getElementById("pd-title").value = row.children[1].innerText;
+                    document.getElementById("pd-location").value = row.children[2].innerText;
+                    document.getElementById("pd-image").value = row.children[3].querySelector("img")?.src || "";
+                    document.getElementById("pd-duration").value = row.children[4].innerText;
+                    document.getElementById("pd-currency").value = row.children[5].innerText;
+                    document.getElementById("pd-price").value = row.children[6].innerText;
+                    document.getElementById("pd-rating").value = row.children[7].innerText;
+                    document.getElementById("pd-reviews").value = row.children[8].innerText;
+                }
+            });
+
+            // Update button click
+            document.getElementById("update-pd").addEventListener("click", async () => {
+                if (!selectedPdId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    title: document.getElementById("pd-title").value,
+                    location: document.getElementById("pd-location").value,
+                    imageUrl: document.getElementById("pd-image").value,
+                    duration: document.getElementById("pd-duration").value,
+                    currency: document.getElementById("pd-currency").value,
+                    price: parseFloat(document.getElementById("pd-price").value),
+                    rating: parseFloat(document.getElementById("pd-rating").value),
+                    reviews: parseInt(document.getElementById("pd-reviews").value)
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/destinations/${selectedPdId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        // alert("Updated successfully!");
+                        loadDestinations();
+                        selectedPdId = null;
+                        document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
             });
         } catch (err) {
             console.error(err);
         }
+        document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
     }
 
     // ================== LOAD PACKAGES ==================
@@ -661,6 +842,7 @@
         document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
     });
 
+    // ================== PACKAGES ==================
     document.getElementById("add-package").addEventListener("click", async () => {
         const dto = {
             title: document.getElementById("pkg-title").value,
