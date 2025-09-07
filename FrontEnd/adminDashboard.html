@@ -971,13 +971,91 @@
                 tr.innerHTML = `
                     <td>${gallery.id || ''}</td>
                     <td><img src="${gallery.imageUrl || ''}" width="80"></td>
+                    <td>
+                    <button class="btn-update" data-id="${gallery.id}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn-delete" data-id="${gallery.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
                 `;
                 tableBody.appendChild(tr);
+            });
+
+            // Delete Gallery
+            document.querySelectorAll(".btn-delete").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.getAttribute("data-id");
+                    if (!confirm("Are you sure you want to delete this?")) return;
+
+                    try {
+                        const res = await fetch(`http://localhost:8080/api/galleries/${id}`, {
+                            method: "DELETE"
+                        });
+                        if (res.ok) {
+                            loadGallery();
+                            // alert("Deleted successfully!");
+                        } else {
+                            alert("Failed to delete!");
+                        }
+                    } catch (err) {
+                        console.error("Delete error:", err);
+                    }
+                });
+            });
+
+            let selectedGalleryId = null;
+
+            // When user clicks table "Update" button
+            document.addEventListener("click", (e) => {
+                if (e.target.classList.contains("btn-update")) {
+                    const row = e.target.closest("tr");
+                    selectedGalleryId = e.target.getAttribute("data-id");
+
+                    document.getElementById("gallery-image").value = row.children[1].querySelector("img")?.src || "";
+                }
+            });
+
+            // Update button click
+            document.getElementById("update-gallery").addEventListener("click", async () => {
+                if (!selectedGalleryId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    imageUrl: document.getElementById("gallery-image").value
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/galleries/${selectedGalleryId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        // alert("Updated successfully!");
+                        loadGallery();
+                        selectedGalleryId = null;
+                        document.querySelectorAll("#gallery input").forEach(i => i.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
             });
         } catch (err) {
             console.error("Error loading gallery:", err);
         }
+        document.querySelectorAll("#gallery input").forEach(i => i.value = "");
     }
+
+    document.getElementById("refresh-gallery").addEventListener("click", () => {
+        document.querySelectorAll("#gallery input").forEach(i => i.value = "");
+    });
 
     // ================== LOAD CONTACT ==================
     async function loadContact() {
