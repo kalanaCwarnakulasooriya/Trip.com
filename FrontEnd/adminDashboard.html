@@ -371,6 +371,10 @@
                 </div>
                 <button class="btn" id="add-pd">Add Destination</button>
                 <button class="btn" id="update-pd">Update Destination</button>
+                <button class="btn" id="refresh-pd" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
@@ -679,6 +683,10 @@
         }
         document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
     }
+
+    document.getElementById("refresh-pd").addEventListener("click", () => {
+        document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
+    });
 
     // ================== LOAD PACKAGES ==================
     async function loadPackages() {
