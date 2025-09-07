@@ -414,6 +414,10 @@
                     <input id="pkg-description" placeholder="Description">
                 </div>
                 <button class="btn" id="add-package">Add Package</button>
+                <button class="btn" id="update-package">Update Package</button>
+                <button class="btn" id="refresh-package" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
@@ -455,6 +459,10 @@
                     <input id="dest-rating" placeholder="Rating">
                 </div>
                 <button class="btn" id="add-destinations">Add Destination</button>
+                <button class="btn" id="update-destinations">Update Destination</button>
+                <button class="btn" id="refresh-destinations" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
@@ -485,6 +493,10 @@
                     <input id="gallery-image" placeholder="Image URL">
                 </div>
                 <button class="btn" id="add-gallery">Add Image</button>
+                <button class="btn" id="update-gallery">Update Image</button>
+                <button class="btn" id="refresh-gallery" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
@@ -705,20 +717,112 @@
             packages.forEach(pkg => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td>${pkg.id}</td>
-                    <td>${pkg.title}</td>
-                    <td>${pkg.tag}</td>
-                    <td>${pkg.unit}</td>
-                    <td>${pkg.description}</td>
-                    <td>${Array.isArray(pkg.features) ? pkg.features.join(", ") : pkg.features}</td>
-                    <td>${pkg.price}</td>
-                `;
+                <td>${pkg.id}</td>
+                <td>${pkg.title}</td>
+                <td>${pkg.tag}</td>
+                <td>${pkg.unit}</td>
+                <td>${pkg.description}</td>
+                <td>${Array.isArray(pkg.features) ? pkg.features.join(", ") : pkg.features}</td>
+                <td>${pkg.price}</td>
+                <td>
+                    <button class="btn-update" data-id="${pkg.id}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="btn-delete" data-id="${pkg.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            `;
                 tableBody.appendChild(tr);
+            });
+
+            // Delete Packages
+            document.querySelectorAll(".btn-delete").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.getAttribute("data-id");
+                    if (!confirm("Are you sure you want to delete this?")) return;
+
+                    try {
+                        const res = await fetch(`http://localhost:8080/api/packages/${id}`, {
+                            method: "DELETE"
+                        });
+                        if (res.ok) {
+                            alert("Deleted successfully!");
+                            loadPackages();
+                        } else {
+                            alert("Failed to delete!");
+                        }
+                    } catch (err) {
+                        console.error("Delete error:", err);
+                    }
+                });
+            });
+
+            let selectedPkgId = null;
+
+            // Handle Update click
+            document.addEventListener("click", (e) => {
+                const btn = e.target.closest(".btn-update");
+                if (btn) {
+                    const row = btn.closest("tr");
+                    selectedPkgId = btn.getAttribute("data-id");
+
+                    document.getElementById("pkg-title").value = row.children[1].innerText;
+                    document.getElementById("pkg-tag").value = row.children[2].innerText;
+                    document.getElementById("pkg-unit").value = row.children[3].innerText;
+                    document.getElementById("pkg-description").value = row.children[4].innerText;
+                    document.getElementById("pkg-features").value = row.children[5].innerText;
+                    document.getElementById("pkg-price").value = row.children[6].innerText;
+                }
+            });
+
+            // Update button click
+            document.getElementById("update-package").addEventListener("click", async () => {
+                if (!selectedPkgId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    title: document.getElementById("pkg-title").value,
+                    tag: document.getElementById("pkg-tag").value,
+                    features: document.getElementById("pkg-features").value
+                        .split(",")
+                        .map(f => f.trim()),
+                    unit: document.getElementById("pkg-unit").value,
+                    price: parseFloat(document.getElementById("pkg-price").value) || 0,
+                    description: document.getElementById("pkg-description").value
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/packages/${selectedPkgId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        loadPackages();
+                        selectedPkgId = null;
+                        document.querySelectorAll("#packages input, #packages textarea")
+                            .forEach(el => el.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
             });
         } catch (err) {
             console.error("Error loading packages:", err);
         }
+        document.querySelectorAll("#packages input, #packages textarea")
+            .forEach(el => el.value = "");
     }
+
+    document.getElementById("refresh-package").addEventListener("click", () => {
+        document.querySelectorAll("#packages input, #packages textarea").forEach(i => i.value = "");
+    });
 
     // ================== LOAD ALL DESTINATIONS ==================
     async function loadAllDestinations() {
