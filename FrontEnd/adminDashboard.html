@@ -338,7 +338,7 @@
             </div>
             <div class="actions">
 <!--                <div class="pill">Notifications</div>-->
-                <button class="btn" id="logout">Logout</button>
+                <button class="btn" id="logout" onclick="logout()">Logout</button>
             </div>
         </header>
 
@@ -1253,7 +1253,37 @@
         loadAllDestinations();
         loadGallery();
         loadContact();
+
+        // ===== Auth check (inside DOMContentLoaded) =====
+        const token = getCookie("token");
+        if (!token) {
+            // toastr.warning("You must be logged in.", "Access Denied");
+            setTimeout(() => window.location.href = "login.html", 1500);
+        }
     });
+
+    // ===== Cookie Helpers (GLOBAL scope) =====
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax;";
+    }
+
+    // ===== Logout (GLOBAL so button onclick works) =====
+    function logout() {
+        deleteCookie("token");
+        deleteCookie("username");
+        // toastr.info("Logged out successfully.", "Logout");
+        setTimeout(() => window.location.href = "index.html", 1500);
+    }
 </script>
 </body>
 </html>
