@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class FeedBackDTO {
     private Long id;
     private String name;
+    private String email;
     private String trip;
     private String message;
 }
