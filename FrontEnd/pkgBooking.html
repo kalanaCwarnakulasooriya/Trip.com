@@ -71,9 +71,9 @@
                         <label class="form-label" for="chosenPackage">Chosen Package</label>
                         <select class="form-select" id="chosenPackage" required>
                             <option value="">Select a package</option>
-                            <option value="budget">Budget Explorer Package</option>
+                            <!--<option value="budget">Budget Explorer Package</option>
                             <option value="classic">Classic Sri Lanka Package</option>
-                            <option value="luxury">Luxury Paradise Package</option>
+                            <option value="luxury">Luxury Paradise Package</option>-->
                         </select>
                     </div>
                     <div class="form-group">
@@ -117,6 +117,72 @@
             const preloader = document.querySelector(".preloader");
             preloader.classList.add("hidden");
         });
+
+        const form = document.getElementById("add-booking-form");
+        const chosenPackageSelect = document.getElementById("chosenPackage");
+
+        // 1️⃣ Fetch all packages and populate the select dropdown
+        async function loadPackages() {
+            try {
+                const response = await fetch("http://localhost:8080/api/packages");
+                const result = await response.json();
+                if (response.ok && result.data) {
+                    // Clear existing options except the first
+                    chosenPackageSelect.innerHTML = '<option value="">Select a package</option>';
+
+                    result.data.forEach(pkg => {
+                        const option = document.createElement("option");
+                        option.value = pkg.title; // or pkg.id if you want to store id
+                        option.textContent = pkg.title;
+                        chosenPackageSelect.appendChild(option);
+                    });
+                } else {
+                    console.error("Failed to load packages", result.message);
+                }
+            } catch (error) {
+                console.error("Error fetching packages:", error);
+            }
+        }
+
+        loadPackages();
+
+        // 2️⃣ Handle booking form submission
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const bookingData = {
+                chosenPackage: chosenPackageSelect.value,
+                travelDate: document.getElementById("travel-date").value,
+                guests: parseInt(document.getElementById("guests").value),
+                fullName: document.getElementById("full-name").value,
+                email: document.getElementById("email_address").value,
+                phone: document.getElementById("phone_number").value
+            };
+
+            try {
+                const response = await fetch("http://localhost:8080/api/packageBooking", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(bookingData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Redirect or show confirmation
+                    window.location.href = "pkgBookingInformation.html";
+                    form.reset();
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (error) {
+                console.error("Error saving booking:", error);
+                alert("Something went wrong while saving your booking.");
+            }
+        });
+
+        document.getElementById("cancel-add").addEventListener("click", () => form.reset()
+        );
     });
 </script>
 </body>
