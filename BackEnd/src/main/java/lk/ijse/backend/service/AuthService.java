@@ -19,6 +19,7 @@ public class AuthService {
     private final UserRepository USERREPOSITORY;
     private final PasswordEncoder PASSWORDENCODER;
     private final JwtUtil JWTUTIL;
+    private final MailSendService mailSendService;
 
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
         User user =
@@ -32,6 +33,17 @@ public class AuthService {
             throw new BadCredentialsException("Incorrect password");
         }
         String token = JWTUTIL.generateToken(authDTO.getUsername());
+        // Login alert email
+        try {
+            mailSendService.sendLoggedInEmail(
+                    user.getUsername(),
+                    user.getEmail(),
+                    "Login Alert!"
+            );
+        } catch (Exception e) {
+            System.out.println("Failed to send login alert: " + e.getMessage());
+        }
+
         return new AuthResponseDTO(token, user.getRole().name());
     }
 
@@ -47,6 +59,17 @@ public class AuthService {
                 .role(Role.valueOf(registerDTO.getRole()))
                 .build();
         USERREPOSITORY.save(user);
+
+        // Registered email
+        try {
+            mailSendService.sendRegisteredEmail(
+                    user.getUsername(),
+                    user.getEmail(),
+                    "Registered Successfully!"
+            );
+        } catch (Exception e) {
+            System.out.println("Failed to send registration email: " + e.getMessage());
+        }
         return "User Registration Success";
     }
 }
