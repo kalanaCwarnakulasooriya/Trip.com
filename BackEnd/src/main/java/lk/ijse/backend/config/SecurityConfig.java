@@ -35,7 +35,8 @@ public class SecurityConfig {
                                 "/api/feedback/**",
                                 "/api/contacts/**",
                                 "/api/allDestinations/**",
-                                "/api/galleries/**").permitAll()
+                                "/api/galleries/**",
+                                "/api/packageBooking/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session-> session
