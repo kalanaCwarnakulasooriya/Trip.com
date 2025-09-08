@@ -31,7 +31,7 @@
             <a href="" class="nav-link">Jobs</a>
             <a href="" class="nav-link">Vehicle Rentals</a>
         </nav>
-        <button class="btn-logout" onclick="window.location.href= '#contact'">Logout</button>
+        <button class="btn-logout" onclick="logout()">Logout</button>
     </header>
 
     <!-- Page Title -->
@@ -112,12 +112,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        // just to show spinner before content fully loaded
-        window.addEventListener("load", () => {
-            const preloader = document.querySelector(".preloader");
-            preloader.classList.add("hidden");
-        });
-
         const form = document.getElementById("add-booking-form");
         const chosenPackageSelect = document.getElementById("chosenPackage");
 
@@ -183,7 +177,37 @@
 
         document.getElementById("cancel-add").addEventListener("click", () => form.reset()
         );
+
+        // ===== Auth check (inside DOMContentLoaded) =====
+        const token = getCookie("token");
+        if (!token) {
+            // toastr.warning("You must be logged in.", "Access Denied");
+            setTimeout(() => window.location.href = "login.html", 1500);
+        }
     });
+
+    // ===== Cookie Helpers (GLOBAL scope) =====
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax;";
+    }
+
+    // ===== Logout (GLOBAL so button onclick works) =====
+    function logout() {
+        deleteCookie("token");
+        deleteCookie("username");
+        // toastr.info("Logged out successfully.", "Logout");
+        setTimeout(() => window.location.href = "index.html", 1500);
+    }
 </script>
 </body>
 </html>
