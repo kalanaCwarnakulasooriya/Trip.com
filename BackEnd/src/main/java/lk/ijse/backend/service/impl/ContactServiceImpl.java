@@ -4,6 +4,7 @@ import lk.ijse.backend.dto.ContactDTO;
 import lk.ijse.backend.entity.Contact;
 import lk.ijse.backend.repository.ContactRepository;
 import lk.ijse.backend.service.ContactService;
+import lk.ijse.backend.service.MailSendService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,21 @@ public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
     private final ModelMapper modelMapper;
+    private final MailSendService mailSendService;
 
     // ===== User: Submit contact =====
     @Override
     public ContactDTO addContact(ContactDTO contactDTO) {
         Contact contact = modelMapper.map(contactDTO, Contact.class);
         Contact saved = contactRepository.save(contact);
+
+        // Email send
+        mailSendService.sendContactThankYouEmail(
+                contact.getName(),
+                contact.getEmail(),
+                "Thank you for contacting Trip.com!"
+        );
+
         return modelMapper.map(saved, ContactDTO.class);
     }
 
