@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class DestinationServiceImpl implements DestinationService {
 
     private final DestinationRepository destinationRepository;
-    private final PackageRepository packageRepository;
     private final ModelMapper modelMapper;
 
     @Override
