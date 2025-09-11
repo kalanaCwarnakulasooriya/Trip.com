@@ -417,6 +417,41 @@ body {
     text-align: center;
 }
 
+.btn-read {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    /*border: 1px solid var(--primary-color);*/
+    font-weight: 450;
+    font-size: 0.8rem;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    /*color: var(--primary-color);*/
+    /*border: none;*/
+}
+
+.btn-read {
+    background-color: transparent;
+    color: var(--primary-color);
+}
+
+.btn-read:hover {
+    background-color: var(--primary-dark);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(42, 157, 244, 0.3);
+}
+
+.btn-read-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+svg {
+    width: 16px;
+    height: 16px;
+}
 /* Book a Guide Section */
 .book-guide {
     padding: 5rem 0;
