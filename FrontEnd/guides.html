@@ -113,81 +113,8 @@
                 <h2 class="section-title">Expert Travel Tips</h2>
                 <p class="section-subtitle">Insights and advice from our experienced guides</p>
             </div>
-            <div class="tips-grid">
-                <!-- Tip 1 -->
-                <div class="tip-card" data-aos="fade-up">
-                    <div class="tip-image">
-                        <img src="https://imaginehospitality.com/wp-content/themes/yootheme/cache/8c/Imagine-Packing-Tips-scaled-8cc2fd38.jpeg" alt="Packing Tips">
-                    </div>
-                    <div class="tip-content">
-                        <div class="tip-category">Preparation</div>
-                        <h3 class="tip-title">The Art of Packing Light</h3>
-                        <p class="tip-excerpt">Learn how to pack efficiently for any trip duration without sacrificing essentials. Our expert guides share their tried-and-tested techniques.</p>
-                        <a href="#" class="tip-link">
-                            <span>Read More</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Tip 2 -->
-                <div class="tip-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="tip-image">
-                        <img src="https://hetravelssolo.com/wp-content/uploads/2024/03/0.-featured-pic-1.jpeg" alt="Photography Tips">
-                    </div>
-                    <div class="tip-content">
-                        <div class="tip-category">Photography</div>
-                        <h3 class="tip-title">Capturing Memorable Travel Moments</h3>
-                        <p class="tip-excerpt">Professional tips for taking stunning travel photos regardless of your camera equipment. Learn composition, lighting, and timing techniques.</p>
-                        <a href="#" class="tip-link">
-                            <span>Read More</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Tip 3 -->
-                <div class="tip-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="tip-image">
-                        <img src="https://sproutlycareers.com/wp-content/uploads/2023/09/pexels-chan-walrus-958545-scaled.jpg" alt="Food Tips">
-                    </div>
-                    <div class="tip-content">
-                        <div class="tip-category">Culinary</div>
-                        <h3 class="tip-title">Exploring Local Cuisines Safely</h3>
-                        <p class="tip-excerpt">How to enjoy authentic local foods while traveling without compromising your health. Includes tips for finding the best local eateries.</p>
-                        <a href="#" class="tip-link">
-                            <span>Read More</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="tip-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="tip-image">
-                        <img src="https://sproutlycareers.com/wp-content/uploads/2023/09/pexels-chan-walrus-958545-scaled.jpg" alt="Food Tips">
-                    </div>
-                    <div class="tip-content">
-                        <div class="tip-category">Culinary</div>
-                        <h3 class="tip-title">Exploring Local Cuisines Safely</h3>
-                        <p class="tip-excerpt">How to enjoy authentic local foods while traveling without compromising your health. Includes tips for finding the best local eateries.</p>
-                        <a href="#" class="tip-link">
-                            <span>Read More</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+            <div class="tips-grid" id="tipsContainer">
+<!--                travel tips will load here-->
             </div>
         </div>
     </section>
@@ -284,7 +211,10 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const GUIDES_API_URL = "http://localhost:8080/api/guides";
+        const TIPS_API_URL = "http://localhost:8080/api/travelTips";
+
         const guidesContainer = document.getElementById("guidesContainer");
+        const tipsContainer = document.getElementById("tipsContainer");
 
         // ===== Load Guides =====
         async function loadGuides() {
@@ -364,8 +294,59 @@
             guidesContainer.appendChild(card);
         }
 
+        // ===== Load Travel Tips =====
+        async function loadTips() {
+            if (!tipsContainer) return;
+            try {
+                const response = await fetch(TIPS_API_URL);
+                const data = await response.json();
+
+                tipsContainer.innerHTML = "";
+
+                if (response.ok && data.data && data.data.length > 0) {
+                    data.data.forEach(tip => addTipCard(tip));
+                } else {
+                    tipsContainer.innerHTML = `<p>No travel tips found.</p>`;
+                }
+            } catch (error) {
+                console.error("Error loading tips:", error);
+                tipsContainer.innerHTML = `<p style="color:red;">Failed to load travel tips.</p>`;
+            }
+        }
+
+        function addTipCard(tip) {
+            const card = document.createElement("div");
+            card.classList.add("tip-card");
+            card.setAttribute("data-aos", "fade-up");
+            card.setAttribute("data-aos-delay", "200");
+
+            card.innerHTML = `
+        <div class="tip-image">
+            <img src="${tip.imageUrl || 'images/default-tip.jpg'}" alt="${tip.title}">
+        </div>
+        <div class="tip-content">
+            <div class="tip-category">${tip.category}</div>
+            <h3 class="tip-title">${tip.title}</h3>
+            <p class="tip-excerpt">${tip.excerpt || ""}</p>
+            <a href="${tip.link || '#'}" target="_blank" class="tip-link">
+                <span>Read More</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    `;
+
+            tipsContainer.appendChild(card);
+        }
+
+
         // ===== Run Loader =====
         loadGuides();
+        loadTips()
 
 
         // ===== Auth check (inside DOMContentLoaded) =====
