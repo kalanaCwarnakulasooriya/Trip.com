@@ -298,10 +298,23 @@
             .grid{grid-template-columns:repeat(2,1fr)}
             .search input{min-width:160px}
         }
-        @media(max-width:560px){.grid{grid-template-columns:1fr}}
-        .row{display:flex;gap:12px;align-items:center}
-        .pill{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600}
-        .muted{color:var(--muted)}
+        @media(max-width:560px){
+            .grid{grid-template-columns:1fr}
+        }
+        .row{
+            display:flex;
+            gap:12px;
+            align-items:center
+        }
+        .pill{
+            padding:6px 8px;
+            border-radius:999px;
+            background:rgba(255,255,255,0.03);
+            font-weight:600
+        }
+        .muted{
+            color:var(--muted)
+        }
     </style>
 </head>
 <body>
@@ -325,6 +338,8 @@
                 <li data-view="destinations">All Destinations</li>
                 <li data-view="gallery">Gallery</li>
                 <li data-view="contact">Contact Us</li>
+                <li data-view="guides">Guides</li>
+                <li data-view="travelTips">Travel Tips</li>
                 <li data-view="settings">Settings</li>
             </ul>
         </nav>
@@ -527,6 +542,52 @@
                             <th>Message</th>
                             <th></th>
                         </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!-- GUIDES -->
+            <div class="table-wrap view-section" id="guides" style="display:none">
+                <h3 style="margin:0 0 10px">Guides</h3>
+                <div class="form-row">
+                    <input id="guide-name" placeholder="Name">
+                    <input id="guide-position" placeholder="Position">
+                </div>
+                <div class="form-row">
+                    <input type="number" id="guide-experienceYears" placeholder="Experience Years" min="1" required>
+                    <input id="guide-location" placeholder="Location">
+                </div>
+                <div class="form-row">
+                    <input id="guide-specialities" placeholder="Specialities">
+                    <input id="guide-bio" placeholder="Bio">
+                </div>
+                <div class="form-row">
+                    <input id="guide-image" placeholder="Image URL">
+                    <input id="guide-socialLinks" placeholder="Social Links">
+                </div>
+                <button class="btn" id="add-guide">Add Guide</button>
+                <button class="btn" id="update-guide">Update Guide</button>
+                <button class="btn" id="refresh-guide" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Guides List</h3>
+                <table id="guide-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Experience Years</th>
+                        <th>Specialities</th>
+                        <th>Bio</th>
+                        <th>Image</th>
+                        <th>Social Links</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
