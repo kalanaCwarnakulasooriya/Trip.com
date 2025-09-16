@@ -256,7 +256,12 @@
                 </div>
                 <div class="form-row">
                     <input id="guide-image" placeholder="Image URL">
-                    <input id="guide-social" placeholder="Social Media">
+<!--                    <input id="guide-social" placeholder="Social Media">-->
+                    <input type="text" id="guide-facebook" placeholder="Facebook URL">
+                </div>
+                <div class="form-row">
+                    <input type="text" id="guide-instagram" placeholder="Instagram URL">
+                    <input type="text" id="guide-linkedin" placeholder="LinkedIn URL">
                 </div>
                 <button class="btn" id="add-guide">Add Guide</button>
                 <button class="btn" id="update-guide">Update Guide</button>
@@ -939,10 +944,93 @@
                     }
                 });
             });
+
+            let selectedGuidesId = null;
+
+            // ================== Handle Update Click ==================
+            document.addEventListener("click", (e) => {
+                const btn = e.target.closest(".update-guides");
+                if (!btn) return;
+
+                const row = btn.closest("tr");
+                selectedGuidesId = btn.getAttribute("data-id");
+
+                document.getElementById("guide-name").value = row.children[1].innerText.trim();
+                document.getElementById("guide-position").value = row.children[2].innerText.trim();
+                document.getElementById("guide-experience").value = row.children[3].innerText.trim();
+                document.getElementById("guide-location").value = row.children[4].innerText.trim();
+                document.getElementById("guide-specialities").value = row.children[5].innerText.trim();
+                document.getElementById("guide-bio").value = row.children[6].innerText.trim();
+                document.getElementById("guide-image").value = row.children[7].querySelector("img")?.src || "";
+
+                // Extract social links from row
+                const socialLinks = {};
+                row.children[8].querySelectorAll("a").forEach(a => {
+                    const platform = a.innerText.toLowerCase();
+                    socialLinks[platform] = a.href;
+                });
+
+                document.getElementById("guide-facebook").value = socialLinks.facebook || "";
+                document.getElementById("guide-instagram").value = socialLinks.instagram || "";
+                document.getElementById("guide-linkedin").value = socialLinks.linkedin || "";
+            });
+
+            // ================== Update Button Click ==================
+            document.getElementById("update-guide").addEventListener("click", async () => {
+                if (!selectedGuidesId) {
+                    alert("⚠️ Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    name: document.getElementById("guide-name").value.trim(),
+                    position: document.getElementById("guide-position").value.trim(),
+                    experienceYears: document.getElementById("guide-experience").value.trim(),
+                    location: document.getElementById("guide-location").value.trim(),
+                    specialities: document.getElementById("guide-specialities").value.trim(),
+                    bio: document.getElementById("guide-bio").value.trim(),
+                    imagePath: document.getElementById("guide-image").value.trim(),
+                    socialLinks: {
+                        facebook: document.getElementById("guide-facebook").value.trim(),
+                        instagram: document.getElementById("guide-instagram").value.trim(),
+                        linkedin: document.getElementById("guide-linkedin").value.trim()
+                    }
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/guides/${selectedGuidesId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        await loadGuide();
+                        selectedGuidesId = null;
+
+                        document.querySelectorAll("#guides input, #guides textarea")
+                            .forEach(el => el.value = "");
+
+                        alert("✅ Guide updated successfully!");
+                    } else {
+                        alert("❌ Failed to update guide!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                    alert("⚠️ An error occurred while updating!");
+                }
+            });
         } catch (err) {
             console.error("Error loading gallery:", err);
         }
+        document.querySelectorAll("#guides input").forEach(i => i.value = "");
     }
+
+    document.getElementById("refresh-guide").addEventListener("click", () => {
+        document.querySelectorAll("#guides input").forEach(i => i.value = "");
+    });
+
+
 
     // ----------------------Data Saving----------------------
     // ================== POPULAR DESTINATIONS ==================
