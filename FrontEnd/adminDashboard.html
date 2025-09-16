@@ -6,316 +6,7 @@
     <title>Admin Dashboard - Trip.com</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-    <style>
-        :root{
-            --bg:#0f1724;
-            --card:#0b1220;
-            --accent:#22c1c3;
-            --muted:#94a3b8;
-            --glass: rgba(255,255,255,0.03);
-            --primary-color: #2a9df4;
-            --primary-dark: #1a7ac5;
-            --primary-light: #7fc1f9;
-            --secondary-color: #ff6b6b;
-            --text-color: #333333;
-            --text-light: #666666;
-            --text-lighter: #999999;
-            --bg-color: #ffffff;
-            --bg-light: #f8f9fa;
-            --bg-dark: #212529;
-            --border-color: #e9ecef;
-            --border-radius: 8px;
-            --transition: all 0.3s ease;
-            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --box-shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-        *{
-            box-sizing:border-box;
-            font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial
-        }
-        body{
-            margin:0;
-            background:linear-gradient(180deg,#071029 0%, #071a2a 100%);
-            color:#e6eef6;
-            min-height:100vh
-        }
-        .app{
-            display:grid;
-            grid-template-columns:260px 1fr;
-            gap:20px;
-            padding:22px
-        }
-        /* SIDEBAR */
-        .sidebar{
-            background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
-            border-radius:14px;
-            padding:18px;
-            height:calc(100vh - 44px);
-            position:sticky;
-            top:22px;
-            overflow:auto
-        }
-        .brand{
-            display:flex;
-            gap:12px;
-            align-items:center;
-            margin-bottom:18px
-        }
-        .logo-icon {
-            width: 35px;
-            height: 35px;
-            margin-right: 0.5rem;
-            color: var(--primary-color);
-        }
-        .logo-text {
-            font-size: 32px;
-            font-weight: bold;
-            font-family: "Droid Sans", sans-serif;
-            color: var(--primary-color);
-        }
-        .logo-sub {
-            font-size: 25px;
-            font-family: Sylfaen;
-            color: var(--primary-color);
-        }
-        nav ul{
-            list-style:none;
-            padding:0;
-            margin:8px 0
-        }
-        nav li{
-            padding:10px;
-            border-radius:8px;
-            margin:6px 0;
-            cursor:pointer;
-            color:var(--muted)
-        }
-        nav li.active, nav li:hover{
-            background:var(--glass);color:#fff
-        }
-        /* HEADER */
-        header{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            padding:14px 22px;
-            border-radius:14px;
-            background:linear-gradient(90deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
-        }
-
-        .search{
-            display:flex;
-            gap:10px;
-            align-items:center
-        }
-
-        .search input{
-            background:transparent;
-            border:1px solid rgba(255,255,255,0.04);
-            padding:10px 12px;
-            border-radius:10px;
-            color:inherit;
-            min-width:300px
-        }
-
-        .search input:focus,
-        .search input:hover{
-            border: 1px solid var(--primary-color);
-        }
-
-        .actions{
-            display:flex;
-            gap:12px;
-            align-items:center
-        }
-
-        .btn{
-            padding:11px 20px;
-            border-radius:10px;
-            background:linear-gradient(90deg,var(--accent),#2a9df4);
-            border:none;
-            color:#042031;
-            font-weight:600;
-            cursor:pointer
-        }
-
-        .btn:hover{
-            background:var(--primary-color);
-            /*color: #fff;*/
-        }
-        /* CONTENT */
-        main{padding:12px 0}
-        .grid{
-            display:grid;
-            grid-template-columns:repeat(3,1fr);
-            gap:14px;
-            margin-bottom:18px
-        }
-        .card{
-            background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
-            padding:16px;
-            border-radius:12px
-        }
-        .card h3{margin:0 0 8px 0;font-size:14px;color:var(--muted)}
-        .stat{font-size:22px;font-weight:700}
-        /* ================== TABLE STYLING ================== */
-        .table-wrap {
-            background: var(--card);
-            padding: 18px;
-            border-radius: 14px;
-            box-shadow: var(--box-shadow);
-            overflow-x: auto;
-        }
-
-        /* Base table */
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: 14px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        /* Table head */
-        thead {
-            background: rgba(42, 157, 244, 0.08);
-        }
-
-        th {
-            color: #e6eef6;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 13px;
-            padding: 12px 10px;
-            text-align: left;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
-            position: sticky;
-            top: 0;
-            background: linear-gradient(180deg,#071029 0%, #071a2a 100%);
-            z-index: 2;
-        }
-
-        /* Table rows */
-        tbody tr {
-            transition: var(--transition);
-        }
-
-        tbody tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        tbody tr:hover {
-            background: rgba(42, 157, 244, 0.08);
-            transform: scale(1.01);
-        }
-
-        /* Table cells */
-        td {
-            padding: 12px 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            vertical-align: middle;
-            color: #e6eef6;
-        }
-
-        /* Table images */
-        td img {
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s ease-in-out;
-        }
-        td img:hover {
-            transform: scale(1.1);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            table {
-                font-size: 12px;
-            }
-            th, td {
-                padding: 8px;
-            }
-        }
-
-        /* ===== Table Action Buttons ===== */
-        .btn-primary,
-        .btn-danger {
-            padding: 6px 12px;
-            margin: 2px;
-            border: none;
-            border-radius: 5px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-
-        /* Update button */
-        .btn-primary {
-            background-color: #2a9df4;
-            color: #fff;
-        }
-        .btn-primary:hover {
-            background-color: #1a7ac5;
-            transform: scale(1.05);
-        }
-
-        /* Delete button */
-        .btn-danger {
-            background-color: #ff4d4d;
-            color: #fff;
-        }
-        .btn-danger:hover {
-            background-color: #cc0000;
-            transform: scale(1.05);
-        }
-
-        /* FORM */
-        .form-row{
-            display:flex;
-            gap:10px;
-            margin-bottom:10px
-        }
-
-        .form-row input{
-            flex:1;
-            padding:8px;
-            border-radius:8px;
-            border:1px solid rgba(255,255,255,0.04);
-            background:transparent;
-            color:var(--primary-color);
-        }
-
-        .form-row input:focus,
-        .form-row input:hover{
-            border: 1px solid var(--primary-color);
-        }
-        /* Responsive */
-        @media(max-width:900px){
-            .app{grid-template-columns:1fr}
-            .sidebar{height:auto;position:relative}
-            .grid{grid-template-columns:repeat(2,1fr)}
-            .search input{min-width:160px}
-        }
-        @media(max-width:560px){
-            .grid{grid-template-columns:1fr}
-        }
-        .row{
-            display:flex;
-            gap:12px;
-            align-items:center
-        }
-        .pill{
-            padding:6px 8px;
-            border-radius:999px;
-            background:rgba(255,255,255,0.03);
-            font-weight:600
-        }
-        .muted{
-            color:var(--muted)
-        }
-    </style>
+    <link rel="stylesheet" href="css/adminDashboard.css">
 </head>
 <body>
 <div class="app">
@@ -547,7 +238,8 @@
                 </table>
             </div>
 
-            <!-- GUIDES -->
+
+            <!--GUIDES-->
             <div class="table-wrap view-section" id="guides" style="display:none">
                 <h3 style="margin:0 0 10px">Guides</h3>
                 <div class="form-row">
@@ -555,7 +247,7 @@
                     <input id="guide-position" placeholder="Position">
                 </div>
                 <div class="form-row">
-                    <input type="number" id="guide-experienceYears" placeholder="Experience Years" min="1" required>
+                    <input id="guide-experience" placeholder="Experience Year">
                     <input id="guide-location" placeholder="Location">
                 </div>
                 <div class="form-row">
@@ -564,7 +256,7 @@
                 </div>
                 <div class="form-row">
                     <input id="guide-image" placeholder="Image URL">
-                    <input id="guide-socialLinks" placeholder="Social Links">
+                    <input id="guide-social" placeholder="Social Media">
                 </div>
                 <button class="btn" id="add-guide">Add Guide</button>
                 <button class="btn" id="update-guide">Update Guide</button>
@@ -574,25 +266,25 @@
 
                 <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
 
-                <h3>Guides List</h3>
-                <table id="guide-table">
+                <h3>All Guides List</h3>
+                <table id="guides-table">
                     <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Experience Years</th>
-                        <th>Specialities</th>
-                        <th>Bio</th>
-                        <th>Image</th>
-                        <th>Social Links</th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Experience Year</th>
+                            <th>Location</th>
+                            <th>Specialities</th>
+                            <th>Bio</th>
+                            <th>Image</th>
+                            <th>Social Media</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
-
         </main>
     </section>
 </div>
@@ -1176,6 +868,59 @@
         }
     }
 
+    // ================== LOAD GUIDE ==================
+    async function loadGuide() {
+        try {
+            const res = await fetch("http://localhost:8080/api/guides");
+            const json = await res.json();
+
+            // Ensure json.data is an array
+            const guides = json.data;
+            if (!Array.isArray(guides)) {
+                console.error("Expected an array but got:", guides);
+                return;
+            }
+
+            const tableBody = document.querySelector("#guides-table tbody");
+            tableBody.innerHTML = "";
+
+            guides.forEach(guide => {
+                // Convert socialLinks map -> HTML links
+                let socialLinksHtml = "";
+                if (guide.socialLinks) {
+                    socialLinksHtml = Object.entries(guide.socialLinks)
+                        .map(([platform, url]) => {
+                            return `<a href="${url}" target="_blank">${platform}</a>`;
+                        })
+                        .join(" | ");
+                }
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${guide.id || ''}</td>
+                    <td>${guide.name || ''}</td>
+                    <td>${guide.position || ''}</td>
+                    <td>${guide.experienceYears || ''}</td>
+                    <td>${guide.location || ''}</td>
+                    <td>${guide.specialities || ''}</td>
+                    <td>${guide.bio || ''}</td>
+                    <td><img src="${guide.imagePath || ''}" width="80"></td>
+                    <td>${socialLinksHtml}</td>
+                    <td>
+                        <button class="update-guides btn-primary" data-id="${guide.id}">
+                            <i class="fa fa-pencil-alt"></i>
+                        </button>
+                        <button class="delete-guides btn-danger" data-id="${guide.id}">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error loading gallery:", err);
+        }
+    }
 
     // ----------------------Data Saving----------------------
     // ================== POPULAR DESTINATIONS ==================
@@ -1314,6 +1059,7 @@
         loadAllDestinations();
         loadGallery();
         loadContact();
+        loadGuide();
 
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
