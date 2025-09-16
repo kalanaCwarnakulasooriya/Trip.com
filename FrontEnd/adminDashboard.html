@@ -255,7 +255,8 @@
                     <input id="guide-bio" placeholder="Bio">
                 </div>
                 <div class="form-row">
-                    <input id="guide-image" placeholder="Image URL">
+                    <input type="file" id="guide-image-file" accept="image/*">
+                    <img id="guide-image-preview" src="" width="100" style="display:none; margin-top:5px;">
 <!--                    <input id="guide-social" placeholder="Social Media">-->
                     <input type="text" id="guide-facebook" placeholder="Facebook URL">
                 </div>
@@ -392,7 +393,7 @@
                 });
             });
 
-            let selectedPdId = null; // global variable
+            let selectedPdId = null;
 
             // When user clicks table "Update" button
             document.addEventListener("click", (e) => {
@@ -961,7 +962,12 @@
                 document.getElementById("guide-location").value = row.children[4].innerText.trim();
                 document.getElementById("guide-specialities").value = row.children[5].innerText.trim();
                 document.getElementById("guide-bio").value = row.children[6].innerText.trim();
-                document.getElementById("guide-image").value = row.children[7].querySelector("img")?.src || "";
+
+                // set image preview if needed
+                const imgEl = row.children[7].querySelector("img");
+                if (imgEl) {
+                    document.getElementById("guide-image-file").src = imgEl.src;
+                }
 
                 // Extract social links from row
                 const socialLinks = {};
@@ -982,14 +988,16 @@
                     return;
                 }
 
+                const formData = new FormData();
+
+                // prepare DTO
                 const dto = {
                     name: document.getElementById("guide-name").value.trim(),
                     position: document.getElementById("guide-position").value.trim(),
-                    experienceYears: document.getElementById("guide-experience").value.trim(),
+                    experienceYears: parseInt(document.getElementById("guide-experience").value.trim()),
                     location: document.getElementById("guide-location").value.trim(),
                     specialities: document.getElementById("guide-specialities").value.trim(),
                     bio: document.getElementById("guide-bio").value.trim(),
-                    imagePath: document.getElementById("guide-image").value.trim(),
                     socialLinks: {
                         facebook: document.getElementById("guide-facebook").value.trim(),
                         instagram: document.getElementById("guide-instagram").value.trim(),
@@ -997,22 +1005,33 @@
                     }
                 };
 
+                // append JSON DTO as blob
+                formData.append("guide", new Blob([JSON.stringify(dto)], { type: "application/json" }));
+
+                // append file if selected
+                const fileInput = document.getElementById("guide-image-file");
+                if (fileInput.files.length > 0) {
+                    formData.append("image", fileInput.files[0]);
+                }
+
                 try {
+                    // SEND FORM DATA WITHOUT 'Content-Type'
                     const res = await fetch(`http://localhost:8080/api/guides/${selectedGuidesId}`, {
                         method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(dto)
+                        body: formData
                     });
 
                     if (res.ok) {
-                        await loadGuide();
+                        await loadGuide(); // reload guides table
                         selectedGuidesId = null;
 
-                        document.querySelectorAll("#guides input, #guides textarea")
-                            .forEach(el => el.value = "");
-
+                        // clear inputs
+                        document.querySelectorAll("#guides input, #guides textarea").forEach(el => el.value = "");
+                        document.getElementById("guide-image-preview").src = ""; // clear preview
                         alert("✅ Guide updated successfully!");
                     } else {
+                        const errText = await res.text();
+                        console.error("Server response:", errText);
                         alert("❌ Failed to update guide!");
                     }
                 } catch (err) {
@@ -1164,14 +1183,15 @@
 
     // ================== GUIDES ==================
     document.getElementById("add-guide").addEventListener("click", async () => {
+        const formData = new FormData();
+
         const dto = {
             name: document.getElementById("guide-name").value.trim(),
             position: document.getElementById("guide-position").value.trim(),
-            experienceYears: document.getElementById("guide-experience").value.trim(),
+            experienceYears: parseInt(document.getElementById("guide-experience").value.trim()),
             location: document.getElementById("guide-location").value.trim(),
             specialities: document.getElementById("guide-specialities").value.trim(),
             bio: document.getElementById("guide-bio").value.trim(),
-            imagePath: document.getElementById("guide-image").value.trim(),
             socialLinks: {
                 facebook: document.getElementById("guide-facebook").value.trim(),
                 instagram: document.getElementById("guide-instagram").value.trim(),
@@ -1179,24 +1199,32 @@
             }
         };
 
+        // append JSON dto as blob
+        formData.append("guide", new Blob([JSON.stringify(dto)], { type: "application/json" }));
+
+        // append file (if selected)
+        const file = document.getElementById("guide-image-file").files[0];
+        if (file) {
+            formData.append("image", file);
+        }
+
         try {
             const res = await fetch("http://localhost:8080/api/guides", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(dto)
+                body: formData
             });
 
             if (res.ok) {
-                alert("Package save is successful!");
+                alert("Guide saved successfully!");
                 loadGuide();
             } else {
-                alert("Package save is failed!");
+                alert("Guide save failed!");
             }
         } catch (err) {
-            console.error("Error saving package:", err);
+            console.error("Error saving guide:", err);
         }
 
-        // input clear
+        // clear inputs
         document.querySelectorAll("#guides input").forEach(i => i.value = "");
     });
 

@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 "/api/galleries/**",
                                 "/api/packageBooking/**",
                                 "/api/guides/**",
+                                "/uploads/guides/**",
                                 "/api/travelTips/**").permitAll()
                         .anyRequest().authenticated()
                 )
