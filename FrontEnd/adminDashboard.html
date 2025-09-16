@@ -1148,14 +1148,65 @@
                     }
                 });
             });
+
+            let selectedTipId = null;
+
+            // When user clicks table "Update" button
+            document.addEventListener("click", (e) => {
+                if (e.target.classList.contains("update-tip")) {
+                    const row = e.target.closest("tr");
+                    selectedTipId = e.target.getAttribute("data-id");
+
+                    document.getElementById("tip-title").value = row.children[1].innerText;
+                    document.getElementById("tip-category").value = row.children[2].innerText;
+                    document.getElementById("tip-excerpt").value = row.children[3].innerText;
+                    document.getElementById("tip-imageUrl").value = row.children[4].querySelector("img")?.src || "";
+                    document.getElementById("tip-link").value = row.children[5].innerText;
+                }
+            });
+
+            // Update button click
+            document.getElementById("update-tips").addEventListener("click", async () => {
+                if (!selectedTipId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    title: document.getElementById("tip-title").value,
+                    category: document.getElementById("tip-category").value,
+                    excerpt: document.getElementById("tip-excerpt").value,
+                    imageUrl: document.getElementById("tip-imageUrl").value,
+                    link: document.getElementById("tip-link").value
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/travelTips/${selectedTipId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        alert("Updated successfully!");
+                        loadTips();
+                        selectedTipId = null;
+                        document.querySelectorAll("#travelTips input").forEach(i => i.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
+            });
         } catch (err) {
             console.error(err);
         }
-        document.querySelectorAll("#tips input").forEach(i => i.value = "");
+        document.querySelectorAll("#travelTips input").forEach(i => i.value = "");
     }
 
     document.getElementById("refresh-tips").addEventListener("click", () => {
-        document.querySelectorAll("#tips input").forEach(i => i.value = "");
+        document.querySelectorAll("#travelTips input").forEach(i => i.value = "");
     });
 
 
