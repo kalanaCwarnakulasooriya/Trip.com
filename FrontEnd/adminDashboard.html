@@ -1389,6 +1389,37 @@
         document.querySelectorAll("#guides input").forEach(i => i.value = "");
     });
 
+    // ================== ADD TRAVEL TIPS ==================
+    document.getElementById("add-tips").addEventListener("click", async () => {
+        const dto = {
+            title: document.getElementById("tip-title").value,
+            category: document.getElementById("tip-category").value,
+            excerpt: document.getElementById("tip-excerpt").value,
+            imageUrl: document.getElementById("tip-imageUrl").value,
+            link: document.getElementById("tip-link").value
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/travelTips", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Data added successfully!");
+                loadTips();
+            } else {
+                alert("Failed to add data!");
+            }
+        } catch (err) {
+            console.error("Error saving data:", err);
+        }
+
+        // Clear input
+        document.querySelectorAll("#travelTips input").forEach(i => i.value = "");
+    });
+
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
         loadDestinations();
