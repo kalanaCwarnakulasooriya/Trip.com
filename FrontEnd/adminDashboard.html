@@ -1162,6 +1162,44 @@
         document.getElementById("gallery-image").value = "";
     });
 
+    // ================== GUIDES ==================
+    document.getElementById("add-guide").addEventListener("click", async () => {
+        const dto = {
+            name: document.getElementById("guide-name").value.trim(),
+            position: document.getElementById("guide-position").value.trim(),
+            experienceYears: document.getElementById("guide-experience").value.trim(),
+            location: document.getElementById("guide-location").value.trim(),
+            specialities: document.getElementById("guide-specialities").value.trim(),
+            bio: document.getElementById("guide-bio").value.trim(),
+            imagePath: document.getElementById("guide-image").value.trim(),
+            socialLinks: {
+                facebook: document.getElementById("guide-facebook").value.trim(),
+                instagram: document.getElementById("guide-instagram").value.trim(),
+                linkedin: document.getElementById("guide-linkedin").value.trim()
+            }
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/guides", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Package save is successful!");
+                loadGuide();
+            } else {
+                alert("Package save is failed!");
+            }
+        } catch (err) {
+            console.error("Error saving package:", err);
+        }
+
+        // input clear
+        document.querySelectorAll("#guides input").forEach(i => i.value = "");
+    });
+
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
         loadDestinations();
