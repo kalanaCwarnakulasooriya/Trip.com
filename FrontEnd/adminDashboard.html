@@ -257,7 +257,6 @@
                 <div class="form-row">
                     <input type="file" id="guide-image-file" accept="image/*">
                     <img id="guide-image-preview" src="" width="100" style="display:none; margin-top:5px;">
-<!--                    <input id="guide-social" placeholder="Social Media">-->
                     <input type="text" id="guide-facebook" placeholder="Facebook URL">
                 </div>
                 <div class="form-row">
@@ -287,6 +286,46 @@
                             <th>Social Media</th>
                             <th></th>
                         </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+
+            <!--TRAVEL TIPS-->
+            <div class="table-wrap view-section" id="travelTips" style="display:none">
+                <h3 style="margin:0 0 10px">Travel Tips</h3>
+                <div class="form-row">
+                    <input id="tip-title" placeholder="Title">
+                    <input id="tip-category" placeholder="Category">
+                </div>
+                <div class="form-row">
+                    <input id="tip-excerpt" placeholder="Excerpt">
+                    <input id="tip-imageUrl" placeholder="Image URL">
+                </div>
+                <div class="form-row">
+                    <input id="tip-link" placeholder="Link">
+                </div>
+                <button class="btn" id="add-tips">Add Tips</button>
+                <button class="btn" id="update-tips">Update Tips</button>
+                <button class="btn" id="refresh-tips" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Travel Tips List</h3>
+                <table id="tips-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Excerpt</th>
+                        <th>Image</th>
+                        <th>Link</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
@@ -331,6 +370,8 @@
         filterTable("destinations-table");
         filterTable("gallery-table");
         filterTable("contact-table");
+        filterTable("guides-table");
+        filterTable("tips-table");
     });
 
     // ================== LOAD POPULAR DESTINATIONS ==================
@@ -1047,6 +1088,52 @@
 
     document.getElementById("refresh-guide").addEventListener("click", () => {
         document.querySelectorAll("#guides input").forEach(i => i.value = "");
+        loadGuide();
+    });
+
+
+    // ================== LOAD TRAVEL TIPS ==================
+    async function loadTips() {
+        try {
+            const res = await fetch("http://localhost:8080/api/travelTips");
+            const json = await res.json();
+
+            const travelTips = json.data;
+            if (!Array.isArray(travelTips)) {
+                console.error("Expected an array but got:", travelTips);
+                return;
+            }
+
+            const tableBody = document.querySelector("#tips-table tbody");
+            tableBody.innerHTML = "";
+            travelTips.forEach(tip => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                <td>${tip.id}</td>
+                <td>${tip.title}</td>
+                <td>${tip.category}</td>
+                <td>${tip.excerpt}</td>
+                <td><img src="${tip.imageUrl}" width="80"></td>
+                <td>${tip.link}</td>
+                <td>
+                    <button class="update-tip btn-primary" data-id="${tip.id}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="delete-tip btn-danger" data-id="${tip.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error(err);
+        }
+        document.querySelectorAll("#tips input").forEach(i => i.value = "");
+    }
+
+    document.getElementById("refresh-tips").addEventListener("click", () => {
+        document.querySelectorAll("#tips input").forEach(i => i.value = "");
     });
 
 
@@ -1217,6 +1304,7 @@
             if (res.ok) {
                 alert("Guide saved successfully!");
                 loadGuide();
+                document.querySelectorAll("#guides input").forEach(i => i.value = "");
             } else {
                 alert("Guide save failed!");
             }
@@ -1236,6 +1324,7 @@
         loadGallery();
         loadContact();
         loadGuide();
+        loadTips();
 
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
