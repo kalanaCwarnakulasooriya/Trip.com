@@ -22,9 +22,6 @@ public class VehicleCategory {
     @Column(length = 500)
     private String description;
 
-    @Column(columnDefinition = "TEXT")
-    private String iconSvg;
-
     @Column(nullable = false)
     private double pricePerDay;
 

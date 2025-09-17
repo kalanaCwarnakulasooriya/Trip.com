@@ -20,7 +20,6 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
                 entity.getId(),
                 entity.getName(),
                 entity.getDescription(),
-                entity.getIconSvg(),
                 entity.getPricePerDay(),
                 entity.getAvailableVehicles(),
                 entity.getButtonLink()
@@ -32,7 +31,6 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
                 .id(dto.getId())
                 .name(dto.getName())
                 .description(dto.getDescription())
-                .iconSvg(dto.getIconSvg())
                 .pricePerDay(dto.getPricePerDay())
                 .availableVehicles(dto.getAvailableVehicles())
                 .buttonLink(dto.getButtonLink())
