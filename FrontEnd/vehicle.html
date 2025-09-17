@@ -57,165 +57,26 @@
     <div class="hero-background"></div>
     <div class="overlay"></div>
     <div class="container">
-        <div class="hero-content">
-            <h1 class="hero-title" data-aos="fade-up">Explore with Freedom</h1>
-            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">Find the perfect vehicle for your journey</p>
+        <div class="page-header-content">
+            <h1 class="page-title split-text">Vehicles</h1>
+            <div class="breadcrumbs">
+                <a href="home.html" class="breadcrumb-item">Home</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-item active">Vehicle</span>
+            </div>
         </div>
-
-        <div class="booking-form-container" data-aos="fade-up" data-aos-delay="200">
-            <form class="booking-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="pickup-location">Pickup Location</label>
-                        <div class="input-icon-wrapper">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                <circle cx="12" cy="10" r="3"></circle>
-                            </svg>
-                            <input type="text" id="pickup-location" placeholder="City, Airport, etc.">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="pickup-date">Pickup Date</label>
-                        <div class="input-icon-wrapper">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                            <input type="date" id="pickup-date">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="pickup-time">Pickup Time</label>
-                        <div class="input-icon-wrapper">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            <input type="time" id="pickup-time" value="10:00">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="dropoff-date">Drop-off Date</label>
-                        <div class="input-icon-wrapper">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                            <input type="date" id="dropoff-date">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dropoff-time">Drop-off Time</label>
-                        <div class="input-icon-wrapper">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                            <input type="time" id="dropoff-time" value="10:00">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="driver-age">Driver's Age</label>
-                        <div class="input-icon-wrapper">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <select id="driver-age">
-                                <option value="18-20">18-20 years</option>
-                                <option value="21-24">21-24 years</option>
-                                <option value="25+" selected>25+ years</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group vehicle-type-group">
-                        <label>Vehicle Type</label>
-                        <div class="vehicle-type-options">
-                            <label class="vehicle-type-option">
-                                <input type="radio" name="vehicle-type" value="economy" checked>
-                                <div class="option-content">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
-                                        <circle cx="7" cy="17" r="2"></circle>
-                                        <circle cx="17" cy="17" r="2"></circle>
-                                    </svg>
-                                    <span>Economy</span>
-                                </div>
-                            </label>
-                            <label class="vehicle-type-option">
-                                <input type="radio" name="vehicle-type" value="compact">
-                                <div class="option-content">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"></path>
-                                        <circle cx="7" cy="17" r="2"></circle>
-                                        <circle cx="17" cy="17" r="2"></circle>
-                                    </svg>
-                                    <span>Compact</span>
-                                </div>
-                            </label>
-                            <label class="vehicle-type-option">
-                                <input type="radio" name="vehicle-type" value="suv">
-                                <div class="option-content">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M5 17h14M5 17a2 2 0 1 0 4 0M5 17a2 2 0 1 1 0-4h14a2 2 0 1 1 0 4M9 17a2 2 0 1 0 4 0m-4 0a2 2 0 1 1 0-4h6a2 2 0 1 1 0 4m-6 0h6M3 9l4-4h10l4 4M3 9v4h18V9M3 9h18"></path>
-                                    </svg>
-                                    <span>SUV</span>
-                                </div>
-                            </label>
-                            <label class="vehicle-type-option">
-                                <input type="radio" name="vehicle-type" value="luxury">
-                                <div class="option-content">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0M5 9l2 -4h10l2 4M5 9h14M5 9v4M19 9v4M5 13h14"></path>
-                                    </svg>
-                                    <span>Luxury</span>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-search">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                        Search Vehicles
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="hero-wave">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
-            <path fill="#ffffff" fill-opacity="1" d="M0,32L60,42.7C120,53,240,75,360,74.7C480,75,600,53,720,42.7C840,32,960,32,1080,37.3C1200,43,1320,53,1380,58.7L1440,64L1440,100L1380,100C1320,100,1200,100,1080,100C960,100,840,100,720,100C600,100,480,100,360,100C240,100,120,100,60,100L0,100Z"></path>
-        </svg>
     </div>
 </section>
 
 <!-- Featured Vehicles Section -->
 <section class="featured-vehicles-section section-padding">
     <div class="container">
-        <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">Featured Vehicles</h2>
-            <p class="section-subtitle">Our most popular rental options</p>
-        </div>
 
         <div class="featured-vehicles-slider" data-aos="fade-up" data-aos-delay="100">
             <div class="featured-vehicles-container">
                 <div class="featured-vehicle">
                     <div class="vehicle-image">
-                        <img src="/images/camrry.jpg" alt="Toyota Camry">
+                        <img src="https://hips.hearstapps.com/hmg-prod/images/2025-toyota-camry-xse-awd-123-66993cc94cc40.jpg?crop=0.580xw:0.489xh;0.137xw,0.397xh&resize=1200:*" alt="Toyota Camry">
                         <div class="vehicle-badge popular">Popular</div>
                     </div>
                     <div class="vehicle-details">
@@ -280,14 +141,14 @@
                                 <span class="amount">$45</span>
                                 <span class="period">/ day</span>
                             </div>
-                            <a href="#" class="btn btn-primary">Book Now</a>
+<!--                            <a href="#" class="btn btn-primary">Book Now</a>-->
                         </div>
                     </div>
                 </div>
 
                 <div class="featured-vehicle">
                     <div class="vehicle-image">
-                        <img src="/images/honda.avif" alt="Honda CR-V">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Honda_CR-V_e-HEV_Elegance_AWD_%28VI%29_%E2%80%93_f_14072024.jpg/1200px-Honda_CR-V_e-HEV_Elegance_AWD_%28VI%29_%E2%80%93_f_14072024.jpg" alt="Honda CR-V">
                         <div class="vehicle-badge discount">15% Off</div>
                     </div>
                     <div class="vehicle-details">
@@ -350,14 +211,14 @@
                                 <span class="amount">$65</span>
                                 <span class="period">/ day</span>
                             </div>
-                            <a href="#" class="btn btn-primary">Book Now</a>
+<!--                            <a href="#" class="btn btn-primary">Book Now</a>-->
                         </div>
                     </div>
                 </div>
 
                 <div class="featured-vehicle">
                     <div class="vehicle-image">
-                        <img src="/images/benz.webp" alt="Mercedes-Benz E-Class">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Mercedes-Benz_W214_1X7A1841.jpg/1200px-Mercedes-Benz_W214_1X7A1841.jpg" alt="Mercedes-Benz E-Class">
                         <div class="vehicle-badge new">New</div>
                     </div>
                     <div class="vehicle-details">
@@ -420,7 +281,7 @@
                                 <span class="amount">$120</span>
                                 <span class="period">/ day</span>
                             </div>
-                            <a href="#" class="btn btn-primary">Book Now</a>
+<!--                            <a href="#" class="btn btn-primary">Book Now</a>-->
                         </div>
                     </div>
                 </div>
@@ -549,7 +410,7 @@
 <section id="all-vehicles" class="all-vehicles-section section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">Our Complete Fleet</h2>
+            <h2 class="section-title-white">Our Complete Fleet</h2>
             <p class="section-subtitle">Browse all available vehicles for your next trip</p>
         </div>
 
@@ -602,7 +463,7 @@
             <!-- Vehicle Cards (8 examples) -->
             <div class="vehicle-card">
                 <div class="vehicle-image">
-                    <img src="/images/toyota-toyota-corolla-trd-wallpaper-preview.jpg" alt="Toyota Corolla">
+                    <img src="https://carsguide.ikman.lk/wp-content/uploads/2023/06/Toyota-Axio-1-e1686125996936.jpg" alt="Toyota Corolla">
                 </div>
                 <div class="vehicle-details">
                     <h3 class="vehicle-name">Toyota Axio</h3>
@@ -645,7 +506,7 @@
 
             <div class="vehicle-card">
                 <div class="vehicle-image">
-                    <img src="/images/range rover.jpg" alt="Ford Escape">
+                    <img src="https://vehicle-images.dealerinspire.com/d55d-110009263/SAL1L9FU2PA110166/e9dd53db1fb106eeb9ff3a5366723176.jpg" alt="Ford Escape">
                 </div>
                 <div class="vehicle-details">
                     <h3 class="vehicle-name">Range Rover Sport</h3>
@@ -685,10 +546,50 @@
 
             <div class="vehicle-card">
                 <div class="vehicle-image">
-                    <img src="/images/fit.webp" alt="Ford Escape">
+                    <img src="https://www.drivingline.com/s3/drivingline.prd/cropped/79323/basic_andycarter_hondafit_drivingline-1.jpg" alt="Ford Escape">
                 </div>
                 <div class="vehicle-details">
                     <h3 class="vehicle-name">Honda Fit Sport</h3>
+                    <div class="vehicle-category">SUV</div>
+                    <div class="vehicle-features">
+                        <div class="feature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>5 Seats</span>
+                        </div>
+                        <div class="feature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            <span>3 Bags</span>
+                        </div>
+                        <div class="feature">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                                <path d="M12 2a10 10 0 0 1 10 10h-10V2z"></path>
+                                <path d="M12 12l9.7-3.2"></path>
+                                <path d="M12 12l3.2 9.7"></path>
+                            </svg>
+                            <span>Auto</span>
+                        </div>
+                    </div>
+                    <div class="vehicle-price">
+                        <span class="amount">Rs.12,000</span>
+                        <span class="period">/ day</span>
+                    </div>
+                    <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                </div>
+            </div>
+
+            <div class="vehicle-card">
+                <div class="vehicle-image">
+                    <img src="https://vehicle-images.dealerinspire.com/d55d-110009263/SAL1L9FU2PA110166/e9dd53db1fb106eeb9ff3a5366723176.jpg" alt="Ford Escape">
+                </div>
+                <div class="vehicle-details">
+                    <h3 class="vehicle-name">Range Rover Sport</h3>
                     <div class="vehicle-category">SUV</div>
                     <div class="vehicle-features">
                         <div class="feature">
@@ -815,10 +716,10 @@
 </section>
 
 <!-- Reviews Section -->
-<section class="reviews-section section-padding">
+<!--<section class="reviews-section section-padding">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
-            <h2 class="section-title">Customer Reviews</h2>
+            <h2 class="section-title-white">Customer Reviews</h2>
             <p class="section-subtitle">What our customers say about our rental service</p>
         </div>
 
@@ -955,10 +856,10 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
 <!-- FAQ Section -->
-<section class="faq-section section-padding bg-light">
+<!--<section class="faq-section section-padding bg-light">
     <div class="container">
         <div class="section-header" data-aos="fade-up">
             <h2 class="section-title">Frequently Asked Questions</h2>
@@ -1042,7 +943,7 @@
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
 <!-- CTA Section -->
 <section class="cta-section section-padding">
@@ -1057,7 +958,7 @@
                 </div>
             </div>
             <div class="cta-image">
-                <img src="/placeholder.svg?height=300&width=400" alt="Happy travelers with rental car">
+                <img src="https://www.tobin.ie/wp-content/uploads/2023/06/road-maintenance-in-ireland-john-oflaherty-1024x576.png?height=300&width=400" alt="Happy travelers with rental car">
             </div>
         </div>
     </div>

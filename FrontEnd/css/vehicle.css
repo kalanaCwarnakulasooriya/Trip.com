@@ -109,14 +109,22 @@ body{
     position: relative;
     padding: 8rem 0 4rem;
     overflow: hidden;
+    /*position: relative;*/
+    height: 40vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    /*overflow: hidden;*/
 }
 
 .hero-background {
+    height: 40vh;
+    min-height: 300px;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     background-image: url('https://www.onlanka.com/wp-content/uploads/2024/12/super-luxury-vehicles-in-sri-lanka.jpg');
     background-size: cover;
     background-position: center;
@@ -167,6 +175,77 @@ body{
 .hero-wave svg {
     width: 100%;
     height: auto;
+}
+
+/* Page Header */
+/*.page-header {
+    position: relative;
+    height: 40vh;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}*/
+
+/*.page-header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/0/07/Sembuwatte_Lake%2C_Matale.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}*/
+
+/*.page-header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+}*/
+
+.page-header-content {
+    color: white;
+    text-align: center;
+    z-index: 1;
+}
+
+.page-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.breadcrumbs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.breadcrumb-item {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item:hover {
+    color: white;
+}
+
+.breadcrumb-item.active {
+    color: white;
+    font-weight: 500;
+}
+
+.breadcrumb-separator {
+    margin: 0 0.5rem;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 /* Booking Form */
@@ -353,6 +432,13 @@ body{
     margin-bottom: 3rem;
 }
 
+.section-title-white {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--bg-light);
+}
+
 .section-title {
     font-size: 2.5rem;
     font-weight: 700;
@@ -374,12 +460,15 @@ body{
 }
 
 .featured-vehicles-container {
+    gap: 1rem;
     display: flex;
     overflow: hidden;
 }
 
 .featured-vehicle {
-    flex: 0 0 100%;
+    /*flex: 0 0 100%;*/
+    width: 450px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     background-color: var(--card-bg);
@@ -495,6 +584,12 @@ body{
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 1.5rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    color: var(--bg-light);
 }
 
 .feature {
@@ -700,12 +795,13 @@ body{
 
 /* All Vehicles Section */
 .filters-container {
+    background-color: var(--bg-color-dark);
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     margin-bottom: 2rem;
     padding: 1.5rem;
-    background-color: var(--card-bg);
+    /*background-color: var(--card-bg);*/
     border-radius: 12px;
     box-shadow: var(--box-shadow);
 }
@@ -720,16 +816,16 @@ body{
     font-size: 0.9rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: var(--bg-color);
 }
 
 .filter-group select {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--text-color);
     border-radius: 8px;
-    background-color: var(--bg-light);
-    color: var(--text-color);
+    background-color: var(--text-color);
+    color: var(--bg-light);
     font-size: 1rem;
     appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -815,6 +911,9 @@ body{
 }
 
 .process-step {
+    border-radius: 12px;
+    border: 1px solid var(--text-color);
+    padding: 1.5rem;
     flex: 1;
     min-width: 200px;
     max-width: 250px;
