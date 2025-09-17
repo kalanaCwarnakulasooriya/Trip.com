@@ -471,7 +471,7 @@ body{
     height: 400px;
     display: flex;
     flex-direction: column;
-    background-color: var(--card-bg);
+    background-color: var(--text-color);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--box-shadow);
@@ -538,7 +538,7 @@ body{
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: var(--bg-light);
 }
 
 .vehicle-rating {
@@ -621,7 +621,7 @@ body{
 .amount {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--text-color);
+    color: var(--bg-color);
 }
 
 .period {
@@ -645,8 +645,8 @@ body{
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: var(--bg-light);
-    border: 1px solid var(--border-color);
+    background-color: var(--text-light);
+    border: 1px solid var(--text-light);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -842,7 +842,7 @@ body{
 }
 
 .vehicle-card {
-    background-color: var(--card-bg);
+    background-color: var(--text-color);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--box-shadow);
@@ -1095,7 +1095,7 @@ body{
 .cta-container {
     display: flex;
     align-items: center;
-    background-color: var(--card-bg);
+    background-color: var(--text-color);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--box-shadow);
@@ -1110,7 +1110,7 @@ body{
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    color: var(--text-color);
+    color: var(--bg-color);
 }
 
 .cta-text {
