@@ -39,7 +39,8 @@ public class SecurityConfig {
                                 "/api/packageBooking/**",
                                 "/api/guides/**",
                                 "/uploads/guides/**",
-                                "/api/travelTips/**").permitAll()
+                                "/api/travelTips/**",
+                                "/api/vehicles/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session-> session

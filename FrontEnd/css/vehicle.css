@@ -511,17 +511,17 @@ body{
     color: white;
 }
 
-.vehicle-badge.popular {
+.vehicle-badge {
     background-color: var(--popular-color);
 }
 
-.vehicle-badge.discount {
+/*.vehicle-badge.discount {
     background-color: var(--discount-color);
 }
 
 .vehicle-badge.new {
     background-color: var(--new-color);
-}
+}*/
 
 .vehicle-details {
     padding: 1.5rem;
