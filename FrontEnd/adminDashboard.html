@@ -31,6 +31,10 @@
                 <li data-view="contact">Contact Us</li>
                 <li data-view="guides">Guides</li>
                 <li data-view="travelTips">Travel Tips</li>
+                <li data-view="vehicles">Vehicles</li>
+                <li data-view="vehicleCategory">Vehicles Category</li>
+                <li data-view="vehicleFleet">Vehicles Fleet</li>
+                <li data-view="rental">Rental Steps</li>
                 <li data-view="settings">Settings</li>
             </ul>
         </nav>
@@ -324,6 +328,53 @@
                         <th>Excerpt</th>
                         <th>Image</th>
                         <th>Link</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <!--VEHICLES-->
+            <div class="table-wrap view-section" id="vehicles" style="display:none">
+                <h3 style="margin:0 0 10px">Vehicles</h3>
+                <div class="form-row">
+                    <input id="vehicle-name" placeholder="Name">
+                    <input id="vehicle-badge" placeholder="Badge">
+                </div>
+                <div class="form-row">
+                    <input id="vehicle-reviewCount" placeholder="Review Count">
+                    <input id="vehicle-imageUrl" placeholder="Image URL">
+                </div>
+                <div class="form-row">
+                    <input id="vehicle-rating" placeholder="Rating">
+                    <input id="vehicle-pricePerDay" placeholder="Price PerDay">
+                </div>
+                <div class="form-row">
+                    <input id="vehicle-pricePeriod" placeholder="Price Period">
+                    <input id="vehicle-features" placeholder="Features">
+                </div>
+                <button class="btn" id="add-vehicles">Add Vehicles</button>
+                <button class="btn" id="update-vehicles">Update Vehicles</button>
+                <button class="btn" id="refresh-vehicles" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Vehicles List</h3>
+                <table id="vehicles-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Badge</th>
+                        <th>Review Count</th>
+                        <th>Image</th>
+                        <th>Rating</th>
+                        <th>Price PerDay</th>
+                        <th>Price Period</th>
+                        <th>Features</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -1209,6 +1260,59 @@
         document.querySelectorAll("#travelTips input").forEach(i => i.value = "");
     });
 
+    // ================== LOAD VEHICLES ==================
+    async function loadVehicle() {
+        try {
+            const res = await fetch("http://localhost:8080/api/vehicles");
+            const json = await res.json();
+
+            const vehicles = json.data;
+            if (!Array.isArray(vehicles)) {
+                console.error("Expected an array but got:", vehicles);
+                return;
+            }
+
+            const tableBody = document.querySelector("#vehicles-table tbody");
+            tableBody.innerHTML = "";
+            vehicles.forEach(vehicle => {
+                const tr = document.createElement("tr");
+
+                // Features HTML build karanna
+                let featuresHtml = "";
+                if (Array.isArray(vehicle.features)) {
+                    featuresHtml = vehicle.features.map(f =>
+                        `<span class="feature-item">
+                <i class="fa ${f.icon}"></i> ${f.name}
+             </span>`
+                    ).join(" | ");
+                }
+                tr.innerHTML = `
+                <td>${vehicle.id}</td>
+                <td>${vehicle.name}</td>
+                <td>${vehicle.badge}</td>
+                <td>${vehicle.reviewCount}</td>
+                <td><img src="${vehicle.imageUrl}" width="80"></td>
+                <td>${vehicle.rating}</td>
+                <td>${vehicle.pricePerDay}</td>
+                <td>${featuresHtml}</td>
+                <td>
+                    <button class="update-vehicle btn-primary" data-id="${vehicle.id}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="delete-vehicle btn-danger" data-id="${vehicle.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error loading vehicles:", err);
+        }
+        document.querySelectorAll("#vehicles input")
+            .forEach(el => el.value = "");
+    }
+
 
 
     // ----------------------Data Saving----------------------
@@ -1429,6 +1533,7 @@
         loadContact();
         loadGuide();
         loadTips();
+        loadVehicle();
 
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
