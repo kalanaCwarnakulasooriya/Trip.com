@@ -11,9 +11,9 @@ public class VehicleFleetDTO {
     private Long id;
     private String name;
     private String imageUrl;
-    private String category;   // Or use VehicleCategoryDTO if you want full category details
-    private int seats;
-    private int bags;
+    private VehicleCategoryDTO category;
+    private Integer seats;
+    private Integer bags;
     private String transmission;
     private double pricePerDay;
 }
