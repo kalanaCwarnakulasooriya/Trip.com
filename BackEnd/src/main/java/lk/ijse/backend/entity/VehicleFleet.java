@@ -22,9 +22,8 @@ public class VehicleFleet {
     @Column(length = 500)
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
-    private VehicleCategory category;
+    @Column(nullable = false, length = 50)
+    private String category;
 
     @Column(nullable = false)
     private Integer seats;
