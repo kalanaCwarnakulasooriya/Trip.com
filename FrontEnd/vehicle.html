@@ -443,8 +443,9 @@
             vehicles.forEach((vehicle, index) => {
                 const featuresHtml = (vehicle.features || []).map(f => `
                     <div class="feature">
-                        <i class="${f.icon}"></i>
-                        <span>${f.name}</span>
+                        <span>
+                            <i class="fa ${f.icon}"></i> ${f.name}
+                        </span>
                     </div>
                 `).join("");
 

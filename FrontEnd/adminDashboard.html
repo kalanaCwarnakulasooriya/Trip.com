@@ -1294,6 +1294,7 @@
                 <td><img src="${vehicle.imageUrl}" width="80"></td>
                 <td>${vehicle.rating}</td>
                 <td>${vehicle.pricePerDay}</td>
+                <td>${vehicle.pricePeriod}</td>
                 <td>${featuresHtml}</td>
                 <td>
                     <button class="update-vehicle btn-primary" data-id="${vehicle.id}">
@@ -1328,12 +1329,76 @@
                     }
                 });
             });
+
+            let selectedVehicleId = null;
+
+            // When user clicks table "Update" button
+            document.addEventListener("click", (e) => {
+                if (e.target.classList.contains("update-vehicle")) {
+                    const row = e.target.closest("tr");
+                    selectedVehicleId = e.target.getAttribute("data-id");
+
+                    document.getElementById("vehicle-name").value = row.children[1].innerText;
+                    document.getElementById("vehicle-badge").value = row.children[2].innerText;
+                    document.getElementById("vehicle-reviewCount").value = row.children[3].innerText;
+                    document.getElementById("vehicle-imageUrl").value = row.children[4].querySelector("img")?.src || "";
+                    document.getElementById("vehicle-rating").value = row.children[5].innerText;
+                    document.getElementById("vehicle-pricePerDay").value = row.children[6].innerText;
+                    document.getElementById("vehicle-pricePeriod").value = row.children[7].innerText;
+                    document.getElementById("vehicle-features").value = row.children[8].innerText;
+                }
+            });
+
+            // Update button click
+            document.getElementById("update-vehicles").addEventListener("click", async () => {
+                if (!selectedVehicleId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    name: document.getElementById("vehicle-name").value.trim(),
+                    badge: document.getElementById("vehicle-badge").value.trim(),
+                    reviewCount: parseInt(document.getElementById("vehicle-reviewCount").value.trim()) || 0,
+                    imageUrl: document.getElementById("vehicle-imageUrl").value.trim(),
+                    rating: parseFloat(document.getElementById("vehicle-rating").value.trim()) || 0,
+                    pricePerDay: parseFloat(document.getElementById("vehicle-pricePerDay").value.trim()) || 0,
+                    pricePeriod: document.getElementById("vehicle-pricePeriod").value.trim(),
+                    features: document.getElementById("vehicle-features").value.split("|").map(f => {
+                        const [name, icon] = f.split(":").map(s => s.trim());
+                        return { name, icon };
+                    })
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/vehicles/${selectedVehicleId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        alert("Updated successfully!");
+                        loadVehicle();
+                        selectedVehicleId = null;
+                        document.querySelectorAll("#vehicles input").forEach(i => i.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
+            });
         } catch (err) {
             console.error("Error loading vehicles:", err);
         }
         document.querySelectorAll("#vehicles input")
             .forEach(el => el.value = "");
     }
+
+    document.getElementById("refresh-vehicles").addEventListener("click", () => {
+        document.querySelectorAll("#vehicles input").forEach(i => i.value = "");
+    });
 
 
 
