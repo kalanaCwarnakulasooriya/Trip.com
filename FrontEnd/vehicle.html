@@ -190,8 +190,8 @@
             <p class="section-subtitle">Renting a vehicle with us is quick and easy</p>
         </div>
 
-        <div class="process-steps" data-aos="fade-up" data-aos-delay="100">
-            <div class="process-step">
+        <div class="process-steps" id="processSteps" data-aos="fade-up" data-aos-delay="100">
+            <!--<div class="process-step">
                 <div class="step-number">1</div>
                 <div class="step-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -252,7 +252,7 @@
                 </div>
                 <h3 class="step-title">Enjoy Your Ride</h3>
                 <p class="step-description">Pick up your vehicle and enjoy your journey with peace of mind.</p>
-            </div>
+            </div>-->
         </div>
     </div>
 </section>
@@ -574,8 +574,46 @@
             });
 
 
+        // ===== Rental Process Steps =====
+        const RENTAL_API_URL = "http://localhost:8080/api/rentalProcessSteps";
+        const processStepsContainer = document.getElementById("processSteps");
+
+        async function loadRentalSteps() {
+            if (!processStepsContainer) return;
+            try {
+                const res = await fetch(RENTAL_API_URL);
+                const result = await res.json();
+                if (res.ok && result.data) {
+                    renderRentalSteps(result.data);
+                } else {
+                    processStepsContainer.innerHTML = "<p>No steps available.</p>";
+                }
+            } catch (err) {
+                console.error("Error loading rental steps:", err);
+                processStepsContainer.innerHTML = "<p>Failed to load steps.</p>";
+            }
+        }
+
+        function renderRentalSteps(steps) {
+            processStepsContainer.innerHTML = "";
+            steps.forEach(step => {
+                const stepHtml = `
+            <div class="process-step">
+                <div class="step-number">${step.stepNumber}</div>
+                <div class="step-icon">${step.iconSvg}</div>
+                <h3 class="step-title">${step.title}</h3>
+                <p class="step-description">${step.description}</p>
+            </div>
+        `;
+                processStepsContainer.insertAdjacentHTML("beforeend", stepHtml);
+            });
+        }
+
+
+
         loadVehicles();
         loadCategories();
+        loadRentalSteps();
 
         // ===== Auth check =====
         const token = getCookie("token");
