@@ -720,7 +720,7 @@ body{
     border-top: 4px solid var(--luxury-color);
 }
 
-.category-card.convertible {
+.category-card.sports {
     border-top: 4px solid var(--convertible-color);
 }
 
@@ -760,7 +760,7 @@ body{
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 0.75rem;
-    color: var(--text-color);
+    color: var(--primary-color);
 }
 
 .category-description {
