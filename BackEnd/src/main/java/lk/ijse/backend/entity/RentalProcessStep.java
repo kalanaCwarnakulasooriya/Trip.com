@@ -22,7 +22,7 @@ public class RentalProcessStep {
     @Column(nullable = false, length = 500)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String iconSvg;
 
     @Column(nullable = false)
