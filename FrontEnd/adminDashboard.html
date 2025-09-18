@@ -1306,6 +1306,28 @@
             `;
                 tableBody.appendChild(tr);
             });
+
+            // Delete Travel Tips
+            document.querySelectorAll(".delete-vehicle").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.getAttribute("data-id");
+                    if (!confirm("Are you sure you want to delete this?")) return;
+
+                    try {
+                        const res = await fetch(`http://localhost:8080/api/vehicles/${id}`, {
+                            method: "DELETE"
+                        });
+                        if (res.ok) {
+                            loadVehicle();
+                            alert("Deleted successfully!");
+                        } else {
+                            alert("Failed to delete!");
+                        }
+                    } catch (err) {
+                        console.error("Delete error:", err);
+                    }
+                });
+            });
         } catch (err) {
             console.error("Error loading vehicles:", err);
         }
