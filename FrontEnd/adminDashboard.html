@@ -1501,15 +1501,66 @@
                     }
                 });
             });
+
+            let selectedVehicleId = null;
+
+            // When user clicks table "Update" button
+            document.addEventListener("click", (e) => {
+                if (e.target.classList.contains("update-vehicleCategory")) {
+                    const row = e.target.closest("tr");
+                    selectedVehicleId = e.target.getAttribute("data-id");
+
+                    document.getElementById("vehicleCategory-name").value = row.children[1].innerText;
+                    document.getElementById("vehicleCategory-available").value = row.children[2].innerText;
+                    document.getElementById("vehicleCategory-pricePerDay").value = row.children[3].innerText;
+                    document.getElementById("vehicleCategory-buttonLink").value = row.children[4].innerText;
+                    document.getElementById("vehicleCategory-description").value = row.children[5].innerText;
+                }
+            });
+
+            // Update button click
+            document.getElementById("update-vehicleCategory").addEventListener("click", async () => {
+                if (!selectedVehicleId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    name: document.getElementById("vehicleCategory-name").value.trim(),
+                    availableVehicles: document.getElementById("vehicleCategory-available").value.trim(),
+                    pricePerDay: parseFloat(document.getElementById("vehicleCategory-pricePerDay").value.trim()) || 0,
+                    buttonLink: document.getElementById("vehicleCategory-buttonLink").value.trim(),
+                    description: document.getElementById("vehicleCategory-description").value.trim()
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/vehicleCategories/${selectedVehicleId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        alert("Updated successfully!");
+                        loadVehicleCategory();
+                        selectedVehicleId = null;
+                        document.querySelectorAll("#vehicleCategory input").forEach(i => i.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
+            });
         } catch (err) {
             console.error("Error loading vehicles:", err);
         }
-        document.querySelectorAll("#vehicles input")
+        document.querySelectorAll("#vehicleCategory input")
             .forEach(el => el.value = "");
     }
 
-    document.getElementById("refresh-vehicles").addEventListener("click", () => {
-        document.querySelectorAll("#vehicles input").forEach(i => i.value = "");
+    document.getElementById("refresh-vehicleCategory").addEventListener("click", () => {
+        document.querySelectorAll("#vehicleCategory input").forEach(i => i.value = "");
     });
 
 

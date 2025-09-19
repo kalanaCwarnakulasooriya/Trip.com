@@ -20,7 +20,7 @@ public class VehicleCategory {
     private String name;
 
     @Column(length = 500)
-    private String description;
+        private String description;
 
     @Column(nullable = false)
     private double pricePerDay;
