@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="css/darkIndex.css">
     <link rel="stylesheet" href="css/vehicle.css">
+    <link rel="stylesheet" href="css/toastr.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/scrollreveal"></script>
+<!--    <script src="https://unpkg.com/scrollreveal"></script>-->
 </head>
 <body>
 <!-- Preloader -->
@@ -34,7 +35,7 @@
                     <li><a href="home.html">Home</a></li>
                     <li><a href="destination.html">Destinations</a></li>
                     <li><a href="guides.html">Guides</a></li>
-                    <li><a href="universities.html">Universities</a></li>
+<!--                    <li><a href="universities.html">Universities</a></li>-->
                     <li><a href="vehicle.html" class="active">Vehicle Rentals</a></li>
                     <li><a href="feedBack.html">FeedBack</a></li>
                 </ul>
@@ -269,8 +270,8 @@
                 <h2 class="cta-title">Ready to Hit the Road?</h2>
                 <p class="cta-text">Book your perfect vehicle today and enjoy the freedom to explore at your own pace.</p>
                 <div class="cta-buttons">
-                    <a href="#" class="btn btn-primary">Book Now</a>
-                    <a href="#" class="btn btn-outline">Contact Us</a>
+<!--                    <a href="#" class="btn btn-primary">Book Now</a>-->
+                    <a href="home.html#contact" class="btn btn-outline">Contact Us</a>
                 </div>
             </div>
             <div class="cta-image">
@@ -366,8 +367,17 @@
     </svg>
 </button>
 
+
+
+
 <!-- Scripts -->
 <script src="js/index.js"></script>
+<!-- jQuery (must be before toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         // Load Vehicle
@@ -385,9 +395,11 @@
                     renderVehicles(data.data);
                 } else {
                     console.warn("No vehicle found");
+                    toastr.info("No vehicle found", "Info");
                 }
             } catch (error) {
                 console.error("Error loading vehicles:", error);
+                toastr.error("Error loading vehicles", "Error");
             }
         }
 
@@ -499,9 +511,11 @@
                     renderCategories(result.data);
                 } else {
                     console.warn("No categories found");
+                    toastr.info("No categories found", "Info");
                 }
             } catch(err){
                 console.error("Error loading categories:", err);
+                toastr.error("Failed to load categories", "Error");
             }
         }
 
@@ -572,6 +586,7 @@
             .catch(error => {
                 console.error("Error fetching fleets:", error);
                 vehiclesGrid.innerHTML = "<p>Failed to load vehicles. Please try again later.</p>";
+                toastr.error("Failed to load vehicles", "Error");
             });
 
 
@@ -588,10 +603,12 @@
                     renderRentalSteps(result.data);
                 } else {
                     processStepsContainer.innerHTML = "<p>No steps available.</p>";
+                    toastr.info("No steps available", "Info");
                 }
             } catch (err) {
                 console.error("Error loading rental steps:", err);
                 processStepsContainer.innerHTML = "<p>Failed to load steps.</p>";
+                toastr.error("Failed to load rental steps.", "Error");
             }
         }
 
@@ -619,6 +636,7 @@
         // ===== Auth check =====
         const token = getCookie("token");
         if (!token) {
+            toastr.warning("You must be logged in.", "Access Denied");
             setTimeout(() => window.location.href = "login.html", 1500);
         }
     });
@@ -641,8 +659,17 @@
     function logout() {
         deleteCookie("token");
         deleteCookie("username");
+        toastr.info("Logged out successfully.", "Logout");
         setTimeout(() => window.location.href = "index.html", 1500);
     }
+
+    // Toastr settings (optional customization)
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "4000"
+    };
 </script>
 </body>
 </html>

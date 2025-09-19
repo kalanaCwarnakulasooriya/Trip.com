@@ -6,6 +6,7 @@
     <title>Trip.com - Explore Without Limits</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/toastr.css">
     <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 <body>
@@ -31,7 +32,7 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="destination.html">Destinations</a></li>
                     <li><a href="guides.html">Guides</a></li>
-                    <li><a href="universities.html">Universities</a></li>
+<!--                    <li><a href="universities.html">Universities</a></li>-->
                     <li><a href="vehicle.html" class="active">Vehicle Rentals</a></li>
                     <li><a href="feedBack.html">Feedback</a></li>
                 </ul>
@@ -365,6 +366,12 @@
 
 <!-- Scripts -->
 <script src="js/index.js"></script>
+<!-- jQuery (must be before toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         // ===== DESTINATIONS =====
@@ -380,9 +387,11 @@
                     data.data.forEach(dest => addDestinationCard(dest));
                 } else {
                     console.warn("No destinations found");
+                    toastr.info("No destinations found", "Info");
                 }
             } catch (error) {
                 console.error("Error loading destinations:", error);
+                toastr.error("Failed to load destinations", "Error");
             }
         }
 
@@ -434,9 +443,11 @@
                     data.data.forEach(pkg => addPackageCard(pkg));
                 } else {
                     console.warn("No packages found");
+                    toastr.error("No packages found", "Error");
                 }
             } catch (error) {
                 console.error("Error loading packages:", error);
+                toastr.error("Failed to load packages", "Error");
             }
         }
 
@@ -478,7 +489,8 @@
                 const message = document.getElementById("message")?.value.trim() || "";
 
                 if (!name || !email || !subject || !message) {
-                    alert("Please fill all fields before submitting.");
+                    // alert("Please fill all fields before submitting.");
+                    toastr.error("Please fill all fields before submitting.", "Error");
                     return;
                 }
 
@@ -492,14 +504,17 @@
                     });
                     if (response.ok) {
                         const result = await response.json();
-                        alert(result.message || "Message sent successfully!");
+                        // alert(result.message || "Message sent successfully!");
+                        toastr.success(result.message || "Message sent successfully!", "Success");
                         contactForm.reset();
                     } else {
-                        alert("Failed to send message. Try again.");
+                        // alert("Failed to send message. Try again.");
+                        toastr.error("Failed to send message. Try again.", "Error");
                     }
                 } catch (error) {
                     console.error("Error submitting contact:", error);
-                    alert("Something went wrong. Please try again later.");
+                    // alert("Something went wrong. Please try again later.");
+                    toastr.error("Something went wrong. Please try again later.", "Error");
                 }
             });
         }
@@ -551,6 +566,7 @@
                 }
             } catch (err) {
                 console.error("Error loading testimonials:", err);
+                toastr.error("Failed to load testimonials", "Error");
             }
         }
 
@@ -636,10 +652,12 @@
                     });
                 } else {
                     galleryGrid.innerHTML = "<p>No gallery images found.</p>";
+                    toastr.info("No gallery images found", "Info");
                 }
             } catch (err) {
                 console.error("Error loading gallery:", err);
                 galleryGrid.innerHTML = "<p>Failed to load gallery.</p>";
+                toastr.error("Failed to load gallery", "Error");
             }
         }
 
@@ -679,7 +697,7 @@
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
         if (!token) {
-            // toastr.warning("You must be logged in.", "Access Denied");
+            toastr.warning("You must be logged in.", "Access Denied");
             setTimeout(() => window.location.href = "login.html", 1500);
         }
     });
@@ -703,9 +721,17 @@
     function logout() {
         deleteCookie("token");
         deleteCookie("username");
-        // toastr.info("Logged out successfully.", "Logout");
+        toastr.info("Logged out successfully.", "Logout");
         setTimeout(() => window.location.href = "index.html", 1500);
     }
+
+    // Toastr settings (optional customization)
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "4000"
+    };
 </script>
 </body>
 </html>

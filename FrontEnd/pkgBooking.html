@@ -6,6 +6,7 @@
     <title>Trip.com - Book Your Dream Vacation</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="css/pkgBooking.css">
+    <link rel="stylesheet" href="css/toastr.css">
     <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 <body>
@@ -27,7 +28,7 @@
             <a href="home.html" class="nav-link">Home</a>
             <a href="destination.html" class="nav-link">Destinations</a>
             <a href="guides.html" class="nav-link">Guides</a>
-            <a href="" class="nav-link active">Universities</a>
+<!--            <a href="" class="nav-link active">Universities</a>-->
             <a href="vehicle.html" class="nav-link">Vehicle Rentals</a>
             <a href="feedBack.html" class="nav-link">FeedBack</a>
         </nav>
@@ -110,6 +111,16 @@
     </div>
 </div>
 
+
+
+
+
+<!-- jQuery (must be before toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("add-booking-form");
@@ -132,9 +143,11 @@
                     });
                 } else {
                     console.error("Failed to load packages", result.message);
+                    toastr.error("Failed to load packages", "Error");
                 }
             } catch (error) {
                 console.error("Error fetching packages:", error);
+                toastr.error("Failed to load packages", "Error");
             }
         }
 
@@ -171,7 +184,8 @@
                 }
             } catch (error) {
                 console.error("Error saving booking:", error);
-                alert("Something went wrong while saving your booking.");
+                // alert("Something went wrong while saving your booking.");
+                toastr.error("Something went wrong while saving your booking.", "Error");
             }
         });
 
@@ -181,7 +195,7 @@
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
         if (!token) {
-            // toastr.warning("You must be logged in.", "Access Denied");
+            toastr.warning("You must be logged in.", "Access Denied");
             setTimeout(() => window.location.href = "login.html", 1500);
         }
     });
@@ -205,9 +219,17 @@
     function logout() {
         deleteCookie("token");
         deleteCookie("username");
-        // toastr.info("Logged out successfully.", "Logout");
+        toastr.info("Logged out successfully.", "Logout");
         setTimeout(() => window.location.href = "index.html", 1500);
     }
+
+    // Toastr settings (optional customization)
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "4000"
+    };
 </script>
 </body>
 </html>

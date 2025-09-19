@@ -6,6 +6,7 @@
     <title>Sign Up - Trip.com</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="css/signup.css">
+    <link rel="stylesheet" href="css/toastr.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -156,6 +157,16 @@
         </div>
     </div>
 </div>
+
+
+
+
+<!-- jQuery (must be before toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Password Toggle
@@ -199,6 +210,7 @@
         const signupForm = document.getElementById('signupForm');
         if (!signupForm) {
             console.error("Signup form not found in the DOM.");
+            toastr.error("Signup form not found in the DOM.", "Error");
             return;
         }
 
@@ -233,24 +245,29 @@
             // Validation
             if (!username.value.trim()) {
                 usernameError.textContent = "Username is required";
+                toastr.error("Username is required", "Error");
                 valid = false;
             }
 
             const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email.value.trim()) {
                 emailError.textContent = "Email is required";
+                toastr.error("Email is required", "Error");
                 valid = false;
             } else if (!emailPattern.test(email.value.trim())) {
                 emailError.textContent = "Invalid email format";
+                toastr.error("Invalid email format", "Error");
                 valid = false;
             }
 
             const mobilePattern = /^[0-9]{10}$/;
             if (!phone.value.trim()) {
                 phoneError.textContent = "Mobile number is required";
+                toastr.error("Mobile number is required", "Error");
                 valid = false;
-            } else if (!mobilePattern.test(phone.value.trim())) {   // FIXED HERE ✅
+            } else if (!mobilePattern.test(phone.value.trim())) {
                 phoneError.textContent = "Invalid mobile format (must be 10 digits)";
+                toastr.error("Invalid mobile format (must be 10 digits)", "Error");
                 valid = false;
             }
 
@@ -259,16 +276,19 @@
                 valid = false;
             } else if (password.value.length < 8) {
                 passwordError.textContent = "Password must be at least 8 characters";
+                toastr.error("Password must be at least 8 characters", "Error");
                 valid = false;
             }
 
             if (password.value !== confirmPassword.value) {
                 confirmPasswordError.textContent = "Passwords do not match";
+                toastr.error("Passwords do not match", "Error");
                 valid = false;
             }
 
             if (!terms.checked) {
                 termsError.textContent = "You must agree to the terms";
+                toastr.error("You must agree to the terms", "Error");
                 valid = false;
             }
 
@@ -300,7 +320,8 @@
                             if (el) el.textContent = data.errors[key];
                         });
                     } else {
-                        alert(data.message || `Error ${response.status}`);
+                        // alert(data.message || `Error ${response.status}`);
+                        toastr.error(data.message || `Error ${response.status}`, 'Error');
                     }
                     return;
                 }
@@ -310,13 +331,23 @@
 
             } catch (err) {
                 console.error('Signup failed', err);
-                alert('Signup failed. Please try again.');
+                // alert('Signup failed. Please try again.');
+                toastr.error('Signup failed. Please try again.', 'Error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.classList.remove('loading');
             }
         });
     });
+
+
+    // Toastr settings (optional customization)
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "4000"
+    };
 </script>
 </body>
 </html>

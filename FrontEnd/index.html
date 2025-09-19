@@ -6,6 +6,7 @@
     <title>Trip.com - Discover Your Next Adventure</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/toastr.css">
     <script src="https://unpkg.com/scrollreveal"></script>
 </head>
 <body>
@@ -366,6 +367,12 @@
 
 
 <!-- Scripts -->
+<!-- jQuery (must be before toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     // ===== CONTACT FORM =====
     const contactForm = document.getElementById('contactForm');
@@ -379,7 +386,8 @@
             const message = document.getElementById('message').value.trim();
 
             if (!name || !email || !subject || !message) {
-                alert("Please fill all fields before submitting.");
+                // alert("Please fill all fields before submitting.");
+                toastr.error("Please fill all fields before submitting.", "Error");
                 return;
             }
 
@@ -394,14 +402,17 @@
 
                 if (res.ok) {
                     const result = await res.json();
-                    alert(result.message || "Message sent successfully!");
+                    // alert(result.message || "Message sent successfully!");
+                    toastr.success(result.message || "Message sent successfully!", "Success");
                     contactForm.reset();
                 } else {
-                    alert("Failed to send message. Try again.");
+                    // alert("Failed to send message. Try again.");
+                    toastr.error("Failed to send message. Try again.", "Error");
                 }
             } catch (err) {
                 console.error("Error submitting contact:", err);
-                alert("Something went wrong. Please try again later.");
+                // alert("Something went wrong. Please try again later.");
+                toastr.error("Something went wrong. Please try again later.", "Error");
             }
         });
     }
@@ -453,6 +464,7 @@
             }
         } catch (err) {
             console.error("Error loading testimonials:", err);
+            toastr.error("Failed to load testimonials", "Error");
         }
     }
 
@@ -541,10 +553,12 @@
 
             } else {
                 galleryGrid.innerHTML = "<p>No gallery images found.</p>";
+                toastr.info("No gallery images found", "Info");
             }
         } catch (err) {
             console.error("Error loading gallery:", err);
             galleryGrid.innerHTML = "<p>Failed to load gallery.</p>";
+            toastr.error("Failed to load gallery", "Error");
         }
     }
 
@@ -595,6 +609,14 @@
         loadTestimonials();
         loadGallery();
     });
+
+    // Toastr settings (optional customization)
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "4000"
+    };
 </script>
 <script src="js/index.js"></script>
 </body>

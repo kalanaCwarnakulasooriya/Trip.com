@@ -6,6 +6,7 @@
     <title>Login - Trip.com</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/toastr.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -120,6 +121,15 @@
     </div>
 </div>
 
+
+
+
+<!-- jQuery (must be before toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         // Theme Toggle
@@ -176,10 +186,12 @@
                 let isValid = true;
                 if (!usernameInput.value.trim()) {
                     if (usernameError) usernameError.textContent = "Username is required";
+                    toastr.error("Username is required", "Error");
                     isValid = false;
                 }
                 if (!passwordInput.value.trim()) {
                     if (passwordError) passwordError.textContent = "Password is required";
+                    toastr.error("Password is required", "Error");
                     isValid = false;
                 }
 
@@ -199,7 +211,8 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error("Invalid username or password");
+                        // throw new Error("Invalid username or password");
+                        toastr.error("Invalid username or password", "Error");
                     }
 
                     const result = await response.json();
@@ -208,10 +221,13 @@
                     setTimeout(() => {
                         if (role === "ADMIN") {
                             window.location.href = 'adminDashboard.html';
+                            toastr.success("Login successful!", "Success");
                         } else if (role === "USER") {
                             window.location.href = 'home.html';
+                            toastr.success("Login successful!", "Success");
                         } else {
-                            alert("Unknown role! Cannot redirect.");
+                            // alert("Unknown role! Cannot redirect.");
+                            toastr.error("Unknown role! Cannot redirect.", "Error");
                         }
                     }, 1000);
 ;
@@ -231,6 +247,14 @@
             document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=Strict`;
         }
     });
+
+    // Toastr settings (optional customization)
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "4000"
+    };
 </script>
 </body>
 </html>

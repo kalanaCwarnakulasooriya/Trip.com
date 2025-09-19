@@ -6,6 +6,7 @@
     <title>FeedBack - Trip.com</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="css/feedBack.css">
+    <link rel="stylesheet" href="css/toastr.css">
 </head>
 <body>
 <!-- Preloader
@@ -30,7 +31,7 @@
                     <li><a href="home.html">Home</a></li>
                     <li><a href="destination.html">Destinations</a></li>
                     <li><a href="guides.html">Guides</a></li>
-                    <li><a href="universities.html">Universities</a></li>
+<!--                    <li><a href="universities.html">Universities</a></li>-->
                     <li><a href="vehicle.html" class="active">Vehicle Rentals</a></li>
                     <li><a href="feedBack.html">FeedBack</a></li>
                 </ul>
@@ -97,6 +98,15 @@
     </section>
 </main>
 
+
+
+<!-- jQuery (must be before toastr) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Toastr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const feedbackForm = document.querySelector(".feedback-form");
@@ -126,14 +136,14 @@
                     const result = await response.json();
 
                     if (response.ok) {
-                        // alert("✅ " + result.message);
+                        toastr.success(result.message || "✅ Feedback submitted successfully!", "Success");
                         feedbackForm.reset();
                     } else {
-                        alert("❌ Error: " + result.message);
+                        toastr.error(result.message || "Failed to submit feedback.", "❌ Error");
                     }
                 } catch (error) {
                     console.error("Error submitting feedback:", error);
-                    alert("⚠️ Failed to connect to server");
+                    toastr.error("⚠️ Failed to connect to server.", "Network Error");
                 }
             });
         }
@@ -141,8 +151,9 @@
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
         if (!token) {
-            // toastr.warning("You must be logged in.", "Access Denied");
+            toastr.warning("You must be logged in to submit feedback.", "Access Denied");
             setTimeout(() => window.location.href = "login.html", 1500);
+            // return; // stop further execution
         }
     });
 
@@ -165,9 +176,17 @@
     function logout() {
         deleteCookie("token");
         deleteCookie("username");
-        // toastr.info("Logged out successfully.", "Logout");
+        toastr.info("Logged out successfully.", "Logout");
         setTimeout(() => window.location.href = "index.html", 1500);
     }
+
+    // Toastr settings (optional customization)
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "4000"
+    };
 </script>
 </body>
 </html>
