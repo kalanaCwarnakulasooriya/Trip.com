@@ -1826,6 +1826,54 @@
                     }
                 });
             });
+
+            // ================== UPDATE ==================
+            let selectedStepsId = null;
+            document.querySelectorAll(".update-rentalSteps").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const row = e.target.closest("tr");
+                    selectedStepsId = btn.getAttribute("data-id");
+
+                    document.getElementById("rentalSteps-title").value = row.children[1].innerText;
+                    document.getElementById("rentalSteps-stepNumber").value = row.children[2].innerText;
+                    document.getElementById("rentalSteps-iconSvg").value = row.children[3].innerHTML.trim();
+                    document.getElementById("rentalSteps-description").value = row.children[4].innerText;
+                });
+            });
+
+            // Update button click
+            document.getElementById("update-rentalSteps").addEventListener("click", async () => {
+                if (!selectedStepsId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    title: document.getElementById("rentalSteps-title").value.trim(),
+                    stepNumber: parseInt(document.getElementById("rentalSteps-stepNumber").value.trim()) || 0,
+                    iconSvg: document.getElementById("rentalSteps-iconSvg").value.trim(),
+                    description: document.getElementById("rentalSteps-description").value.trim()
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/rentalProcessSteps/${selectedStepsId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        alert("Updated successfully!");
+                        loadVRentalSteps();
+                        selectedStepsId = null;
+                        document.querySelectorAll("#rentalSteps input").forEach(i => i.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
+            });
         } catch (err) {
             console.error("Error loading rental steps:", err);
         }
