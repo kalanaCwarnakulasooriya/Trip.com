@@ -1856,6 +1856,37 @@
         document.querySelectorAll("#vehicles input").forEach(i => i.value = "");
     });
 
+    // ================== ADD VEHICLE CATEGORY ==================
+    document.getElementById("add-vehicleCategory").addEventListener("click", async () => {
+        const dto = {
+            name: document.getElementById("vehicleCategory-name").value.trim(),
+            availableVehicles: document.getElementById("vehicleCategory-available").value.trim(),
+            pricePerDay: parseFloat(document.getElementById("vehicleCategory-pricePerDay").value.trim()) || 0,
+            buttonLink: document.getElementById("vehicleCategory-buttonLink").value.trim(),
+            description: document.getElementById("vehicleCategory-description").value.trim()
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/vehicleCategories", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Data added successfully!");
+                loadVehicleCategory();
+            } else {
+                alert("Failed to add data!");
+            }
+        } catch (err) {
+            console.error("Error saving data:", err);
+        }
+
+        // Clear input
+        document.querySelectorAll("#vehicleCategory input").forEach(i => i.value = "");
+    });
+
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
         loadDestinations();
