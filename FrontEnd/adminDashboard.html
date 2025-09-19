@@ -335,45 +335,6 @@
                 </table>
             </div>
 
-            <!--VEHICLES-->
-            <div class="table-wrap view-section" id="vehicleCategory" style="display:none">
-                <h3 style="margin:0 0 10px">Vehicles Category</h3>
-                <div class="form-row">
-                    <input id="vehicleCategory-name" placeholder="Name">
-                    <input id="vehicleCategory-available" placeholder="Available">
-                </div>
-                <div class="form-row">
-                    <input id="vehicleCategory-pricePerDay" placeholder="Price PerDay">
-                    <input id="vehicleCategory-buttonLink" placeholder="Link">
-                </div>
-                <div class="form-row">
-                    <input id="vehicleCategory-description" placeholder="Description">
-                </div>
-                <button class="btn" id="add-vehicleCategory">Add Category</button>
-                <button class="btn" id="update-vehicleCategory">Update Category</button>
-                <button class="btn" id="refresh-vehicleCategory" title="Refresh">
-                    <i class="fa fa-sync-alt"></i>
-                </button>
-
-                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
-
-                <h3>Vehicles Category List</h3>
-                <table id="vehicleCategory-table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Available</th>
-                        <th>Price PerDay</th>
-                        <th>Link</th>
-                        <th>Description</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-
 
             <!--VEHICLES-->
             <div class="table-wrap view-section" id="vehicles" style="display:none">
@@ -415,6 +376,46 @@
                         <th>Price PerDay</th>
                         <th>Price Period</th>
                         <th>Features</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+
+            <!--VEHICLES CATEGORY-->
+            <div class="table-wrap view-section" id="vehicleCategory" style="display:none">
+                <h3 style="margin:0 0 10px">Vehicles Category</h3>
+                <div class="form-row">
+                    <input id="vehicleCategory-name" placeholder="Name">
+                    <input id="vehicleCategory-available" placeholder="Available">
+                </div>
+                <div class="form-row">
+                    <input id="vehicleCategory-pricePerDay" placeholder="Price PerDay">
+                    <input id="vehicleCategory-buttonLink" placeholder="Link">
+                </div>
+                <div class="form-row">
+                    <input id="vehicleCategory-description" placeholder="Description">
+                </div>
+                <button class="btn" id="add-vehicleCategory">Add Category</button>
+                <button class="btn" id="update-vehicleCategory">Update Category</button>
+                <button class="btn" id="refresh-vehicleCategory" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Vehicles Category List</h3>
+                <table id="vehicleCategory-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Available</th>
+                        <th>Price PerDay</th>
+                        <th>Link</th>
+                        <th>Description</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -1441,6 +1442,55 @@
     });
 
 
+    // ================== LOAD VEHICLES CATEGORY ==================
+    async function loadVehicleCategory() {
+        try {
+            const res = await fetch("http://localhost:8080/api/vehicleCategories");
+            const json = await res.json();
+
+            const vehicles = json.data;
+            if (!Array.isArray(vehicles)) {
+                console.error("Expected an array but got:", vehicles);
+                return;
+            }
+
+            const tableBody = document.querySelector("#vehicleCategory-table tbody");
+            tableBody.innerHTML = "";
+            vehicles.forEach(vehicle => {
+                const tr = document.createElement("tr");
+
+                // Features HTML build karanna
+                let featuresHtml = "";
+                tr.innerHTML = `
+                <td>${vehicle.id}</td>
+                <td>${vehicle.name}</td>
+                <td>${vehicle.availableVehicles}</td>
+                <td>${vehicle.pricePerDay}</td>
+                <td>${vehicle.buttonLink}</td>
+                <td>${vehicle.description}</td>
+                <td>
+                    <button class="update-vehicleCategory btn-primary" data-id="${vehicle.id}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="delete-vehicleCategory btn-danger" data-id="${vehicle.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error loading vehicles:", err);
+        }
+        document.querySelectorAll("#vehicles input")
+            .forEach(el => el.value = "");
+    }
+
+    document.getElementById("refresh-vehicles").addEventListener("click", () => {
+        document.querySelectorAll("#vehicles input").forEach(i => i.value = "");
+    });
+
+
 
     // ----------------------Data Saving----------------------
     // ================== POPULAR DESTINATIONS ==================
@@ -1661,6 +1711,7 @@
         loadGuide();
         loadTips();
         loadVehicle();
+        loadVehicleCategory();
 
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
