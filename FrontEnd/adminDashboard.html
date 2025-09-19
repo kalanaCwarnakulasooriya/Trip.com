@@ -423,7 +423,7 @@
                 </table>
             </div>
 
-            <!--VEHICLES CATEGORY-->
+            <!--VEHICLES FLEET-->
             <div class="table-wrap view-section" id="vehicleFleet" style="display:none">
                 <h3 style="margin:0 0 10px">Vehicle Fleet</h3>
                 <div class="form-row">
@@ -1609,6 +1609,58 @@
     });
 
 
+    // ================== LOAD VEHICLES FLEET ==================
+    async function loadVehicleFleet() {
+        try {
+            const res = await fetch("http://localhost:8080/api/vehicleFleets");
+            const json = await res.json();
+
+            const vehicles = json.data;
+            if (!Array.isArray(vehicles)) {
+                console.error("Expected an array but got:", vehicles);
+                return;
+            }
+
+            const tableBody = document.querySelector("#vehicleFleet-table tbody");
+            tableBody.innerHTML = "";
+            vehicles.forEach(vehicle => {
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                <td>${vehicle.id}</td>
+                <td>${vehicle.name}</td>
+                <td>${vehicle.category}</td>
+                <td>${vehicle.seats}</td>
+                <td>${vehicle.bags}</td>
+                <td>${vehicle.transmission}</td>
+                <td>${vehicle.pricePerDay}</td>
+                <td><img src="${vehicle.imageUrl}" width="80"></td>
+                <td>
+                    <button class="update-vehicleFleet btn-primary" data-id="${vehicle.id}">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                    <button class="delete-vehicleFleet btn-danger" data-id="${vehicle.id}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            `;
+                tableBody.appendChild(tr);
+            });
+        } catch (err) {
+            console.error("Error loading vehicles fleet:", err);
+        }
+
+        // clear inputs on refresh
+        document.querySelectorAll("#vehicleFleet input")
+            .forEach(el => el.value = "");
+    }
+
+    // Refresh button
+    document.getElementById("refresh-vehicleFleet").addEventListener("click", () => {
+        document.querySelectorAll("#vehicleFleet input").forEach(i => i.value = "");
+    });
+
+
 
     // ----------------------Data Saving----------------------
     // ================== POPULAR DESTINATIONS ==================
@@ -1898,6 +1950,7 @@
         loadTips();
         loadVehicle();
         loadVehicleCategory();
+        loadVehicleFleet();
 
         // ===== Auth check (inside DOMContentLoaded) =====
         const token = getCookie("token");
