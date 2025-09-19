@@ -34,7 +34,7 @@
                 <li data-view="vehicles">Vehicles</li>
                 <li data-view="vehicleCategory">Vehicles Category</li>
                 <li data-view="vehicleFleet">Vehicles Fleet</li>
-                <li data-view="rental">Rental Steps</li>
+                <li data-view="rentalSteps">Rental Steps</li>
                 <li data-view="settings">Settings</li>
             </ul>
         </nav>
@@ -461,6 +461,42 @@
                         <th>Transmission</th>
                         <th>Price PerDay</th>
                         <th>Image</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+
+            <!--RENTAL STEPS-->
+            <div class="table-wrap view-section" id="rentalSteps" style="display:none">
+                <h3 style="margin:0 0 10px">Rental Steps</h3>
+                <div class="form-row">
+                    <input id="rentalSteps-title" placeholder="Title">
+                    <input id="rentalSteps-stepNumber" placeholder="Step Number">
+                </div>
+                <div class="form-row">
+                    <input id="rentalSteps-iconSvg" placeholder="Icon">
+                    <input id="rentalSteps-description" placeholder="Description">
+                </div>
+                <button class="btn" id="add-rentalSteps">Add Steps</button>
+                <button class="btn" id="update-rentalSteps">Update Steps</button>
+                <button class="btn" id="refresh-rentalSteps" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Rental Steps List</h3>
+                <table id="rentalSteps-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Step Number</th>
+                        <th>Icon</th>
+                        <th>Description</th>
                         <th></th>
                     </tr>
                     </thead>
