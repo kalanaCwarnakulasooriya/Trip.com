@@ -2012,6 +2012,40 @@
         document.querySelectorAll("#vehicleCategory input").forEach(i => i.value = "");
     });
 
+
+    // ================== ADD VEHICLE FLEET ==================
+    document.getElementById("add-vehicleFleet").addEventListener("click", async () => {
+        const dto = {
+            name: document.getElementById("vehicleFleet-name").value.trim(),
+            category: document.getElementById("vehicleFleet-category").value.trim(),
+            seats: parseInt(document.getElementById("vehicleFleet-seats").value.trim()) || 0,
+            bags: parseInt(document.getElementById("vehicleFleet-bags").value.trim()) || 0,
+            transmission: document.getElementById("vehicleFleet-transmission").value.trim(),
+            pricePerDay: parseFloat(document.getElementById("vehicleFleet-pricePerDay").value.trim()) || 0,
+            imageUrl: document.getElementById("vehicleFleet-imageUrl").value.trim()
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/vehicleFleets", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Data added successfully!");
+                loadVehicleFleet();
+            } else {
+                alert("Failed to add data!");
+            }
+        } catch (err) {
+            console.error("Error saving data:", err);
+        }
+
+        // Clear input
+        document.querySelectorAll("#vehicleFleet input").forEach(i => i.value = "");
+    });
+
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
         loadDestinations();
