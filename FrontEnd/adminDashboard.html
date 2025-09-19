@@ -2198,6 +2198,37 @@
         document.querySelectorAll("#vehicleFleet input").forEach(i => i.value = "");
     });
 
+
+    // ================== ADD RENTAL STEPS ==================
+    document.getElementById("add-rentalSteps").addEventListener("click", async () => {
+        const dto = {
+            title: document.getElementById("rentalSteps-title").value.trim(),
+            stepNumber: parseInt(document.getElementById("rentalSteps-stepNumber").value.trim()) || 0,
+            iconSvg: document.getElementById("rentalSteps-iconSvg").value.trim(),
+            description: document.getElementById("rentalSteps-description").value.trim()
+        };
+
+        try {
+            const res = await fetch("http://localhost:8080/api/rentalProcessSteps", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dto)
+            });
+
+            if (res.ok) {
+                alert("Data added successfully!");
+                loadVRentalSteps();
+            } else {
+                alert("Failed to add data!");
+            }
+        } catch (err) {
+            console.error("Error saving data:", err);
+        }
+
+        // Clear input
+        document.querySelectorAll("#rentalSteps input").forEach(i => i.value = "");
+    });
+
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
         loadDestinations();
