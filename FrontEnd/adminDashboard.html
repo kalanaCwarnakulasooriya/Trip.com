@@ -336,6 +336,46 @@
             </div>
 
             <!--VEHICLES-->
+            <div class="table-wrap view-section" id="vehicleCategory" style="display:none">
+                <h3 style="margin:0 0 10px">Vehicles Category</h3>
+                <div class="form-row">
+                    <input id="vehicleCategory-name" placeholder="Name">
+                    <input id="vehicleCategory-available" placeholder="Available">
+                </div>
+                <div class="form-row">
+                    <input id="vehicleCategory-pricePerDay" placeholder="Price PerDay">
+                    <input id="vehicleCategory-buttonLink" placeholder="Link">
+                </div>
+                <div class="form-row">
+                    <input id="vehicleCategory-description" placeholder="Description">
+                </div>
+                <button class="btn" id="add-vehicleCategory">Add Category</button>
+                <button class="btn" id="update-vehicleCategory">Update Category</button>
+                <button class="btn" id="refresh-vehicleCategory" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Vehicles Category List</h3>
+                <table id="vehicleCategory-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Available</th>
+                        <th>Price PerDay</th>
+                        <th>Link</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+
+            <!--VEHICLES-->
             <div class="table-wrap view-section" id="vehicles" style="display:none">
                 <h3 style="margin:0 0 10px">Vehicles</h3>
                 <div class="form-row">
