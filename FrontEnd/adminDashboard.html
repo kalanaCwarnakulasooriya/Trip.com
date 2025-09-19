@@ -1668,15 +1668,66 @@
                     }
                 });
             });
+
+            // ================== UPDATE ==================
+            let selectedFleetId = null;
+            document.querySelectorAll(".update-vehicleFleet").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const row = e.target.closest("tr");
+                    selectedFleetId = btn.getAttribute("data-id");
+
+                    document.getElementById("vehicleFleet-name").value = row.children[1].innerText;
+                    document.getElementById("vehicleFleet-category").value = row.children[2].innerText;
+                    document.getElementById("vehicleFleet-seats").value = row.children[3].innerText;
+                    document.getElementById("vehicleFleet-bags").value = row.children[4].innerText;
+                    document.getElementById("vehicleFleet-transmission").value = row.children[5].innerText;
+                    document.getElementById("vehicleFleet-pricePerDay").value = row.children[6].innerText;
+                    document.getElementById("vehicleFleet-imageUrl").value = row.children[7].querySelector("img")?.src || "";
+                });
+            });
+
+            // Update button click
+            document.getElementById("update-vehicleFleet").addEventListener("click", async () => {
+                if (!selectedFleetId) {
+                    alert("Please select a row to update first!");
+                    return;
+                }
+
+                const dto = {
+                    name: document.getElementById("vehicleFleet-name").value.trim(),
+                    category: document.getElementById("vehicleFleet-category").value.trim(),
+                    seats: parseInt(document.getElementById("vehicleFleet-seats").value.trim()) || 0,
+                    bags: parseInt(document.getElementById("vehicleFleet-bags").value.trim()) || 0,
+                    transmission: document.getElementById("vehicleFleet-transmission").value.trim(),
+                    pricePerDay: parseFloat(document.getElementById("vehicleFleet-pricePerDay").value.trim()) || 0,
+                    imageUrl: document.getElementById("vehicleFleet-imageUrl").value.trim()
+                };
+
+                try {
+                    const res = await fetch(`http://localhost:8080/api/vehicleFleets/${selectedFleetId}`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(dto)
+                    });
+
+                    if (res.ok) {
+                        alert("Updated successfully!");
+                        loadVehicleFleet();
+                        selectedFleetId = null;
+                        document.querySelectorAll("#vehicleFleet input").forEach(i => i.value = "");
+                    } else {
+                        alert("Failed to update!");
+                    }
+                } catch (err) {
+                    console.error("Update error:", err);
+                }
+            });
         } catch (err) {
             console.error("Error loading vehicles fleet:", err);
         }
-
-        // clear inputs on refresh
         document.querySelectorAll("#vehicleFleet input")
             .forEach(el => el.value = "");
     }
-
     // Refresh button
     document.getElementById("refresh-vehicleFleet").addEventListener("click", () => {
         document.querySelectorAll("#vehicleFleet input").forEach(i => i.value = "");
