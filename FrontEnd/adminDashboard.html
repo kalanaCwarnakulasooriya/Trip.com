@@ -422,6 +422,51 @@
                     <tbody></tbody>
                 </table>
             </div>
+
+            <!--VEHICLES CATEGORY-->
+            <div class="table-wrap view-section" id="vehicleFleet" style="display:none">
+                <h3 style="margin:0 0 10px">Vehicle Fleet</h3>
+                <div class="form-row">
+                    <input id="vehicleFleet-name" placeholder="Name">
+                    <input id="vehicleFleet-category" placeholder="Category">
+                </div>
+                <div class="form-row">
+                    <input id="vehicleFleet-seats" placeholder="Seats">
+                    <input id="vehicleFleet-bags" placeholder="Bags">
+                </div>
+                <div class="form-row">
+                    <input id="vehicleFleet-transmission" placeholder="Transmission">
+                    <input id="vehicleFleet-pricePerDay" placeholder="PricePerDay">
+                </div>
+                <div class="form-row">
+                    <input id="vehicleFleet-imageUrl" placeholder="Image Url">
+                </div>
+                <button class="btn" id="add-vehicleFleet">Add Category</button>
+                <button class="btn" id="update-vehicleFleet">Update Category</button>
+                <button class="btn" id="refresh-vehicleFleet" title="Refresh">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+
+                <hr style="margin:15px 0; border-color:rgba(255,255,255,0.1)">
+
+                <h3>Vehicle Fleet List</h3>
+                <table id="vehicleFleet-table">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Seats</th>
+                        <th>Bags</th>
+                        <th>Transmission</th>
+                        <th>Price PerDay</th>
+                        <th>Image</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </main>
     </section>
 </div>
