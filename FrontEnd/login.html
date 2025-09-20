@@ -169,6 +169,13 @@
             });
         });
 
+        // ==== Remember Me: auto-fill username ====
+        const savedUsername = getCookie("username");
+        if (savedUsername) {
+            document.getElementById("username").value = savedUsername;
+            document.getElementById("userRememberMe").checked = true;
+        }
+
         // Form Validation and AJAX Login
         const userLoginForm = document.getElementById("userLoginForm");
         if (userLoginForm) {
@@ -179,6 +186,7 @@
                 const passwordInput = document.getElementById("password");
                 const usernameError = document.getElementById("usernameError");
                 const passwordError = document.getElementById("passwordError");
+                const rememberMe = document.getElementById("userRememberMe").checked;
 
                 if (usernameError) usernameError.textContent = "";
                 if (passwordError) passwordError.textContent = "";
@@ -210,27 +218,31 @@
                         })
                     });
 
-                    if (!response.ok) {
-                        // throw new Error("Invalid username or password");
-                        toastr.error("Invalid username or password", "Error");
-                    }
-
                     const result = await response.json();
-                    setCookie("token", result.data.accessToken, 1);
-                    const role = result.data.role;
-                    setTimeout(() => {
-                        if (role === "ADMIN") {
-                            window.location.href = 'adminDashboard.html';
-                            toastr.success("Login successful!", "Success");
-                        } else if (role === "USER") {
-                            window.location.href = 'home.html';
-                            toastr.success("Login successful!", "Success");
-                        } else {
-                            // alert("Unknown role! Cannot redirect.");
-                            toastr.error("Unknown role! Cannot redirect.", "Error");
-                        }
-                    }, 1000);
-;
+
+                    if (response.ok) {
+                        // ==== Remember Me Logic ====
+                        // 1 day (24h) if checked, 1 hour if unchecked
+                        const expiryMs = rememberMe ? (24 * 60 * 60 * 1000) : (60 * 60 * 1000);
+
+                        setCookie("token", result.data.accessToken, expiryMs);
+                        setCookie("username", usernameInput.value.trim(), expiryMs);
+
+                        const role = result.data.role;
+                        toastr.success("Login successful!", "Success");
+
+                        setTimeout(() => {
+                            if (role === "ADMIN") {
+                                window.location.href = 'adminDashboard.html';
+                            } else if (role === "USER") {
+                                window.location.href = 'home.html';
+                            } else {
+                                toastr.error("Unknown role! Cannot redirect.", "Error");
+                            }
+                        }, 1000);
+                    } else {
+                        toastr.error(result.message || "Invalid username or password", "Error");
+                    }
                 } catch (error) {
                     if (passwordError) passwordError.textContent = error.message;
                 } finally {
@@ -239,16 +251,27 @@
             });
         }
 
-        // Set cookie function
-        function setCookie(name, value, days) {
+        // Set cookie function (milliseconds instead of days)
+        function setCookie(name, value, durationMs) {
             const d = new Date();
-            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            d.setTime(d.getTime() + durationMs);
             const expires = "expires=" + d.toUTCString();
             document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=Strict`;
         }
+
+        // Get cookie function
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i].trim();
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
     });
 
-    // Toastr settings (optional customization)
+    // Toastr settings
     toastr.options = {
         "closeButton": true,
         "progressBar": true,

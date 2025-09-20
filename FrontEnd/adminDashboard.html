@@ -62,6 +62,11 @@
                     <div class="muted">Last 30 days</div>
                 </div>
                 <div class="card">
+                    <h3>Total Payments</h3>
+                    <div class="stat" id="overview-payments">0</div>
+                    <div class="muted">Last 30 days</div>
+                </div>
+                <div class="card">
                     <h3>Total Packages</h3>
                     <div class="stat" id="overview-packages">0</div>
                     <div class="muted">Available Packages</div>
@@ -659,6 +664,11 @@
             const usersJson = await usersRes.json();
             const usersCount = Array.isArray(usersJson.data) ? usersJson.data.length : 0;
 
+            //Payments
+            const paymentsRes = await fetch("http://localhost:8080/api/payments");
+            const paymentsJson = await paymentsRes.json();
+            const paymentsCount = Array.isArray(paymentsJson.data) ? paymentsJson.data.length : 0;
+
             // Revenue (example: sum of all package bookings * price)
             const bookingsRes = await fetch("http://localhost:8080/api/packageBooking");
             const bookingsJson = await bookingsRes.json();
@@ -673,6 +683,7 @@
                 }
             }
 
+
             // Update UI
             document.getElementById("overview-packages").innerText = packagesCount;
             document.getElementById("overview-vehicles").innerText = vehiclesCount;
@@ -683,6 +694,7 @@
             document.getElementById("overview-rental-steps").innerText = rentalStepsCount;
             document.getElementById("overview-categories").innerText = vehicleCategoriesCount;
             document.getElementById("overview-users").innerText = usersCount;
+            document.getElementById("overview-payments").innerText = paymentsCount;
             document.getElementById("overview-revenue").innerText = "$" + revenue.toLocaleString();
         } catch (e) {
             console.error("Error loading overview:", e);
