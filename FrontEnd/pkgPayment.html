@@ -47,17 +47,17 @@
       <div class="step-number">1</div>
       <div class="step-label">Trip Details</div>
     </div>
-    <div class="progress-step">
+    <!--<div class="progress-step">
       <div class="step-number">2</div>
       <div class="step-label">Booking Information</div>
-    </div>
+    </div>-->
     <div class="progress-step">
-      <div class="step-number active">3</div>
+      <div class="step-number active">2</div>
       <div class="step-label active">Payment</div>
     </div>
     <div class="progress-step">
-      <div class="step-number">4</div>
-      <div class="step-label">Confirmation</div>
+      <div class="step-number">3</div>
+      <div class="step-label">Success</div>
     </div>
   </div>
 
@@ -86,7 +86,7 @@
           </div>
 
           <div class="form-actions">
-              <button type="button" class="btn btn-outline" id="back-to-booking">Back to Booking</button>
+              <button type="button" class="btn btn-outline" id="back-to-booking">Back</button>
               <button type="submit" class="btn btn-primary">Complete Payment</button>
           </div>
       </form>
@@ -108,7 +108,37 @@
       const preloader = document.querySelector(".preloader");
       preloader.classList.add("hidden");
     });
+
+      // ===== Auth check (inside DOMContentLoaded) =====
+      const token = getCookie("token");
+      if (!token) {
+          toastr.warning("You must be logged in.", "Access Denied");
+          setTimeout(() => window.location.href = "login.html", 1500);
+      }
   });
+
+  // ===== Cookie Helpers (GLOBAL scope) =====
+  function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+          let c = ca[i].trim();
+          if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+  }
+
+  function deleteCookie(name) {
+      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax;";
+  }
+
+  // ===== Logout (GLOBAL so button onclick works) =====
+  function logout() {
+      deleteCookie("token");
+      deleteCookie("username");
+      toastr.info("Logged out successfully.", "Logout");
+      setTimeout(() => window.location.href = "index.html", 1500);
+  }
 
   // Toastr settings (optional customization)
   toastr.options = {
