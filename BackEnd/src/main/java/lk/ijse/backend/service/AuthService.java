@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -72,4 +74,18 @@ public class AuthService {
         }
         return "User Registration Success";
     }
+
+    public List<RegisterDTO> getAllUsers() {
+        return USERREPOSITORY.findAll()
+                .stream()
+                .map(user -> new RegisterDTO(
+                        user.getPassword(),
+                        user.getUsername(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getRole().name()
+                ))
+                .toList();
+    }
+
 }

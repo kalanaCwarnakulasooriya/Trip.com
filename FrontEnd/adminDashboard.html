@@ -56,10 +56,58 @@
         <main>
             <!-- STATS -->
             <div class="grid view-section" id="overview">
-                <div class="card"><h3>Total Revenue</h3><div class="stat">$12,420</div><div class="muted">Last 30 days</div></div>
-                <div class="card"><h3>Orders</h3><div class="stat">1,294</div><div class="muted">Pending: 18</div></div>
-                <div class="card"><h3>Active Customers</h3><div class="stat">3,220</div><div class="muted">New: 124</div></div>
+                <div class="card">
+                    <h3>Total Revenue</h3>
+                    <div class="stat" id="overview-revenue">$0</div>
+                    <div class="muted">Last 30 days</div>
+                </div>
+                <div class="card">
+                    <h3>Total Packages</h3>
+                    <div class="stat" id="overview-packages">0</div>
+                    <div class="muted">Available Packages</div>
+                </div>
+                <div class="card">
+                    <h3>Total Vehicles</h3>
+                    <div class="stat" id="overview-vehicles">0</div>
+                    <div class="muted">Available Vehicles</div>
+                </div>
+                <div class="card">
+                    <h3>Total Guides</h3>
+                    <div class="stat" id="overview-guides">0</div>
+                    <div class="muted">Active Guides</div>
+                </div>
+                <div class="card">
+                    <h3>Total Destinations</h3>
+                    <div class="stat" id="overview-destinations">0</div>
+                    <div class="muted">Available Destinations</div>
+                </div>
+                <div class="card">
+                    <h3>Total Gallery</h3>
+                    <div class="stat" id="overview-gallery">0</div>
+                    <div class="muted">Available Gallery</div>
+                </div>
+                <div class="card">
+                    <h3>Total Travel Tips</h3>
+                    <div class="stat" id="overview-travel-tips">0</div>
+                    <div class="muted">Available Travel Tips</div>
+                </div>
+                <div class="card">
+                    <h3>Total Rental Steps</h3>
+                    <div class="stat" id="overview-rental-steps">0</div>
+                    <div class="muted">Available Rental Steps</div>
+                </div>
+                <div class="card">
+                    <h3>Total Categories</h3>
+                    <div class="stat" id="overview-categories">0</div>
+                    <div class="muted">Available Categories</div>
+                </div>
+                <div class="card">
+                    <h3>Total Users</h3>
+                    <div class="stat" id="overview-users">0</div>
+                    <div class="muted">Available Users</div>
+                </div>
             </div>
+
 
             <!-- POPULAR DESTINATION -->
             <div class="table-wrap view-section" id="popular-destination" style="display:none">
@@ -561,6 +609,86 @@
         filterTable("vehicleFleet-table");
         filterTable("rentalSteps-table");
     });
+
+
+    // ================== LOAD OVER VIEW ==================
+    async function loadOverview() {
+        try {
+            // Packages
+            const packagesRes = await fetch("http://localhost:8080/api/packages");
+            const packagesJson = await packagesRes.json();
+            const packagesCount = Array.isArray(packagesJson.data) ? packagesJson.data.length : 0;
+
+            // Vehicles
+            const vehiclesRes = await fetch("http://localhost:8080/api/vehicles");
+            const vehiclesJson = await vehiclesRes.json();
+            const vehiclesCount = Array.isArray(vehiclesJson.data) ? vehiclesJson.data.length : 0;
+
+            // Guides
+            const guidesRes = await fetch("http://localhost:8080/api/guides");
+            const guidesJson = await guidesRes.json();
+            const guidesCount = Array.isArray(guidesJson.data) ? guidesJson.data.length : 0;
+
+            //Destinations
+            const destinationsRes = await fetch("http://localhost:8080/api/destinations");
+            const destinationsJson = await destinationsRes.json();
+            const destinationsCount = Array.isArray(destinationsJson.data) ? destinationsJson.data.length : 0;
+
+            //Gallery
+            const galleryRes = await fetch("http://localhost:8080/api/galleries");
+            const galleryJson = await galleryRes.json();
+            const galleryCount = Array.isArray(galleryJson.data) ? galleryJson.data.length : 0;
+
+            //Tips
+            const tipsRes = await fetch("http://localhost:8080/api/travelTips");
+            const tipsJson = await tipsRes.json();
+            const tipsCount = Array.isArray(tipsJson.data) ? tipsJson.data.length : 0;
+
+            //Rental Steps
+            const rentalStepsRes = await fetch("http://localhost:8080/api/rentalProcessSteps");
+            const rentalStepsJson = await rentalStepsRes.json();
+            const rentalStepsCount = Array.isArray(rentalStepsJson.data) ? rentalStepsJson.data.length : 0;
+
+            //Vehicle Categories
+            const vehicleCategoriesRes = await fetch("http://localhost:8080/api/vehicleCategories");
+            const vehicleCategoriesJson = await vehicleCategoriesRes.json();
+            const vehicleCategoriesCount = Array.isArray(vehicleCategoriesJson.data) ? vehicleCategoriesJson.data.length : 0;
+
+            //Users
+            const usersRes = await fetch("http://localhost:8080/auth/users");
+            const usersJson = await usersRes.json();
+            const usersCount = Array.isArray(usersJson.data) ? usersJson.data.length : 0;
+
+            // Revenue (example: sum of all package bookings * price)
+            const bookingsRes = await fetch("http://localhost:8080/api/packageBooking");
+            const bookingsJson = await bookingsRes.json();
+            let revenue = 0;
+            if (Array.isArray(bookingsJson.data)) {
+                for (const booking of bookingsJson.data) {
+                    // find selected package price
+                    const pkg = packagesJson.data.find(p => p.title === booking.chosenPackage);
+                    if (pkg) {
+                        revenue += pkg.price * booking.guests;
+                    }
+                }
+            }
+
+            // Update UI
+            document.getElementById("overview-packages").innerText = packagesCount;
+            document.getElementById("overview-vehicles").innerText = vehiclesCount;
+            document.getElementById("overview-guides").innerText = guidesCount;
+            document.getElementById("overview-destinations").innerText = destinationsCount;
+            document.getElementById("overview-gallery").innerText = galleryCount;
+            document.getElementById("overview-travel-tips").innerText = tipsCount;
+            document.getElementById("overview-rental-steps").innerText = rentalStepsCount;
+            document.getElementById("overview-categories").innerText = vehicleCategoriesCount;
+            document.getElementById("overview-users").innerText = usersCount;
+            document.getElementById("overview-revenue").innerText = "$" + revenue.toLocaleString();
+        } catch (e) {
+            console.error("Error loading overview:", e);
+        }
+    }
+
 
     // ================== LOAD POPULAR DESTINATIONS ==================
     async function loadDestinations() {
@@ -2358,6 +2486,7 @@
 
     // ================== INITIAL LOAD ==================
     window.addEventListener("DOMContentLoaded", () => {
+        loadOverview();
         loadDestinations();
         loadPackages();
         loadAllDestinations();

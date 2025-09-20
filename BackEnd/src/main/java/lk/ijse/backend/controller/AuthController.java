@@ -33,4 +33,15 @@ public class AuthController {
                 "OK",
                 AUTHSERVICE.authenticate(authDTO)));
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<APIResponse> getAllUsers() {
+        return ResponseEntity.ok(
+                new APIResponse(
+                        200,
+                        "All users retrieved",
+                        AUTHSERVICE.getAllUsers()
+                )
+        );
+    }
 }
