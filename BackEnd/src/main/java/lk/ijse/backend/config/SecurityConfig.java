@@ -1,11 +1,14 @@
 package lk.ijse.backend.config;
 
+import lk.ijse.backend.service.AuthService;
+import lk.ijse.backend.service.impl.OAuth2LoginSuccessHandler;
 import lk.ijse.backend.util.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -22,6 +25,7 @@ public class SecurityConfig {
     private final UserDetailsService USERDETAILSSERVICE;
     private final JwtAuthFilter JWTAUTHFILTER;
     private final PasswordEncoder PASSWORDENCODER;
+    private final AuthService AUTHSERVICE;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -29,6 +33,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers(
+                                "/", "/login**",
                                 "/auth/**",
                                 "/api/packages/**",
                                 "/api/destinations/**",
@@ -46,6 +51,9 @@ public class SecurityConfig {
                                 "/api/rentalProcessSteps/**",
                                 "/api/payments/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(o -> o
+                        .defaultSuccessUrl("/oauth2/success", true)
                 )
                 .sessionManagement(session-> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

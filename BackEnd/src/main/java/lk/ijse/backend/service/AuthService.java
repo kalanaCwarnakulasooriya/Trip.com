@@ -23,6 +23,33 @@ public class AuthService {
     private final JwtUtil JWTUTIL;
     private final MailSendService mailSendService;
 
+    public AuthResponseDTO authenticateWithGoogle(String email) {
+        // Find existing user or create new one
+        User user = USERREPOSITORY.findByEmail(email)
+                .orElseGet(() -> USERREPOSITORY.save(User.builder()
+                        .username(email.split("@")[0]) // simple username from email
+                        .email(email)
+                        .password("") // no password for Google users
+                        .role(Role.USER) // default role
+                        .build()));
+
+        // Generate JWT token
+        String token = JWTUTIL.generateToken(user.getUsername());
+
+        // Optional: send login alert email
+        try {
+            mailSendService.sendLoggedInEmail(
+                    user.getUsername(),
+                    user.getEmail(),
+                    "Login Alert via Google!"
+            );
+        } catch (Exception e) {
+            System.out.println("Failed to send login alert: " + e.getMessage());
+        }
+
+        return new AuthResponseDTO(token, user.getRole().name());
+    }
+
     public AuthResponseDTO authenticate(AuthDTO authDTO) {
         User user =
                 USERREPOSITORY.findByUsername(authDTO.getUsername())

@@ -6,7 +6,7 @@
     <title>Login - Trip.com</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" href="css/toastr.css">
+<!--    <link rel="stylesheet" href="css/toastr.css">-->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -92,7 +92,7 @@
                 <div class="social-login">
                     <p class="social-text">Or sign in with</p>
                     <div class="social-buttons">
-                        <button class="social-btn google">
+                        <button class="social-btn google" id="googleLoginBtn">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                 <path fill="#4285F4" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"></path>
                                 <path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2936293 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"></path>
@@ -100,9 +100,23 @@
                                 <path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"></path>
                             </svg>
                         </button>
-                        <button class="social-btn facebook">
+                        <!--<button class="social-btn google">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                <path fill="#4285F4" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"></path>
+                                <path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2936293 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"></path>
+                                <path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903663 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"></path>
+                                <path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"></path>
+                            </svg>
+                        </button>-->
+                        <button class="social-btn facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="black">
+                              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.725-4.042-1.61-4.042-1.61
+                                       -.546-1.387-1.333-1.757-1.333-1.757-1.089-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236
+                                       1.07 1.835 2.809 1.305 3.495.998.108-.775.418-1.305.762-1.605 -2.665-.3-5.466-1.332-5.466-5.93
+                                       0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23a11.5 11.5 0 013.003-.404 c1.02.005 2.045.138 3.003.404
+                                       2.28-1.552 3.285-1.23 3.285-1.23 .645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22
+                                       0 4.61-2.805 5.625-5.475 5.92.435.372.81 1.096.81 2.22 0 1.605-.015 2.895-.015 3.285
+                                       0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297 c0-6.627-5.373-12-12-12z"/>
                             </svg>
                         </button>
                         <button class="social-btn twitter">
@@ -130,154 +144,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <!-- Toastr JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Theme Toggle
-        const themeToggle = document.getElementById("theme-toggle");
-        const htmlElement = document.documentElement;
-
-        const savedTheme = localStorage.getItem("theme");
-        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-        if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
-            htmlElement.classList.add("dark-mode");
-        }
-
-        if (themeToggle) {
-            themeToggle.addEventListener("click", function () {
-                htmlElement.classList.toggle("dark-mode");
-                localStorage.setItem("theme", htmlElement.classList.contains("dark-mode") ? "dark" : "light");
-            });
-        }
-
-        // Password Toggle
-        const toggleButtons = document.querySelectorAll('.toggle-password');
-
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                this.classList.toggle('active');
-                const input = this.previousElementSibling;
-                if (input.type === 'password') {
-                    input.type = 'text';
-                    this.querySelector('.eye-icon').style.display = 'none';
-                    this.querySelector('.eye-off-icon').style.display = 'block';
-                } else {
-                    input.type = 'password';
-                    this.querySelector('.eye-icon').style.display = 'block';
-                    this.querySelector('.eye-off-icon').style.display = 'none';
-                }
-            });
-        });
-
-        // ==== Remember Me: auto-fill username ====
-        const savedUsername = getCookie("username");
-        if (savedUsername) {
-            document.getElementById("username").value = savedUsername;
-            document.getElementById("userRememberMe").checked = true;
-        }
-
-        // Form Validation and AJAX Login
-        const userLoginForm = document.getElementById("userLoginForm");
-        if (userLoginForm) {
-            userLoginForm.addEventListener("submit", async function (e) {
-                e.preventDefault();
-
-                const usernameInput = document.getElementById("username");
-                const passwordInput = document.getElementById("password");
-                const usernameError = document.getElementById("usernameError");
-                const passwordError = document.getElementById("passwordError");
-                const rememberMe = document.getElementById("userRememberMe").checked;
-
-                if (usernameError) usernameError.textContent = "";
-                if (passwordError) passwordError.textContent = "";
-
-                let isValid = true;
-                if (!usernameInput.value.trim()) {
-                    if (usernameError) usernameError.textContent = "Username is required";
-                    toastr.error("Username is required", "Error");
-                    isValid = false;
-                }
-                if (!passwordInput.value.trim()) {
-                    if (passwordError) passwordError.textContent = "Password is required";
-                    toastr.error("Password is required", "Error");
-                    isValid = false;
-                }
-
-                if (!isValid) return;
-
-                const btnSubmit = this.querySelector(".btn-submit");
-                btnSubmit.classList.add("loading");
-
-                try {
-                    const response = await fetch("http://localhost:8080/auth/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            username: usernameInput.value.trim(),
-                            password: passwordInput.value.trim()
-                        })
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok) {
-                        // ==== Remember Me Logic ====
-                        // 1 day (24h) if checked, 1 hour if unchecked
-                        const expiryMs = rememberMe ? (24 * 60 * 60 * 1000) : (60 * 60 * 1000);
-
-                        setCookie("token", result.data.accessToken, expiryMs);
-                        setCookie("username", usernameInput.value.trim(), expiryMs);
-
-                        const role = result.data.role;
-                        toastr.success("Login successful!", "Success");
-
-                        setTimeout(() => {
-                            if (role === "ADMIN") {
-                                window.location.href = 'adminDashboard.html';
-                            } else if (role === "USER") {
-                                window.location.href = 'home.html';
-                            } else {
-                                toastr.error("Unknown role! Cannot redirect.", "Error");
-                            }
-                        }, 1000);
-                    } else {
-                        toastr.error(result.message || "Invalid username or password", "Error");
-                    }
-                } catch (error) {
-                    if (passwordError) passwordError.textContent = error.message;
-                } finally {
-                    btnSubmit.classList.remove("loading");
-                }
-            });
-        }
-
-        // Set cookie function (milliseconds instead of days)
-        function setCookie(name, value, durationMs) {
-            const d = new Date();
-            d.setTime(d.getTime() + durationMs);
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=Strict`;
-        }
-
-        // Get cookie function
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i].trim();
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-    });
-
-    // Toastr settings
-    toastr.options = {
-        "closeButton": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "4000"
-    };
-</script>
+<script src="js/login.js"></script>
 </body>
 </html>
