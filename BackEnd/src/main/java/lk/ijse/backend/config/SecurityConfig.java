@@ -43,7 +43,8 @@ public class SecurityConfig {
                                 "/api/vehicles/**",
                                 "/api/vehicleCategories/**",
                                 "/api/vehicleFleets/**",
-                                "/api/rentalProcessSteps/**").permitAll()
+                                "/api/rentalProcessSteps/**",
+                                "/api/payments/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session-> session

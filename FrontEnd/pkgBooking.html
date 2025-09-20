@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" id="cancel-add">Cancel</button>
+                    <button type="button" class="btn btn-outline" onclick="window.location.href = 'home.html#packages';" id="cancel-add">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save Booking</button>
                 </div>
             </form>
@@ -180,7 +180,8 @@
                     window.location.href = "pkgPayment.html";
                     form.reset();
                 } else {
-                    alert("Error: " + result.message);
+                    // alert("Error: " + result.message);
+                    toastr.error(result.message || "Failed to save booking", "Error");
                 }
             } catch (error) {
                 console.error("Error saving booking:", error);
