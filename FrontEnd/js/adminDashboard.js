@@ -214,7 +214,7 @@ async function loadDestinations() {
         document.getElementById("update-pd").addEventListener("click", async () => {
             if (!selectedPdId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -244,11 +244,11 @@ async function loadDestinations() {
                     document.querySelectorAll("#popular-destination input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Failed to update!", "Error");
+                // toastr.error("Failed to update!", "Error");
             }
         });
     } catch (err) {
@@ -345,7 +345,7 @@ async function loadPackages() {
         document.getElementById("update-package").addEventListener("click", async () => {
             if (!selectedPkgId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -374,11 +374,11 @@ async function loadPackages() {
                         .forEach(el => el.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Failed to update!", "Error");
+                // toastr.error("Failed to update!", "Error");
             }
         });
     } catch (err) {
@@ -479,7 +479,7 @@ async function loadAllDestinations() {
         document.getElementById("update-destinations").addEventListener("click", async () => {
             if (!selectedADId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -509,11 +509,11 @@ async function loadAllDestinations() {
                     document.querySelectorAll("#destinations input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Failed to update!", "Error");
+                // toastr.error("Failed to update!", "Error");
             }
         });
     } catch (err) {
@@ -601,7 +601,7 @@ async function loadGallery() {
         document.getElementById("update-gallery").addEventListener("click", async () => {
             if (!selectedGalleryId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -624,11 +624,11 @@ async function loadGallery() {
                     document.querySelectorAll("#gallery input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Failed to update!", "Error");
+                // toastr.error("Failed to update!", "Error");
             }
         });
     } catch (err) {
@@ -818,7 +818,7 @@ async function loadGuide() {
         document.getElementById("update-guide").addEventListener("click", async () => {
             if (!selectedGuidesId) {
                 // alert("⚠️ Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -868,12 +868,12 @@ async function loadGuide() {
                     const errText = await res.text();
                     console.error("Server response:", errText);
                     // alert("❌ Failed to update guide!");
-                    toastr.error("Failed to update guide!", "Error");
+                    // toastr.error("Failed to update guide!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
                 // alert("⚠️ An error occurred while updating!");
-                toastr.error("An error occurred while updating!", "Error");
+                // toastr.error("An error occurred while updating!", "Error");
             }
         });
     } catch (err) {
@@ -969,7 +969,7 @@ async function loadTips() {
         document.getElementById("update-tips").addEventListener("click", async () => {
             if (!selectedTipId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -990,13 +990,13 @@ async function loadTips() {
 
                 if (res.ok) {
                     // alert("Updated successfully!");
-                    toastr.success("Updated successfully!", "Success");
+                    // toastr.success("Updated successfully!", "Success");
                     loadTips();
                     selectedTipId = null;
                     document.querySelectorAll("#travelTips input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
@@ -1110,7 +1110,7 @@ async function loadVehicle() {
         document.getElementById("update-vehicles").addEventListener("click", async () => {
             if (!selectedVehicleId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -1143,11 +1143,11 @@ async function loadVehicle() {
                     document.querySelectorAll("#vehicles input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Update error!", "Error");
+                // toastr.error("Update error!", "Error");
             }
         });
     } catch (err) {
@@ -1246,7 +1246,7 @@ async function loadVehicleCategory() {
         document.getElementById("update-vehicleCategory").addEventListener("click", async () => {
             if (!selectedVehicleId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -1273,11 +1273,11 @@ async function loadVehicleCategory() {
                     document.querySelectorAll("#vehicleCategory input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Failed to update!", "Error");
+                // toastr.error("Failed to update!", "Error");
             }
         });
     } catch (err) {
@@ -1406,11 +1406,11 @@ async function loadVehicleFleet() {
                     document.querySelectorAll("#vehicleFleet input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Failed to update!", "Error");
+                // toastr.error("Failed to update!", "Error");
             }
         });
     } catch (err) {
@@ -1504,7 +1504,7 @@ async function loadVRentalSteps() {
         document.getElementById("update-rentalSteps").addEventListener("click", async () => {
             if (!selectedStepsId) {
                 // alert("Please select a row to update first!");
-                toastr.error("Please select a row to update first!", "Error");
+                // toastr.error("Please select a row to update first!", "Error");
                 return;
             }
 
@@ -1530,11 +1530,11 @@ async function loadVRentalSteps() {
                     document.querySelectorAll("#rentalSteps input").forEach(i => i.value = "");
                 } else {
                     // alert("Failed to update!");
-                    toastr.error("Failed to update!", "Error");
+                    // toastr.error("Failed to update!", "Error");
                 }
             } catch (err) {
                 console.error("Update error:", err);
-                toastr.error("Update error", "Error");
+                // toastr.error("Update error", "Error");
             }
         });
     } catch (err) {
@@ -1971,7 +1971,7 @@ function logout() {
 // Toastr settings (optional customization)
 toastr.options = {
     "closeButton": true,
-    "progressBar": true,
+    // "progressBar": true,
     "positionClass": "toast-top-right",
     "timeOut": "4000"
 };

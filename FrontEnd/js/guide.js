@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </div>
                 <p class="guide-bio">${guide.bio || ""}</p>
-                <a href="#" class="btn btn-outline btn-sm">Book Now</a>
+                <a href="pkgBooking.html" class="btn btn-outline btn-sm">Book Now</a>
             </div>
         `;
 

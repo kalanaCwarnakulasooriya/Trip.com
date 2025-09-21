@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="${dest.imageUrl}" alt="${dest.title}">
             <div class="destination-overlay">
               <div class="destination-overlay-content">
-                <a href="book-now.html" class="book-now">Book Now</a>
+                <a href="pkgBooking.html" class="book-now">Book Now</a>
               </div>
             </div>
           </div>

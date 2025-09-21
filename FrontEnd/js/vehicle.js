@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <span class="amount">Rs.${fleet.pricePerDay}</span>
                                 <span class="period">/ day</span>
                             </div>
-                            <a href="#" class="btn btn-primary btn-sm">Book Now</a>
+                            <a href="pkgBooking.html" class="btn btn-primary btn-sm">Book Now</a>
                         </div>
                     `;
                     vehiclesGrid.appendChild(vehicleCard);
